@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>Demo</title>
+        <style>
+.log {
+    font-family: monospace;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    overflow: auto;
+    transition: height 0.1s;
+
+    font-size: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+}
+
+.log.closed {
+    height: 0px;
+}
+
+.log-entry {
+    padding: 10px;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.5);
+    white-space: pre-wrap;
+}
+        </style>
+        <script src="utils.js"></script>
+        <script src="core.js"></script>
+    </head>
+    <body>
+        This is an actual document
+        <div id="log-output" class="log"></div>
+    </body>
+    <script>
+
+
+window.addEventListener('pywebviewready', () => {
+    const log = createLog("log-output")
+    log("python ready!")
+    const core = new GlobalExplorer(pywebview.api, () => {
+        log(JSON.stringify(core.version, undefined, "  "))
+        log(JSON.stringify(core.player, undefined, "  "))
+        log(JSON.stringify(core.content, undefined, "  "))
+    });
+    core.init()
+})
+    </script>
+</html>
