@@ -189,7 +189,10 @@ body {
 
 
 window.addEventListener('pywebviewready', () => {
-    const log = createLog("log-output")
+    const {log, clearLog} = createLog("log-output")
+    document.addEventListener("keyup", () => {
+        clearLog()
+    })
     console.log = log
     const render = createContentRenderer("app")
     const creditCard = createCreditCardControl("account", "credit-card-name", "credit-card-number", "account-balance")

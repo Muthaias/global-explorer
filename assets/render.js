@@ -49,13 +49,27 @@ function createCreditCardControl(cardId, nameId, cardNumberId, accountBalanceId)
     ] = [cardId, nameId, cardNumberId, accountBalanceId].map(id => document.getElementById(id))
 
     let isOpen = false
+    let currentBalance = 0
+    let balanceInterval = null
     return (player) => {
-        console.log(player)
         isOpen = !!player
         if (player) {
             name.innerHTML = player.name
             cardNumber.innerHTML = player.account.card_number
-            accountBalance.innerHTML = `Account balance: ${player.account.balance}$`
+            if (balanceInterval !== null) {
+                clearInterval(balanceInterval)
+            }
+            const numSteps = 10
+            const balanceStep = (player.account.balance - currentBalance) / numSteps
+            let currentStep = 0
+            balanceInterval = setInterval(() => {
+                currentBalance = currentBalance + balanceStep
+                accountBalance.innerText = `Account balance: ${Math.floor(currentBalance)}$`
+                if (++currentStep === numSteps) {
+                    clearInterval(balanceInterval)
+                    balanceInterval = null
+                }
+            }, 50)
         }
         if (isOpen) {
             card.classList.remove("closed")

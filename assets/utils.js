@@ -7,8 +7,7 @@ function createLog(elementId) {
     const combineEntries = (entries) => {
         return entries.map(entry => `<div>${entry}</div>`).join("")
     }
-    return (...entries) => {
-        log.push(entries)
+    const renderLog = (log) => {
         const controlId = `log-control-${elementId}`
         const control = `<div class="log-control" id="${controlId}">console</div>`
         element.innerHTML = control + log.map(entries => `<div class="log-entry">${combineEntries(entries)}</div>`).join("")
@@ -21,5 +20,15 @@ function createLog(elementId) {
                 element.classList.add("closed")
             }
         })
+    }
+    return {
+        log: (...entries) => {
+            log.push(entries)
+            renderLog(log)
+        },
+        clearLog: () => {
+            log.splice(0, log.length)
+            renderLog(log)
+        }
     }
 }
