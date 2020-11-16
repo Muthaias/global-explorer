@@ -20,6 +20,7 @@ class Player:
     def content(self):
         return {
             "id": self.id,
+            "name": self.name,
             "account": {
                 "card_number": self.account.card_number,
                 "balance": self.account.balance,
@@ -28,7 +29,7 @@ class Player:
         }
 
 class Account:
-    def __init__(self, transactions = [], owner = "Anonymous", card_number = "1111 1111 1111 1111", card_valid_thru = "12/20"):
+    def __init__(self, transactions = [], owner = "Anonymous", card_number = "1337 1337 1337 1337", card_valid_thru = "12/20"):
         self.transactions = transactions
         self.balance = self.calculate_balance()
         self.owner = owner

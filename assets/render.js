@@ -36,3 +36,28 @@ function fixedRenderMenu(element, content, onAction) {
         })
     }
 }
+
+function createCreditCardControl(cardId, nameId, cardNumberId, accountBalanceId) {
+    const [
+        card,
+        name,
+        cardNumber,
+        accountBalance
+    ] = [cardId, nameId, cardNumberId, accountBalanceId].map(id => document.getElementById(id))
+
+    let isOpen = false
+    return (player) => {
+        console.log(player)
+        isOpen = !!player
+        if (player) {
+            name.innerHTML = player.name
+            cardNumber.innerHTML = player.account.card_number
+            accountBalance.innerHTML = `Account balance: ${player.account.balance}$`
+        }
+        if (isOpen) {
+            card.classList.remove("closed")
+        } else {
+            card.classList.add("closed")
+        }
+    }
+}

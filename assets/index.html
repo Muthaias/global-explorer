@@ -84,6 +84,78 @@ body {
     background: rgba(255, 255, 255, 0.8);
     color: #000;
 }
+
+.account {
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translateX(0%);
+    transition: transform 0.1s;
+}
+
+.account.closed {
+    transform: translateX(100%);
+}
+
+.account > .balance {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+.credit-card {
+    position: relative;
+    margin: 10px;
+    margin-left: 0;
+    color: #000;
+    height: 150px;
+    width: 239px;
+    border-radius: 5px;
+    background-image: url("https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1834&q=80");
+    background-color: #666;
+    background-size: 100% auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.credit-card > .name {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.credit-card > .number {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+.credit-card > .chip {
+    position: absolute;
+    top: 50px;
+    left: 15px;
+    background: #886;
+    width: 32px;
+    height: 24px;
+    border-radius: 4px;
+}
+
+.credit-card > .logo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: bold;
+}
         </style>
         <script src="utils.js"></script>
         <script src="core.js"></script>
@@ -91,6 +163,15 @@ body {
     </head>
     <body>
         <div id="app"></div>
+        <div class="account" id="account">
+            <div class="credit-card closed">
+                <div class="name" id="credit-card-name">Guy Anonymous</div>
+                <div class="number" id="credit-card-number">1111 1111 1111 1111</div>
+                <div class="chip"></div>
+                <div class="logo">SHOWYA</div>
+            </div>
+            <div class="balance" id="account-balance">Account balance: 1000</div>
+        </div>
         <div id="log-output" class="log"></div>
     </body>
     <script>
@@ -100,11 +181,13 @@ window.addEventListener('pywebviewready', () => {
     const log = createLog("log-output")
     console.log = log
     const render = createContentRenderer("app")
+    const creditCard = createCreditCardControl("account", "credit-card-name", "credit-card-number", "account-balance")
     log("# Python ready!")
     const core = new GlobalExplorer(pywebview.api, () => {
         log(JSON.stringify(core.version, undefined, "  "))
         log(JSON.stringify(core.player, undefined, "  "))
         log(JSON.stringify(core.content, undefined, "  "))
+        creditCard(core.player)
         render(core.content, (action) => {
             log(JSON.stringify(action, undefined, "  "))
             core.action(action)
