@@ -64,8 +64,9 @@ function createCreditCardControl(cardId, nameId, cardNumberId, accountBalanceId)
             let currentStep = 0
             balanceInterval = setInterval(() => {
                 currentBalance = currentBalance + balanceStep
-                accountBalance.innerText = `Account balance: ${Math.floor(currentBalance)}$`
+                accountBalance.innerText = `Account balance: ${Math.round(currentBalance)}$`
                 if (++currentStep === numSteps) {
+                    currentBalance = player.account.balance
                     clearInterval(balanceInterval)
                     balanceInterval = null
                 }
