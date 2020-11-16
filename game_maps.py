@@ -16,7 +16,27 @@ uppsala = GameMap(
     background = "https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
     locations = [
         GameLocation(
-            title = "Karolina Rediviva",
+            title = "Carolina Rediviva",
+            position = (0, 0)
+        ),
+        GameLocation(
+            title = "Ramboo",
+            position = (0, 0)
+        ),
+        GameLocation(
+            title = "Stundentvägen",
+            position = (0, 0)
+        ),
+        GameLocation(
+            title = "Polacksbacken",
+            position = (0, 0)
+        ),
+        GameLocation(
+            title = "Flogsta",
+            position = (0, 0)
+        ),
+        GameLocation(
+            title = "Norrlands Nation",
             position = (0, 0)
         )
     ]
