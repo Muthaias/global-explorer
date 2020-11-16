@@ -30,7 +30,10 @@ class Game:
         }
     
     def action(self, action):
-        self.player.account.add_transaction(Transaction(100))
+        location = next((l for l in self.currentMap.locations if l.id == action["id"]), None)
+        if location:
+            location.actuator.set_parent(self)
+            return location.actuator
         return self
 
 class GameMap:

@@ -16,7 +16,7 @@ class GameRunner:
     
     def player(self):
         actuator = self.actuator()
-        if hasattr(actuator, "player"):
+        if hasattr(actuator, "player") and actuator.player:
             return actuator.player.content()
         return None
 

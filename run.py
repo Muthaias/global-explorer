@@ -3,7 +3,7 @@ import webview
 from global_explorer import (
     Menu,
     MenuEntry,
-    StaticActator,
+    StaticActuator,
     Game,
     GameMap,
     GameLocation,
@@ -14,7 +14,7 @@ from global_explorer import (
 )
 import game_maps
 
-noop = StaticActator({
+noop = StaticActuator({
     "type": "menu",
     "background": "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80",
     "actions": [
@@ -31,7 +31,7 @@ noop = StaticActator({
     ]
 })
 
-info = StaticActator({
+info = StaticActuator({
     "type": "info",
     "title": "Hello World!",
     "markdown": "This is a test of the info type content",

@@ -1,4 +1,10 @@
-from global_explorer import GameMap, GameLocation
+from global_explorer import GameMap, GameLocation, StaticActuator, Transaction
+
+def add_cash_modifier(amount):
+    def modifier(parent):
+        if hasattr(parent, "player"):
+            parent.player.account.add_transaction(Transaction(amount))
+    return modifier
 
 stockholm = GameMap(
     title = "Stockholm",
@@ -20,11 +26,23 @@ uppsala = GameMap(
             position = (0, 0)
         ),
         GameLocation(
-            title = "Ramboo",
-            position = (0, 0)
+            title = "Ofvandahls hovkonditori",
+            position = (0, 0),
+            actuator = StaticActuator({
+                "type": "info",
+                "title": "Ofvandahls hovkonditori",
+                "markdown": "Ofvandahls är ett anrikt kafé och konditori i korsningen av S:t Olofsgatan (tidigare Järnbrogatan) och Sysslomansgatan i Uppsala. Etablissemanget, som under lång tid också var hovkonditori, grundades under namnet Café Dahlia år 1878 av Erik Ofvandahl. Ofvandahl var känd även som pekoralist och utgivare av en rad diktsamlingar som nöjeslästes av Uppsalastudenterna.[1] Ofvandahlhuset är kulturminnesmärkt. Rörelsen drevs från 1949 till 1971 av Erik Ofvandahls döttrar, Ragnhild och Anna.",
+                "titleImage": "https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80",
+                "background": "https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+                "finishAction": {
+                    "type": "navigate",
+                    "title": "Finish",
+                    "id": "finish"
+                },
+            }, add_cash_modifier(-100))
         ),
         GameLocation(
-            title = "Stundentvägen",
+            title = "Studentvägen",
             position = (0, 0)
         ),
         GameLocation(
