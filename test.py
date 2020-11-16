@@ -53,7 +53,7 @@ class Player:
 
 
 class Menu:
-    def __init__(self, entries, background, exit_actuator):
+    def __init__(self, entries, background, exit_actuator = None):
         self.entries = entries
         self.background = background
         self.exit_actuator = exit_actuator
@@ -65,7 +65,7 @@ class Menu:
             "actions": self.actions(),
             "backAction": {
                 "type": "exit"
-            }
+            } if self.exit_actuator else None
         }
 
     def actions(self):
@@ -82,10 +82,11 @@ class Menu:
         if action["type"] == "navigate":
             entry = next((e for e in self.entries if e.id == action["id"]), None)
             if entry:
-                if hasattr(entry, "exit_actuator"):
-                    entry.exit_actuator = self
-                return entry.actuator
-        elif action["type"] == "exit":
+                actuator = entry.actuator
+                if hasattr(actuator, "exit_actuator"):
+                    actuator.exit_actuator = self
+                return actuator
+        elif action["type"] == "exit" and self.exit_actuator != None:
             return self.exit_actuator 
 
 class MenuEntry:
@@ -135,7 +136,9 @@ class GlobalExplorerView:
             selectedActuator = actuator.action(action)
             
             if selectedActuator:
-                existingActuatorIndex = next((i for i, e in enumerate(self.actuators) if self.actuators is selectedActuator), None)
+                existingActuatorIndex = next((i for i, e in enumerate(self.actuators) if actuator is selectedActuator), None)
+                print(selectedActuator)
+                print("Actuator: " + str(existingActuatorIndex))
                 if existingActuatorIndex is None:
                     self.actuators.append(selectedActuator)
                 else:
@@ -215,8 +218,7 @@ main_menu = Menu(
             actuator = noop
         ),
     ],
-    "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80",
-    noop
+    "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
 )
 print(main_menu.content())
 api = GlobalExplorerView(main_menu)
