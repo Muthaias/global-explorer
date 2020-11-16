@@ -1,6 +1,11 @@
 function createContentRenderer(elementId) {
     const element = document.getElementById(elementId)
+    let lastContent = null
     return (content, onAction = () => {}) => {
+        const contentCache = JSON.stringify(content)
+        if (lastContent === contentCache) return
+
+        lastContent = contentCache
         const onTransitionEnd = () => {
             if (content.type === "menu") {
                 fixedRenderMenu(element, content, onAction)
