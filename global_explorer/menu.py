@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+
 class Menu:
     def __init__(self, entries, background):
         self.entries = entries
@@ -8,7 +9,7 @@ class Menu:
 
     def set_parent(self, parent):
         self.parent = parent
-    
+
     def content(self):
         return {
             "type": "menu",
@@ -31,17 +32,24 @@ class Menu:
 
     def action(self, action):
         if action["type"] == "navigate":
-            entry = next((e for e in self.entries if e.id == action["id"]), None)
+            entry = next(
+                (
+                    e for e in self.entries
+                    if e.id == action["id"]
+                ),
+                None
+            )
             if entry:
                 actuator = entry.actuator
                 actuator.set_parent(self)
                 return actuator
-        elif action["type"] == "exit" and self.parent != None:
-            return self.parent 
+        elif action["type"] == "exit" and self.parent is not None:
+            return self.parent
+
 
 class MenuEntry:
-    def __init__(self, type, actuator, title, id = None):
+    def __init__(self, type, actuator, title, id=None):
         self.type = type
-        self.id = id if id != None else str(uuid4())
+        self.id = id if id is not None else str(uuid4())
         self.title = title
         self.actuator = actuator

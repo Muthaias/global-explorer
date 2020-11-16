@@ -1,10 +1,10 @@
 class StaticActuator:
-    def __init__(self, content, modifier = None):
+    def __init__(self, content, modifier=None):
         self.__content = content
         self.__modifier = modifier
         self.parent = None
         self.game = None
-    
+
     def set_parent(self, parent):
         self.parent = parent
 
@@ -19,7 +19,7 @@ class StaticActuator:
         if self.game:
             return self.game.player
         return None
-    
+
     def action(self, action):
         if self.__modifier and self.parent:
             self.__modifier(self.parent)
