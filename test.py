@@ -112,8 +112,6 @@ class GlobalExplorerView:
 
     def content(self):
         actuator = self.actuator()
-
-        print("content", actuator)
         try:
             return actuator.content()
         except Exception as e:
@@ -137,8 +135,6 @@ class GlobalExplorerView:
             
             if selectedActuator:
                 existingActuatorIndex = next((i for i, e in enumerate(self.actuators) if actuator is selectedActuator), None)
-                print(selectedActuator)
-                print("Actuator: " + str(existingActuatorIndex))
                 if existingActuatorIndex is None:
                     self.actuators.append(selectedActuator)
                 else:
