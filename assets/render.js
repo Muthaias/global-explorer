@@ -6,6 +6,7 @@ function createContentRenderer(elementId) {
         } else if (content.type === "map") {
             const menuContent = {
                 type: "menu",
+                title: content.title,
                 actions: content.locations.map(location => ({
                     title: location.title,
                     ...location.action,
@@ -27,8 +28,10 @@ function fixedRenderMenu(element, content, onAction) {
             ...content.backAction
         }] : [])
     ]
+    const title = content.title
     const menuItems = actions.map(({title, id}) => `<div class="menu-item" id="${id}">${title}</div>`).join("")
-    element.innerHTML = `<div class="menu-content" style="background-image: url('${background}')"><div class="menu">${menuItems}</div></div>`
+    const menuTitle = title ? `<div class="title">${title}</div>` : ""
+    element.innerHTML = `<div class="menu-content" style="background-image: url('${background}')"><div class="menu">${menuTitle + menuItems}</div></div>`
     for (const action of actions) {
         const actionElement = document.getElementById(action.id)
         actionElement.addEventListener("click", () => {
