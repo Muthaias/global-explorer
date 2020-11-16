@@ -77,7 +77,7 @@ class Menu:
 
     def action(self, action):
         if action["type"] == "navigate":
-            [entry] = [entry for entry in self.entries if entry.id == action["type"]]
+            [entry] = [entry for entry in self.entries if entry.id == action["id"]]
             if entry:
                 return entry.actuator
         elif action["type"] == "exit":
@@ -126,9 +126,12 @@ class GlobalExplorerView:
 
     def action(self, action):
         actuator = self.actuator()
-        newActuator = actuator.action(action)
-        if newActuator:
-            actuators.append(newActuator)
+        try:
+            newActuator = actuator.action(action)
+            if newActuator:
+                self.actuators.append(newActuator)
+        except Exception as e:
+            print(e)
 
 noop = StaticActator({
     "type": "menu",

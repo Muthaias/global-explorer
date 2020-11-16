@@ -39,13 +39,20 @@
 
 window.addEventListener('pywebviewready', () => {
     const log = createLog("log-output")
-    log("python ready!")
+    log("# Python ready!")
     const core = new GlobalExplorer(pywebview.api, () => {
         log(JSON.stringify(core.version, undefined, "  "))
         log(JSON.stringify(core.player, undefined, "  "))
         log(JSON.stringify(core.content, undefined, "  "))
     });
-    core.init()
+    core.init().then(() => {
+        const content = core.content
+        if (content.type === "menu") {
+            log("# Try do action!")
+            core.doAction(content.actions[0])
+        }
+    })
+    
 })
     </script>
 </html>
