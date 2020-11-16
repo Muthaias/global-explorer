@@ -30,9 +30,13 @@ class GlobalExplorer {
     }
 
     async _update() {
-        this._player = (await this._api.player())
-        this._content = await this._api.content()
-        this._version = await this._api.version()
+        [this._player, 
+        this._content,
+        this._version] = await Promise.all([
+            this._api.player(),
+            this._api.content(),
+            this._api.version()
+        ])
         this._onUpdate()
     }
 }
