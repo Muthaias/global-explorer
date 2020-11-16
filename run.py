@@ -1,6 +1,7 @@
 
 import webview
-from global_explorer import Menu, MenuEntry, StaticActator
+from global_explorer import Menu, MenuEntry, StaticActator, Game, GameMap, GameLocation, Player, Account, Transaction
+import game_maps
 
 class GlobalExplorerView:
     def __init__(self, actuator):
@@ -20,7 +21,7 @@ class GlobalExplorerView:
     def player(self):
         actuator = self.actuator()
         if hasattr(actuator, "player"):
-            return player.content()
+            return actuator.player.content()
         return None
 
 
@@ -58,17 +59,33 @@ noop = StaticActator({
     ]
 })
 
+initial_funds = Transaction(1000)
+
+player = Player(
+    name = "Rick Pickle",
+    account = Account([initial_funds]),
+    skills = []
+)
+
 new_game_menu = Menu(
     [
         MenuEntry(
             type = "navigate",
             title = "Stockholm",
-            actuator = noop
+            actuator = Game(
+                player = player,
+                maps = game_maps.maps,
+                currentMap = game_maps.stockholm
+            )
         ),
         MenuEntry(
             type = "navigate",
             title = "Uppsala",
-            actuator = noop
+            actuator = Game(
+                player = player,
+                maps = game_maps.maps,
+                currentMap = game_maps.uppsala
+            )
         ),
         MenuEntry(
             type = "navigate",

@@ -28,7 +28,7 @@ class Player:
         }
 
 class Account:
-    def __init__(self, transactions, owner = "Anonymous", card_number = "1111 1111 1111 1111", card_valid_thru = "12/20"):
+    def __init__(self, transactions = [], owner = "Anonymous", card_number = "1111 1111 1111 1111", card_valid_thru = "12/20"):
         self.transactions = transactions
         self.balance = self.calculate_balance()
         self.owner = owner
@@ -36,13 +36,18 @@ class Account:
     
     def calculate_balance(self):
         balance = 0
-        for transaction in transactions:
+        for transaction in self.transactions:
             balance = balance + transaction.amount
         return balance
     
     def add_transaction(self, transaction):
         self.transactions.append(transaction)
         self.balance = balance + transaction.amount
+
+class Transaction:
+    def __init__(self, amount, description = None):
+        self.amount = amount
+        self.description = description
 
 class Skills:
     def __init__(self, description, skill_points):
