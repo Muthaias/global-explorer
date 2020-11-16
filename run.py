@@ -14,7 +14,6 @@ class GlobalExplorerView:
         actuator = self.actuator()
         try:
             content = actuator.content()
-            print(content)
             return content
         except Exception as e:
             print("Get content failed")
@@ -35,12 +34,12 @@ class GlobalExplorerView:
         try:
             selectedActuator = actuator.action(action)
             if selectedActuator:
-                existingActuatorIndex = next((i for i, e in enumerate(self.actuators) if actuator is selectedActuator), None)
+                existingActuatorIndex = next((i for i, e in enumerate(self.actuators) if e is selectedActuator), None)
                 if existingActuatorIndex is None:
                     self.actuators.append(selectedActuator)
                 else:
-                    self.actuators = self.actuators[0:existingActuatorIndex]
-            print(self.actuator())
+                    self.actuators = self.actuators[0:existingActuatorIndex + 1]
+                print(selectedActuator, existingActuatorIndex, self.actuators)
         except Exception as e:
             print(e)
 
@@ -136,7 +135,6 @@ main_menu = Menu(
     "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
 )
 
-print(player.content())
 api = GlobalExplorerView(main_menu)
 webview.create_window("Global Explorer", "assets/index.html", js_api=api)
 webview.start()

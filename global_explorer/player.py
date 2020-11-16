@@ -39,12 +39,13 @@ class Account:
     def calculate_balance(self):
         balance = 0
         for transaction in self.transactions:
-            balance = balance + transaction.amount
+            balance += transaction.amount
         return balance
     
     def add_transaction(self, transaction):
         self.transactions.append(transaction)
-        self.balance = balance + transaction.amount
+        self.balance += transaction.amount
+        pass
 
 class Transaction:
     def __init__(self, amount, description = None):

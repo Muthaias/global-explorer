@@ -1,4 +1,5 @@
 from uuid import uuid4
+from .player import Transaction
 
 class Game:
     def __init__(self, player, maps, currentMap = None):
@@ -24,7 +25,8 @@ class Game:
             ]
         }
     
-    def action(self):
+    def action(self, action):
+        self.player.account.add_transaction(Transaction(100))
         return self
 
 class GameMap:
