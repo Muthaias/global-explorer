@@ -1,4 +1,4 @@
-function createContentRenderer(elementId) {
+function createContentRenderer(elementId, renderer = contentRenderer) {
     const element = document.getElementById(elementId)
     let lastContent = null
     return (content, onAction = () => {}) => {
@@ -7,25 +7,31 @@ function createContentRenderer(elementId) {
 
         lastContent = contentCache
         const onTransitionEnd = () => {
-            if (content.type === "menu") {
-                fixedRenderMenu(element, content, onAction)
-            } else if (content.type === "map") {
-                const menuContent = {
-                    type: "menu",
-                    title: content.title,
-                    actions: content.locations.map(location => ({
-                        title: location.title,
-                        ...location.action,
-                    })),
-                    background: content.background
-                }
-                fixedRenderMenu(element, menuContent, onAction)
-            }
+            renderer(element, content, onAction)
             element.removeEventListener("transitionend", onTransitionEnd);
             element.classList.add("visible")
         };
         element.addEventListener("transitionend", onTransitionEnd);
         element.classList.remove("visible")
+    }
+}
+
+function contentRenderer(element, content, onAction) {
+    if (content.type === "menu") {
+        fixedRenderMenu(element, content, onAction)
+    } else if (content.type === "map") {
+        const menuContent = {
+            type: "menu",
+            title: content.title,
+            actions: content.locations.map(location => ({
+                title: location.title,
+                ...location.action,
+            })),
+            background: content.background
+        }
+        fixedRenderMenu(element, menuContent, onAction)
+    } else if (content.type === "info") {
+        fixedRenderInfo(element, content, onAction)
     }
 }
 
@@ -40,9 +46,50 @@ function fixedRenderMenu(element, content, onAction) {
         }] : [])
     ]
     const title = content.title
-    const menuItems = actions.map(({title, id}) => `<div class="menu-item" id="${id}">${title}</div>`).join("")
+    const menuItems = actions.map(renderButton).join("")
     const menuTitle = title ? `<div class="title">${title}</div>` : ""
-    element.innerHTML = `<div class="menu-content" style="background-image: url('${background}')"><div class="menu">${menuTitle + menuItems}</div></div>`
+    element.innerHTML = (
+`
+<div class="menu-content" style="background-image: url('${background}')">
+    <div class="menu">${menuTitle + menuItems}</div>
+</div>
+`
+    )
+    connectActions(actions, onAction)
+}
+
+function fixedRenderInfo(element, content, onAction) {
+    const {
+        title,
+        titleImage,
+        markdown,
+        background,
+        finishAction
+    } = content
+    const finishButton = renderButton(finishAction)
+    element.innerHTML = (
+`
+<div class="info-content" style="background-image: url('${background}')">
+    <div class="info">
+        <div class="header" style="background-image: url('${titleImage}')">${title}</div>
+        <div class="content">${markdownToHTML(markdown)}</div>
+        <div class="footer">${finishButton}</div>
+    </div>
+</div>
+`
+    )
+    connectActions([content.finishAction], onAction)
+}
+
+function renderButton({title, id}) {
+    return `<div class="menu-item" id="${id}">${title}</div>`
+}
+
+function markdownToHTML(markdown) {
+    return markdown
+}
+
+function connectActions(actions, onAction) {
     for (const action of actions) {
         const actionElement = document.getElementById(action.id)
         actionElement.addEventListener("click", () => {
