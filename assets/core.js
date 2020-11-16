@@ -8,10 +8,6 @@ class GlobalExplorer {
         this._log = log
     }
 
-    async init() {
-        await this._update()
-    }
-
     get player() {
         return this._player
     }
@@ -24,7 +20,11 @@ class GlobalExplorer {
         return this._version
     }
 
-    async doAction(action) {
+    async init() {
+        await this._update()
+    }
+
+    async action(action) {
         await this._api.action(action)
         await this._update()
     }

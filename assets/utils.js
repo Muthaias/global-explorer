@@ -1,8 +1,12 @@
 function createLog(elementId) {
     const element = document.getElementById(elementId)
     const log = []
-    return (entry) => {
-        log.push(entry)
-        element.innerHTML = log.map(entry => `<div class="log-entry">${entry}</div>`).join("")
+
+    const combineEntries = (entries) => {
+        return entries.map(entry => `<div>${entry}</div>`).join("")
+    }
+    return (...entries) => {
+        log.push(entries)
+        element.innerHTML = log.map(entries => `<div class="log-entry">${combineEntries(entries)}</div>`).join("")
     }
 }

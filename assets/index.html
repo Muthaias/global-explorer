@@ -2,6 +2,15 @@
     <head>
         <title>Demo</title>
         <style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .log {
     font-family: monospace;
     position: absolute;
@@ -13,7 +22,7 @@
     transition: height 0.1s;
 
     font-size: 10px;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.8);
     color: #fff;
 }
 
@@ -22,16 +31,53 @@
 }
 
 .log-entry {
+    display: flex;
+    flex-direction: row;
     padding: 10px;
     border-bottom: solid 1px rgba(255, 255, 255, 0.5);
     white-space: pre-wrap;
 }
+
+.menu-content {
+    width: 100%;
+    height: 100%;
+    background-size: auto 120%;
+    background-repeat: no-repeat;
+    background-color: #000;
+    background-position: center;
+}
+.menu {
+    display: grid;
+    grid-template-columns: auto;
+    align-content: center;
+    grid-row-gap: 10px;
+    margin: auto;
+    width: 300px;
+    height: 100%;
+
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.menu-item {
+    border: solid 1px rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    text-align: center;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+}
         </style>
         <script src="utils.js"></script>
         <script src="core.js"></script>
+        <script src="render.js"></script>
     </head>
     <body>
-        This is an actual document
+        <div id="app"></div>
         <div id="log-output" class="log"></div>
     </body>
     <script>
@@ -39,18 +85,24 @@
 
 window.addEventListener('pywebviewready', () => {
     const log = createLog("log-output")
+    console.log = log
+    const render = createContentRenderer("app")
     log("# Python ready!")
     const core = new GlobalExplorer(pywebview.api, () => {
         log(JSON.stringify(core.version, undefined, "  "))
         log(JSON.stringify(core.player, undefined, "  "))
         log(JSON.stringify(core.content, undefined, "  "))
+        render(core.content, (action) => {
+            log(JSON.stringify(action, undefined, "  "))
+            core.action(action)
+        })
     });
     core.init().then(() => {
         const content = core.content
-        if (content.type === "menu") {
+        /*if (content.type === "menu") {
             log("# Try do action!")
             core.doAction(content.actions[0])
-        }
+        }*/
     })
     
 })

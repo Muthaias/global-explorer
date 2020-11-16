@@ -62,7 +62,10 @@ class Menu:
         return {
             "type": "menu",
             "background": self.background,
-            "actions": self.actions()
+            "actions": self.actions(),
+            "backAction": {
+                "type": "exit"
+            }
         }
 
     def actions(self):
@@ -77,8 +80,10 @@ class Menu:
 
     def action(self, action):
         if action["type"] == "navigate":
-            [entry] = [entry for entry in self.entries if entry.id == action["id"]]
+            entry = next((e for e in self.entries if e.id == action["id"]), None)
             if entry:
+                if hasattr(entry, "exit_actuator"):
+                    entry.exit_actuator = self
                 return entry.actuator
         elif action["type"] == "exit":
             return self.exit_actuator 
@@ -127,9 +132,14 @@ class GlobalExplorerView:
     def action(self, action):
         actuator = self.actuator()
         try:
-            newActuator = actuator.action(action)
-            if newActuator:
-                self.actuators.append(newActuator)
+            selectedActuator = actuator.action(action)
+            
+            if selectedActuator:
+                existingActuatorIndex = next((i for i, e in enumerate(self.actuators) if self.actuators is selectedActuator), None)
+                if existingActuatorIndex is None:
+                    self.actuators.append(selectedActuator)
+                else:
+                    self.actuators = self.actuators[0:existingActuatorIndex]
         except Exception as e:
             print(e)
 
@@ -150,12 +160,44 @@ noop = StaticActator({
     ]
 })
 
+new_game_menu = Menu(
+    [
+        MenuEntry(
+            type = "navigate",
+            title = "Stockholm",
+            actuator = noop
+        ),
+        MenuEntry(
+            type = "navigate",
+            title = "Uppsala",
+            actuator = noop
+        ),
+        MenuEntry(
+            type = "navigate",
+            title = "Göteborg",
+            actuator = noop
+        ),
+        MenuEntry(
+            type = "navigate",
+            title = "Malmö",
+            actuator = noop
+        ),
+        MenuEntry(
+            type = "navigate",
+            title = "Kiruna",
+            actuator = noop
+        )
+    ],
+    "https://images.unsplash.com/photo-1554123168-b400f9c806ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+    noop
+)
+
 main_menu = Menu(
     [
         MenuEntry(
             type = "navigate",
             title = "New game",
-            actuator = noop
+            actuator = new_game_menu
         ),
         MenuEntry(
             type = "navigate",
@@ -178,5 +220,5 @@ main_menu = Menu(
 )
 print(main_menu.content())
 api = GlobalExplorerView(main_menu)
-webview.create_window("Hello world", "assets/index.html", js_api=api)
+webview.create_window("Global Explorer", "assets/index.html", js_api=api)
 webview.start()
