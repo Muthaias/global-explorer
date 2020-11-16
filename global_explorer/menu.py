@@ -1,10 +1,13 @@
 from uuid import uuid4
 
 class Menu:
-    def __init__(self, entries, background, exit_actuator = None):
+    def __init__(self, entries, background):
         self.entries = entries
         self.background = background
-        self.exit_actuator = exit_actuator
+        self.parent = None
+
+    def set_parent(self, parent):
+        self.parent = parent
     
     def content(self):
         return {
@@ -13,7 +16,7 @@ class Menu:
             "actions": self.actions(),
             "backAction": {
                 "type": "exit"
-            } if self.exit_actuator else None
+            } if self.parent else None
         }
 
     def actions(self):
@@ -31,11 +34,10 @@ class Menu:
             entry = next((e for e in self.entries if e.id == action["id"]), None)
             if entry:
                 actuator = entry.actuator
-                if hasattr(actuator, "exit_actuator"):
-                    actuator.exit_actuator = self
+                actuator.set_parent(self)
                 return actuator
-        elif action["type"] == "exit" and self.exit_actuator != None:
-            return self.exit_actuator 
+        elif action["type"] == "exit" and self.parent != None:
+            return self.parent 
 
 class MenuEntry:
     def __init__(self, type, actuator, title, id = None):

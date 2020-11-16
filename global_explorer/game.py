@@ -6,6 +6,10 @@ class Game:
         self.maps = maps
         self.currentMap = currentMap if currentMap != None else self.maps[0]
         self.player = player
+        self.parent = None
+
+    def set_parent(self, parent):
+        self.parent = parent
 
     def content(self):
         return {
