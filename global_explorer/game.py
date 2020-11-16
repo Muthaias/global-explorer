@@ -32,6 +32,7 @@ class Game:
     def action(self, action):
         location = next((l for l in self.currentMap.locations if l.id == action["id"]), None)
         if location and location.actuator:
+            location.actuator.set_game(self)
             location.actuator.set_parent(self)
             return location.actuator
         return self
