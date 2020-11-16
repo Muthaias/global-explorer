@@ -5,8 +5,6 @@ from global_explorer import (
     MenuEntry,
     StaticActuator,
     Game,
-    GameMap,
-    GameLocation,
     Player,
     Account,
     Transaction,
@@ -47,46 +45,46 @@ info = StaticActuator({
 initial_funds = Transaction(1000)
 
 player = Player(
-    name = "Rick Pickle",
-    account = Account([initial_funds]),
-    skills = []
+    name="Rick Pickle",
+    account=Account([initial_funds]),
+    skills=[]
 )
 
 sthlm = Game(
-    player = player,
-    maps = game_maps.maps,
-    currentMap = game_maps.stockholm
+    player=player,
+    maps=game_maps.maps,
+    currentMap=game_maps.stockholm
 )
 new_game_menu = Menu(
     [
         MenuEntry(
-            type = "navigate",
-            title = "Stockholm",
-            actuator = sthlm
+            type="navigate",
+            title="Stockholm",
+            actuator=sthlm
         ),
         MenuEntry(
-            type = "navigate",
-            title = "Uppsala",
-            actuator = Game(
-                player = player,
-                maps = game_maps.maps,
-                currentMap = game_maps.uppsala
+            type="navigate",
+            title="Uppsala",
+            actuator=Game(
+                player=player,
+                maps=game_maps.maps,
+                currentMap=game_maps.uppsala
             )
         ),
         MenuEntry(
-            type = "navigate",
-            title = "Göteborg",
-            actuator = noop
+            type="navigate",
+            title="Göteborg",
+            actuator=noop
         ),
         MenuEntry(
-            type = "navigate",
-            title = "Malmö",
-            actuator = noop
+            type="navigate",
+            title="Malmö",
+            actuator=noop
         ),
         MenuEntry(
-            type = "navigate",
-            title = "Kiruna",
-            actuator = noop
+            type="navigate",
+            title="Kiruna",
+            actuator=noop
         )
     ],
     "https://images.unsplash.com/photo-1554123168-b400f9c806ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
@@ -95,24 +93,24 @@ new_game_menu = Menu(
 main_menu = Menu(
     [
         MenuEntry(
-            type = "navigate",
-            title = "New game",
-            actuator = new_game_menu
+            type="navigate",
+            title="New game",
+            actuator=new_game_menu
         ),
         MenuEntry(
-            type = "navigate",
-            title = "Load game",
-            actuator = info
+            type="navigate",
+            title="Load game",
+            actuator=info
         ),
         MenuEntry(
-            type = "navigate",
-            title = "Settings",
-            actuator = noop
+            type="navigate",
+            title="Settings",
+            actuator=noop
         ),
         MenuEntry(
-            type = "navigate",
-            title = "Credits",
-            actuator = noop
+            type="navigate",
+            title="Credits",
+            actuator=noop
         ),
     ],
     "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
