@@ -5,6 +5,16 @@
 body {
     margin: 0;
     padding: 0;
+    background: #000;
+}
+
+#app {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+#app.visible {
+    opacity: 1;
 }
 
 .log {

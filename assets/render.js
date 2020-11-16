@@ -1,20 +1,26 @@
 function createContentRenderer(elementId) {
     const element = document.getElementById(elementId)
     return (content, onAction = () => {}) => {
-        if (content.type === "menu") {
-            fixedRenderMenu(element, content, onAction)
-        } else if (content.type === "map") {
-            const menuContent = {
-                type: "menu",
-                title: content.title,
-                actions: content.locations.map(location => ({
-                    title: location.title,
-                    ...location.action,
-                })),
-                background: content.background
+        const onTransitionEnd = () => {
+            if (content.type === "menu") {
+                fixedRenderMenu(element, content, onAction)
+            } else if (content.type === "map") {
+                const menuContent = {
+                    type: "menu",
+                    title: content.title,
+                    actions: content.locations.map(location => ({
+                        title: location.title,
+                        ...location.action,
+                    })),
+                    background: content.background
+                }
+                fixedRenderMenu(element, menuContent, onAction)
             }
-            fixedRenderMenu(element, menuContent, onAction)
-        }
+            element.removeEventListener("transitionend", onTransitionEnd);
+            element.classList.add("visible")
+        };
+        element.addEventListener("transitionend", onTransitionEnd);
+        element.classList.remove("visible")
     }
 }
 
