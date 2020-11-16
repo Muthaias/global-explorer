@@ -17,27 +17,20 @@
             </div>
             <div class="balance" id="account-balance">Account balance: 1000</div>
         </div>
-        <div id="log-output" class="log"></div>
     </body>
     <script>
 
 
 window.addEventListener('pywebviewready', () => {
-    const {log, clearLog} = createLog("log-output")
-    document.addEventListener("keyup", () => {
-        clearLog()
-    })
-    console.log = log
     const render = createContentRenderer("app")
     const creditCard = createCreditCardControl("account", "credit-card-name", "credit-card-number", "account-balance")
-    log("# Python ready!")
     const core = new GlobalExplorer(pywebview.api, () => {
-        log(JSON.stringify(core.version, undefined, "  "))
-        log(JSON.stringify(core.player, undefined, "  "))
-        log(JSON.stringify(core.content, undefined, "  "))
+        console.log(core.version)
+        console.log(core.player)
+        console.log(core.content)
         creditCard(core.player)
         render(core.content, (action) => {
-            log(JSON.stringify(action, undefined, "  "))
+            console.log(action)
             core.action(action)
         })
     });

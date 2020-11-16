@@ -137,4 +137,4 @@ main_menu = Menu(
 
 api = GlobalExplorerView(main_menu)
 webview.create_window("Global Explorer", "assets/index.html", js_api=api)
-webview.start()
+webview.start(debug=True)
