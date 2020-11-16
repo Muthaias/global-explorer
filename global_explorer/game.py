@@ -24,11 +24,8 @@ class Game:
             ]
         }
     
-    def action(self, action):
+    def action(self):
         return self
-    
-    def player(self):
-        self.player
 
 class GameMap:
     def __init__(self, title, locations, background):
@@ -38,6 +35,7 @@ class GameMap:
 
 class GameLocation:
     def __init__(self, title, position, actuator = None):
+        self.id = str(uuid4())
         self.title = title
         self.position = position
         self.actuator = actuator

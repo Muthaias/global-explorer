@@ -13,7 +13,9 @@ class GlobalExplorerView:
     def content(self):
         actuator = self.actuator()
         try:
-            return actuator.content()
+            content = actuator.content()
+            print(content)
+            return content
         except Exception as e:
             print("Get content failed")
             print(e)
@@ -32,13 +34,13 @@ class GlobalExplorerView:
         actuator = self.actuator()
         try:
             selectedActuator = actuator.action(action)
-            
             if selectedActuator:
                 existingActuatorIndex = next((i for i, e in enumerate(self.actuators) if actuator is selectedActuator), None)
                 if existingActuatorIndex is None:
                     self.actuators.append(selectedActuator)
                 else:
                     self.actuators = self.actuators[0:existingActuatorIndex]
+            print(self.actuator())
         except Exception as e:
             print(e)
 
@@ -67,16 +69,17 @@ player = Player(
     skills = []
 )
 
+sthlm = Game(
+    player = player,
+    maps = game_maps.maps,
+    currentMap = game_maps.stockholm
+)
 new_game_menu = Menu(
     [
         MenuEntry(
             type = "navigate",
             title = "Stockholm",
-            actuator = Game(
-                player = player,
-                maps = game_maps.maps,
-                currentMap = game_maps.stockholm
-            )
+            actuator = sthlm
         ),
         MenuEntry(
             type = "navigate",
@@ -132,7 +135,8 @@ main_menu = Menu(
     ],
     "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
 )
-print(main_menu.content())
+
+print(player.content())
 api = GlobalExplorerView(main_menu)
 webview.create_window("Global Explorer", "assets/index.html", js_api=api)
 webview.start()

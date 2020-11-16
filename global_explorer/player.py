@@ -17,7 +17,7 @@ class Player:
         self.skills.append(skill)
         self.skill_points = self.skill_points
 
-    def content():
+    def content(self):
         return {
             "id": self.id,
             "account": {
@@ -33,6 +33,7 @@ class Account:
         self.balance = self.calculate_balance()
         self.owner = owner
         self.card_number = card_number
+        self.card_valid_thru = card_valid_thru
     
     def calculate_balance(self):
         balance = 0
