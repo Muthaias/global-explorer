@@ -5,6 +5,11 @@
         <script src="utils.js"></script>
         <script src="core.js"></script>
         <script src="render.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"
+            integrity="sha512-L03kznCrNOfVxOUovR6ESfCz9Gfny7gihUX/huVbQB9zjODtYpxaVtIaAkpetoiyV2eqWbvxMH9fiSv5enX7bw=="
+            crossorigin="anonymous"
+        ></script>
     </head>
     <body>
         <div id="app" class="visible"></div>
@@ -22,7 +27,12 @@
 
 
 window.addEventListener('pywebviewready', () => {
-    const render = createContentRenderer("app")
+    const markdownConverter = new showdown.Converter()
+    const render = createContentRenderer("app", {
+        markdownTransform: (markdown) => {
+            return markdownConverter.makeHtml(markdown)
+        }
+    })
     const creditCard = createCreditCardControl("account", "credit-card-name", "credit-card-number", "account-balance")
     const core = new GlobalExplorer(pywebview.api, () => {
         console.log(core.version)

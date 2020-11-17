@@ -1,4 +1,11 @@
-function createContentRenderer(elementId, renderer = contentRenderer) {
+function createContentRenderer(
+    elementId,
+    options = {
+        markdownTransform: markdownToHTML,
+        renderer: contentRenderer
+    }
+) {
+    const {renderer = contentRenderer} = options
     const element = document.getElementById(elementId)
     let lastContent = null
     return (content, onAction = () => {}) => {
@@ -7,7 +14,7 @@ function createContentRenderer(elementId, renderer = contentRenderer) {
 
         lastContent = contentCache
         const onTransitionEnd = () => {
-            renderer(element, content, onAction)
+            renderer(element, content, onAction, options)
             element.removeEventListener("transitionend", onTransitionEnd);
             element.classList.add("visible")
         };
@@ -16,9 +23,9 @@ function createContentRenderer(elementId, renderer = contentRenderer) {
     }
 }
 
-function contentRenderer(element, content, onAction) {
+function contentRenderer(element, content, onAction, options) {
     if (content.type === "menu") {
-        fixedRenderMenu(element, content, onAction)
+        fixedRenderMenu(element, content, onAction, options)
     } else if (content.type === "map") {
         const menuContent = {
             type: "menu",
@@ -29,13 +36,13 @@ function contentRenderer(element, content, onAction) {
             })),
             background: content.background
         }
-        fixedRenderMenu(element, menuContent, onAction)
+        fixedRenderMenu(element, menuContent, onAction, options)
     } else if (content.type === "info") {
-        fixedRenderInfo(element, content, onAction)
+        fixedRenderInfo(element, content, onAction, options)
     }
 }
 
-function fixedRenderMenu(element, content, onAction) {
+function fixedRenderMenu(element, content, onAction, options) {
     const background = content.background
     const actions = [
         ...content.actions,
@@ -58,7 +65,7 @@ function fixedRenderMenu(element, content, onAction) {
     connectActions(actions, onAction)
 }
 
-function fixedRenderInfo(element, content, onAction) {
+function fixedRenderInfo(element, content, onAction, {markdownTransform}) {
     const {
         title,
         titleImage,
@@ -72,7 +79,7 @@ function fixedRenderInfo(element, content, onAction) {
 <div class="info-content" style="background-image: url('${background}')">
     <div class="info">
         <div class="header" style="background-image: url('${titleImage}')">${title}</div>
-        <div class="content">${markdownToHTML(markdown)}</div>
+        <div class="content">${markdownTransform(markdown)}</div>
         <div class="footer">${finishButton}</div>
     </div>
 </div>
