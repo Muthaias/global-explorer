@@ -1,5 +1,6 @@
 from global_explorer import GameMap, GameLocation, StaticActuator, Transaction
 
+
 lorem_ipsum_data = """
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempor ipsum ligula, id pulvinar risus scelerisque a. Integer eget ultricies nunc, et varius diam. Morbi eu tortor sed ipsum venenatis porttitor. Duis efficitur, neque id dignissim condimentum, mauris lacus ornare neque, at tincidunt risus massa sit amet est. Vestibulum tincidunt mi et accumsan bibendum. In porta aliquam lacus, vel aliquet erat suscipit eu. Sed at massa facilisis, mollis nibh vitae, pretium enim. Pellentesque rutrum lectus vel lorem laoreet auctor.
 
@@ -9,20 +10,23 @@ Fusce sit amet maximus urna. Aenean eget lacus facilisis, sodales erat quis, var
 
 Maecenas id accumsan tellus, non hendrerit magna. Donec pulvinar lacus sapien, non ornare dolor placerat vitae. Suspendisse sed semper ex. Aenean quis purus tellus. Curabitur gravida eros at euismod tincidunt. Aenean eget viverra est. Proin scelerisque mauris sagittis dui tincidunt hendrerit. Cras ac dolor urna. Donec nec bibendum neque. Etiam blandit facilisis lacus vel sodales. Proin purus ligula, dignissim ut aliquet at, sagittis ornare enim. Integer rutrum dolor at eleifend dictum.
 
-In hac habitasse platea dictumst. Morbi quis purus enim. Sed consectetur lacinia tempor. Nulla ultrices iaculis justo eget laoreet. Nam nec ipsum consequat sapien cursus consequat. Mauris aliquet efficitur nisl, vel vulputate dui consequat at. Nullam sit amet condimentum ante, id tincidunt lorem. Sed pharetra fringilla nisl, ut viverra dolor porta at. Praesent finibus tempor diam, et venenatis velit lacinia ac. Aenean nec tincidunt ligula. Quisque commodo lorem eget velit pharetra, nec lobortis dolor commodo. Quisque lobortis elit tristique mattis gravida. 
+In hac habitasse platea dictumst. Morbi quis purus enim. Sed consectetur lacinia tempor. Nulla ultrices iaculis justo eget laoreet. Nam nec ipsum consequat sapien cursus consequat. Mauris aliquet efficitur nisl, vel vulputate dui consequat at. Nullam sit amet condimentum ante, id tincidunt lorem. Sed pharetra fringilla nisl, ut viverra dolor porta at. Praesent finibus tempor diam, et venenatis velit lacinia ac. Aenean nec tincidunt ligula. Quisque commodo lorem eget velit pharetra, nec lobortis dolor commodo. Quisque lobortis elit tristique mattis gravida.
 """.strip()
 
+
 def add_cash_modifier(amount):
-    def modifier(parent, action = None):
+    def modifier(parent, action=None):
         if hasattr(parent, "player"):
             parent.player.account.add_transaction(Transaction(amount))
     return modifier
+
 
 def action_id_condition(id, modifier):
     def conditional_modifier(parent, action):
         if action["id"] == id:
             modifier(parent, action)
     return conditional_modifier
+
 
 stockholm = GameMap(
     title="Stockholm",
