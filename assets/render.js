@@ -71,21 +71,21 @@ function fixedRenderInfo(element, content, onAction, {markdownTransform}) {
         titleImage,
         markdown,
         background,
-        finishAction
+        actions
     } = content
-    const finishButton = renderButton(finishAction)
+    const actionButtons = actions.map(renderButton).join("")
     element.innerHTML = (
 `
 <div class="info-content" style="background-image: url('${background}')">
     <div class="info">
         <div class="header" style="background-image: url('${titleImage}')">${title}</div>
         <div class="content">${markdownTransform(markdown)}</div>
-        <div class="footer">${finishButton}</div>
+        <div class="footer">${actionButtons}</div>
     </div>
 </div>
 `
     )
-    connectActions([content.finishAction], onAction)
+    connectActions(actions, onAction)
 }
 
 function renderButton({title, id}) {

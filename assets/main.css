@@ -197,6 +197,13 @@ body {
     flex-grow: 0;
 }
 
+.info > .footer {
+    display: grid;
+    grid-template-columns: auto;
+    align-content: center;
+    grid-row-gap: 10px;
+}
+
 .info > .header {
     height: 200px;
     line-height: 200px;

@@ -13,11 +13,16 @@ In hac habitasse platea dictumst. Morbi quis purus enim. Sed consectetur lacinia
 """.strip()
 
 def add_cash_modifier(amount):
-    def modifier(parent):
+    def modifier(parent, action = None):
         if hasattr(parent, "player"):
             parent.player.account.add_transaction(Transaction(amount))
     return modifier
 
+def action_id_condition(id, modifier):
+    def conditional_modifier(parent, action):
+        if action["id"] == id:
+            modifier(parent, action)
+    return conditional_modifier
 
 stockholm = GameMap(
     title="Stockholm",
@@ -41,18 +46,36 @@ uppsala = GameMap(
         GameLocation(
             title="Ofvandahls hovkonditori",
             position=(0, 0),
-            actuator=StaticActuator({
-                "type": "info",
-                "title": "Ofvandahls hovkonditori",
-                "markdown": lorem_ipsum_data,
-                "titleImage": "https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80",
-                "background": "https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-                "finishAction": {
-                    "type": "navigate",
-                    "title": "Finish",
-                    "id": "finish"
+            actuator=StaticActuator(
+                {
+                    "type": "info",
+                    "title": "Ofvandahls hovkonditori",
+                    "markdown": lorem_ipsum_data,
+                    "titleImage": "https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80",
+                    "background": "https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+                    "actions": [
+                        {
+                            "type": "navigate",
+                            "title": "Have a fika",
+                            "id": "fika"
+                        },
+                        {
+                            "type": "navigate",
+                            "title": "Have a coffee",
+                            "id": "coffee"
+                        },
+                        {
+                            "type": "navigate",
+                            "title": "Leave",
+                            "id": "leave"
+                        }
+                    ],
                 },
-            }, add_cash_modifier(-100))
+                [
+                    action_id_condition("fika", add_cash_modifier(-100)),
+                    action_id_condition("coffee", add_cash_modifier(-50))
+                ]
+            )
         ),
         GameLocation(
             title="Studentvägen",
