@@ -6,11 +6,12 @@ class Menu:
         self.__actions = [
             MenuAction(entry, self) for entry in all_entries
         ]
+        self.__allow_back = allow_back
         self.background = background
 
     @property
     def scope(self):
-        return self
+        return self if not self.__allow_back else None
 
     def content(self, id_generator):
         return {
