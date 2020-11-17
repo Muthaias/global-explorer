@@ -83,7 +83,44 @@ uppsala = GameMap(
         ),
         GameLocation(
             title="Polacksbacken",
-            position=(0, 0)
+            position=(0, 0),
+            actuator=StaticActuator(
+                {
+                    "type": "info",
+                    "title": "Polacksbacken",
+                    "markdown": lorem_ipsum_data,
+                    "titleImage": "https://images.unsplash.com/photo-1477238134895-98438ad85c30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+                    "background": "https://images.unsplash.com/photo-1519452575417-564c1401ecc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+                    "actions": [
+                        {
+                            "type": "navigate",
+                            "title": "Study engineering",
+                            "id": "engineering"
+                        },
+                        {
+                            "type": "navigate",
+                            "title": "Study math",
+                            "id": "math"
+                        },
+                        {
+                            "type": "navigate",
+                            "title": "Study physics",
+                            "id": "physics"
+                        },
+                        {
+                            "type": "navigate",
+                            "title": "Study computer science",
+                            "id": "computer-science"
+                        },
+                        {
+                            "type": "navigate",
+                            "title": "Leave",
+                            "id": "leave"
+                        }
+                    ],
+                },
+                []
+            )
         ),
         GameLocation(
             title="Flogsta",
