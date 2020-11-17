@@ -8,6 +8,10 @@ class Menu:
         ]
         self.background = background
 
+    @property
+    def scope(self):
+        return self
+
     def content(self, id_generator):
         return {
             "type": "menu",

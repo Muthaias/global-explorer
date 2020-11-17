@@ -7,6 +7,10 @@ class Game:
         )
         self.player = player
 
+    @property
+    def scope(self):
+        return self
+
     def content(self, id_generator):
         return {
             "type": "map",

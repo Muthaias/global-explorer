@@ -37,6 +37,7 @@ class GameRunner:
         return self.__actuators[-1]
 
     def set_actuator(self, actuator):
+        actuator = actuator if actuator else self.__context.scope
         if actuator:
             actuatorIndex = next(
                 (
