@@ -28,25 +28,30 @@ class GameRunner:
         return self.__actuators[-1]
 
     def set_actuator(self, actuator):
-        actuatorIndex = next(
-            (
-                i for i, e in enumerate(self.__actuators)
-                if e is actuator
-            ),
-            None
-        )
-        if actuatorIndex is None:
-            self.__actuators.append(actuator)
+        if actuator:
+            actuatorIndex = next(
+                (
+                    i for i, e in enumerate(self.__actuators)
+                    if e is actuator
+                ),
+                None
+            )
+            if actuatorIndex is None:
+                self.__actuators.append(actuator)
+            else:
+                self.__actuators = self.__actuators[
+                    0:actuatorIndex + 1
+                ]
         else:
             self.__actuators = self.__actuators[
-                0:actuatorIndex + 1
+                0:len(self.__actuators) - 1
             ]
-        self.__context = ChainedContext(reversed(self.__actuators))
+        self.__context = ChainedContext(self.__actuators)
 
     def action(self, action):
         actuator = self.actuator()
         try:
-            selectedActuator = actuator.action(action)
+            selectedActuator = actuator.action(self.__context, action)
             self.set_actuator(selectedActuator)
         except Exception as e:
             print(e)

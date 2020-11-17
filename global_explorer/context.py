@@ -28,7 +28,7 @@ class ChainedContext:
         return next(
             (
                 context.game
-                for context in self.__contexts
+                for context in reversed(self.__contexts)
                 if hasattr(context, "game")
             ),
             None
@@ -39,8 +39,8 @@ class ChainedContext:
         return next(
             (
                 context.player
-                for context in self.__contexts
-                if hasattr(context, "player")
+                for context in reversed(self.__contexts)
+                if hasattr(context, "player") and context.player
             ),
             None
         )

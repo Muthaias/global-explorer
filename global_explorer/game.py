@@ -9,10 +9,6 @@ class Game:
             if currentMap is not None else self.maps[0]
         )
         self.player = player
-        self.parent = None
-
-    def set_parent(self, parent):
-        self.parent = parent
 
     def content(self):
         return {
@@ -32,7 +28,7 @@ class Game:
             ]
         }
 
-    def action(self, action):
+    def action(self, context, action):
         location = next(
             (
                 loc for loc in self.currentMap.locations
@@ -41,8 +37,6 @@ class Game:
             None
         )
         if location and location.actuator:
-            location.actuator.set_game(self)
-            location.actuator.set_parent(self)
             return location.actuator
         return self
 

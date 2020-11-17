@@ -88,6 +88,7 @@ new_game_menu = Menu(
         )
     ],
     "https://images.unsplash.com/photo-1554123168-b400f9c806ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+    allow_back=True
 )
 
 main_menu = Menu(

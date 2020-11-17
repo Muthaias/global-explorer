@@ -2,22 +2,16 @@ from uuid import uuid4
 
 
 class Menu:
-    def __init__(self, entries, background):
+    def __init__(self, entries, background, allow_back=False):
         self.entries = entries
         self.background = background
-        self.parent = None
-
-    def set_parent(self, parent):
-        self.parent = parent
+        self.allow_back = allow_back
 
     def content(self):
         return {
             "type": "menu",
             "background": self.background,
             "actions": self.actions(),
-            "backAction": {
-                "type": "exit"
-            } if self.parent else None
         }
 
     def actions(self):
@@ -28,9 +22,17 @@ class Menu:
                 "id": entry.id
             }
             for entry in self.entries
-        ]
+        ] + (
+            [
+                {
+                    "type": "exit",
+                    "title": "Back",
+                    "id": "exit_menu"
+                }
+            ] if self.allow_back else []
+        )
 
-    def action(self, action):
+    def action(self, context, action):
         if action["type"] == "navigate":
             entry = next(
                 (
@@ -41,10 +43,10 @@ class Menu:
             )
             if entry:
                 actuator = entry.actuator
-                actuator.set_parent(self)
                 return actuator
-        elif action["type"] == "exit" and self.parent is not None:
-            return self.parent
+        elif action["type"] == "exit":
+            return None
+        return self
 
 
 class MenuEntry:

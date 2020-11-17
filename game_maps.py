@@ -15,16 +15,17 @@ In hac habitasse platea dictumst. Morbi quis purus enim. Sed consectetur lacinia
 
 
 def add_cash_modifier(amount):
-    def modifier(parent, action=None):
-        if hasattr(parent, "player"):
-            parent.player.account.add_transaction(Transaction(amount))
+    def modifier(context, action=None):
+        player = context.player
+        if player:
+            player.account.add_transaction(Transaction(amount))
     return modifier
 
 
 def action_id_condition(id, modifier):
-    def conditional_modifier(parent, action):
+    def conditional_modifier(context, action):
         if action["id"] == id:
-            modifier(parent, action)
+            modifier(context, action)
     return conditional_modifier
 
 
