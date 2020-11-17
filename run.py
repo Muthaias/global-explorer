@@ -35,11 +35,11 @@ info = StaticActuator({
     "markdown": "This is a test of the info type content",
     "titleImage": "https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1347&q=80",
     "background": "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80",
-    "finishAction": {
+    "actions": [{
         "type": "navigate",
         "title": "Finish",
         "id": "finish"
-    },
+    }],
 })
 
 initial_funds = Transaction(1000)
