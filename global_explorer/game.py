@@ -1,6 +1,3 @@
-from uuid import uuid4
-
-
 class Game:
     def __init__(self, player, maps, currentMap=None):
         self.maps = maps
@@ -10,7 +7,7 @@ class Game:
         )
         self.player = player
 
-    def content(self):
+    def content(self, id_generator):
         return {
             "type": "map",
             "title": self.currentMap.title,
@@ -20,7 +17,7 @@ class Game:
                     "title": location.title,
                     "action": {
                         "type": "navigate",
-                        "id": location.id
+                        "id": id_generator(location)
                     },
                     "position": location.position,
                 }
@@ -32,7 +29,7 @@ class Game:
         location = next(
             (
                 loc for loc in self.currentMap.locations
-                if loc.id == action["id"]
+                if loc is action
             ),
             None
         )
@@ -50,7 +47,6 @@ class GameMap:
 
 class GameLocation:
     def __init__(self, title, position, actuator=None):
-        self.id = str(uuid4())
         self.title = title
         self.position = position
         self.actuator = actuator

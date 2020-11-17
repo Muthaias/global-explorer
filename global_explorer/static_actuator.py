@@ -3,7 +3,7 @@ class StaticActuator:
         self.__content = content
         self.__modifiers = modifiers
 
-    def content(self):
+    def content(self, id_generator):
         return self.__content
 
     def action(self, context, action):

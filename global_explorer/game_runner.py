@@ -1,4 +1,5 @@
 from .context import ChainedContext
+from uuid import uuid4
 
 
 class GameRunner:
@@ -11,8 +12,16 @@ class GameRunner:
 
     def content(self):
         actuator = self.actuator()
+        action_map = {}
+
+        def id_generator(action):
+            id = str(uuid4())
+            action_map[id] = action
+            return id
+
         try:
-            content = actuator.content()
+            content = actuator.content(id_generator)
+            self.__action_map = action_map
             return content
         except Exception as e:
             print("Get content failed")
@@ -48,10 +57,14 @@ class GameRunner:
             ]
         self.__context = ChainedContext(self.__actuators)
 
-    def action(self, action):
+    def action(self, action_data):
+        action = self.__action_map.get(action_data["id"], None)
         actuator = self.actuator()
         try:
-            selectedActuator = actuator.action(self.__context, action)
+            selectedActuator = actuator.action(
+                self.__context,
+                action if action else action_data
+            )
             self.set_actuator(selectedActuator)
         except Exception as e:
             print(e)

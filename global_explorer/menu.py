@@ -1,57 +1,59 @@
-from uuid import uuid4
-
-
 class Menu:
     def __init__(self, entries, background, allow_back=False):
-        self.entries = entries
+        all_entries = entries + ([
+            MenuAction(MenuEntry("navigation", "Back"), self)
+        ] if allow_back else [])
+        self.__actions = [
+            MenuAction(entry, self) for entry in all_entries
+        ]
         self.background = background
-        self.allow_back = allow_back
 
-    def content(self):
+    def content(self, id_generator):
         return {
             "type": "menu",
             "background": self.background,
-            "actions": self.actions(),
+            "actions": [{
+                "type": "navigate",
+                "id": id_generator(action),
+                "title": action.title,
+            } for action in self.actions],
         }
 
+    @property
     def actions(self):
-        return [
-            {
-                "type": "navigate",
-                "title": entry.title,
-                "id": entry.id
-            }
-            for entry in self.entries
-        ] + (
-            [
-                {
-                    "type": "exit",
-                    "title": "Back",
-                    "id": "exit_menu"
-                }
-            ] if self.allow_back else []
-        )
+        return self.__actions
 
     def action(self, context, action):
-        if action["type"] == "navigate":
-            entry = next(
-                (
-                    e for e in self.entries
-                    if e.id == action["id"]
-                ),
-                None
-            )
-            if entry:
-                actuator = entry.actuator
-                return actuator
-        elif action["type"] == "exit":
-            return None
+        if action.owner is self:
+            return action.actuator
+
         return self
 
 
+class MenuAction:
+    def __init__(self, entry, owner):
+        self.__owner = owner
+        self.__entry = entry
+
+    @property
+    def owner(self):
+        return self.__owner
+
+    @property
+    def type(self):
+        return self.__entry.type
+
+    @property
+    def title(self):
+        return self.__entry.title
+
+    @property
+    def actuator(self):
+        return self.__entry.actuator
+
+
 class MenuEntry:
-    def __init__(self, type, actuator, title, id=None):
+    def __init__(self, type, title, actuator=None):
         self.type = type
-        self.id = id if id is not None else str(uuid4())
         self.title = title
         self.actuator = actuator
