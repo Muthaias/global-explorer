@@ -3,6 +3,7 @@ from .menu import Menu, MenuEntry
 from .player import Player, Account, Transaction
 from .static_actuator import StaticActuator
 from .game_runner import GameRunner
+from .context import Context, ChainedContext
 
 __all__ = (
     'Game',
@@ -15,4 +16,6 @@ __all__ = (
     'Transaction',
     'StaticActuator',
     'GameRunner',
+    'Context',
+    'ChainedContext',
 )
