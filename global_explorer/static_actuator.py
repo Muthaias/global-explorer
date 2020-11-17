@@ -1,13 +1,22 @@
 class StaticActuator:
-    def __init__(self, content, modifiers=None):
+    def __init__(self, content, modifiers=[], targets=[]):
         self.__content = content
         self.__modifiers = modifiers
+        self.__targets = targets
 
     def content(self, id_generator):
         return self.__content
 
     def action(self, context, action):
-        if self.__modifiers:
-            for modifier in self.__modifiers:
-                modifier(context, action)
-        return None
+        for modifier in self.__modifiers:
+            modifier(context, action)
+        actuator = next(
+            (
+                target
+                for (match, target)
+                in self.__targets
+                if match(context, action)
+            ),
+            None
+        )
+        return actuator

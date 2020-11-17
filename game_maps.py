@@ -29,6 +29,11 @@ def action_id_condition(id, modifier):
     return conditional_modifier
 
 
+def action_id_target(id, actuator):
+    def match(context, action):
+        return action["id"] == id
+    return (match, actuator)
+
 stockholm = GameMap(
     title="Stockholm",
     background="https://images.unsplash.com/photo-1508189860359-777d945909ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
@@ -124,7 +129,28 @@ uppsala = GameMap(
                         }
                     ],
                 },
-                []
+                [],
+                [
+                    action_id_target(
+                        "engineering",
+                        StaticActuator(
+                            {
+                                "type": "info",
+                                "title": "Engineering",
+                                "markdown": lorem_ipsum_data,
+                                "titleImage": "https://images.unsplash.com/photo-1581094017399-34c4fb48c65b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+                                "background": "https://images.unsplash.com/photo-1580810709956-ea1561ce6bcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1875&q=80",
+                                "actions": [
+                                    {
+                                        "type": "navigate",
+                                        "title": "Leave",
+                                        "id": "leave"
+                                    }
+                                ],
+                            }
+                        )
+                    )
+                ]
             )
         ),
         GameLocation(
