@@ -89,6 +89,7 @@ class GameLocation(GameAction):
         description=None,
         match=None,
         update=None,
+        id=None,
     ):
         super().__init__(
             title=title,
@@ -99,6 +100,7 @@ class GameLocation(GameAction):
         self.description = description
         self.background = background
         self.title_image = title_image
+        self.id = id
 
         self.position = position
         self.actions = actions if actions is not None else [
@@ -108,4 +110,3 @@ class GameLocation(GameAction):
         ]
         self.actuator = actuator
         self.parent = parent
-

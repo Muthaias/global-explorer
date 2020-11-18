@@ -53,36 +53,23 @@ player = Player(
     skills=[]
 )
 
-sthlm = GameActuator(
-    game=Game(
-        world=game_maps.world,
-        location=game_maps.stockholm,
-        time=time(),
-        player=player,
-    ),
-    actuator=LocationHub()
-)
-upsl = GameActuator(
-    game=Game(
-        world=game_maps.world,
-        location=game_maps.uppsala,
-        time=time(),
-        player=player,
-    ),
-    actuator=LocationHub()
-)
+
 new_game_menu = Menu(
     [
         MenuEntry(
             type="navigate",
-            title="Stockholm",
-            actuator=sthlm
-        ),
-        MenuEntry(
-            type="navigate",
-            title="Uppsala",
-            actuator=upsl
-        ),
+            title=city.title,
+            actuator=GameActuator(
+                game=Game(
+                    world=game_maps.world,
+                    location=city,
+                    time=time(),
+                    player=player,
+                ),
+                actuator=LocationHub()
+            )
+        )
+        for city in game_maps.cities
     ],
     "https://images.unsplash.com/photo-1554123168-b400f9c806ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
     allow_back=True

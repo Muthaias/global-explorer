@@ -95,5 +95,4 @@ class LocationVisit(LocationHub):
         return None
 
     def action(self, context, action):
-        game = context.game
         return LocationHub.action(self, context, action)

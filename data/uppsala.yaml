@@ -1,0 +1,46 @@
+type: locations
+locations:
+  - title: Uppsala
+    id: uppsala
+    background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
+    position: [0, 0]
+    actions: []
+  - title: Carolina Rediviva
+    id: carolina-rediviva
+    parent_id: uppsala
+    background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
+    position: [0, 0]
+    actions: []
+  - title: Ofvandahls konditori
+    id: ofvandahls
+    parent_id: uppsala
+    title_image: https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80
+    background: https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80
+    position: [0, 0]
+    actions: []
+  - title: Studentvägen
+    id: studentvagen
+    parent_id: uppsala
+    background: https://images.unsplash.com/photo-1560685145-bafda179f1b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80
+    position: [0, 0]
+    actions: []
+  - title: Polacksbacken
+    id: polacksbacken
+    parent_id: uppsala
+    title_image: https://images.unsplash.com/photo-1477238134895-98438ad85c30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80
+    background: https://images.unsplash.com/photo-1519452575417-564c1401ecc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
+    position: [0, 0]
+    actions: []
+  - title: Flogsta
+    id: flogsta
+    parent_id: uppsala
+    background: https://images.unsplash.com/photo-1567513022376-eaef86f2f92b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80
+    position: [0, 0]
+    actions: []
+  - title: Palermo
+    id: palermo
+    parent_id: uppsala
+    background: https://images.unsplash.com/photo-1565755713428-1bdfaa7db8ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1875&q=80
+    position: [0, 0]
+    actions: []
+    
