@@ -1,4 +1,4 @@
-from global_explorer import GameMap, GameLocation, StaticActuator, Transaction
+from global_explorer import GameLocation, GameAction, StaticGameWorld, StaticActuator, Transaction, LocationVisit
 
 
 lorem_ipsum_data = """
@@ -15,10 +15,8 @@ In hac habitasse platea dictumst. Morbi quis purus enim. Sed consectetur lacinia
 
 
 def add_cash_modifier(amount):
-    def modifier(context, action=None):
-        player = context.player
-        if player:
-            player.account.add_transaction(Transaction(amount))
+    def modifier(game):
+        game.player.account.add_transaction(Transaction(amount))
     return modifier
 
 
@@ -34,137 +32,150 @@ def action_id_target(id, actuator):
         return action["id"] == id
     return (match, actuator)
 
-stockholm = GameMap(
+
+def go_back_action(context, action):
+    game = context.game
+    if game and game.location.parent:
+        game.location = game.location.parent
+
+
+stockholm = GameLocation(
     title="Stockholm",
+    position=(0, 0),
     background="https://images.unsplash.com/photo-1508189860359-777d945909ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-    locations=[
-        GameLocation(
-            title="Kungliga Biblioteket",
-            position=(0, 0)
-        )
-    ]
+    actions=[]
 )
 
-uppsala = GameMap(
+stockholm_locations = [
+    GameLocation(
+        parent=stockholm,
+        title="Kungliga Biblioteket",
+        position=(0, 0)
+    )
+]
+
+uppsala = GameLocation(
     title="Uppsala",
     background="https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-    locations=[
-        GameLocation(
-            title="Carolina Rediviva",
-            position=(0, 0)
-        ),
-        GameLocation(
-            title="Ofvandahls hovkonditori",
-            position=(0, 0),
-            actuator=StaticActuator(
-                {
-                    "type": "info",
-                    "title": "Ofvandahls hovkonditori",
-                    "markdown": lorem_ipsum_data,
-                    "titleImage": "https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80",
-                    "background": "https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-                    "actions": [
-                        {
-                            "type": "navigate",
-                            "title": "Have a fika",
-                            "id": "fika"
-                        },
-                        {
-                            "type": "navigate",
-                            "title": "Have a coffee",
-                            "id": "coffee"
-                        },
-                        {
-                            "type": "navigate",
-                            "title": "Leave",
-                            "id": "leave"
-                        }
-                    ],
-                },
-                [
-                    action_id_condition("fika", add_cash_modifier(-100)),
-                    action_id_condition("coffee", add_cash_modifier(-50))
-                ]
-            )
-        ),
-        GameLocation(
-            title="Studentvägen",
-            position=(0, 0)
-        ),
-        GameLocation(
-            title="Polacksbacken",
-            position=(0, 0),
-            actuator=StaticActuator(
-                {
-                    "type": "info",
-                    "title": "Polacksbacken",
-                    "markdown": lorem_ipsum_data,
-                    "titleImage": "https://images.unsplash.com/photo-1477238134895-98438ad85c30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-                    "background": "https://images.unsplash.com/photo-1519452575417-564c1401ecc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-                    "actions": [
-                        {
-                            "type": "navigate",
-                            "title": "Study engineering",
-                            "id": "engineering"
-                        },
-                        {
-                            "type": "navigate",
-                            "title": "Study math",
-                            "id": "math"
-                        },
-                        {
-                            "type": "navigate",
-                            "title": "Study physics",
-                            "id": "physics"
-                        },
-                        {
-                            "type": "navigate",
-                            "title": "Study computer science",
-                            "id": "computer-science"
-                        },
-                        {
-                            "type": "navigate",
-                            "title": "Leave",
-                            "id": "leave"
-                        }
-                    ],
-                },
-                [],
-                [
-                    action_id_target(
-                        "engineering",
-                        StaticActuator(
-                            {
-                                "type": "info",
-                                "title": "Engineering",
-                                "markdown": lorem_ipsum_data,
-                                "titleImage": "https://images.unsplash.com/photo-1581094017399-34c4fb48c65b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-                                "background": "https://images.unsplash.com/photo-1580810709956-ea1561ce6bcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1875&q=80",
-                                "actions": [
-                                    {
-                                        "type": "navigate",
-                                        "title": "Leave",
-                                        "id": "leave"
-                                    }
-                                ],
-                            }
-                        )
-                    )
-                ]
-            )
-        ),
-        GameLocation(
-            title="Flogsta",
-            position=(0, 0)
-        ),
-        GameLocation(
-            title="Norrlands Nation",
-            position=(0, 0)
-        )
-    ]
+    position=(0, 0),
+    actions=[]
 )
 
-maps = [
+uppsala_locations = [
+    GameLocation(
+        parent=uppsala,
+        title="Carolina Rediviva",
+        background="https://images.unsplash.com/photo-1596846751725-106e44410d51?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+        position=(0, 0),
+    ),
+    GameLocation(
+        parent=uppsala,
+        title="Ofvandahls hovkonditori",
+        description=lorem_ipsum_data,
+        background="https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+        title_image="https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80",
+        position=(0, 0),
+        actions=[
+            GameAction(
+                title="Have a fika",
+                update=add_cash_modifier(-10)
+            ),
+            GameAction(
+                title="Have a coffee",
+                update=add_cash_modifier(-5)
+            ),
+            GameAction(
+                title="Leave",
+            )
+        ],
+        actuator=LocationVisit()
+    ),
+    GameLocation(
+        parent=uppsala,
+        title="Studentvägen",
+        background="https://images.unsplash.com/photo-1560685145-bafda179f1b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80",
+        position=(0, 0)
+    ),
+    GameLocation(
+        parent=uppsala,
+        title="Polacksbacken",
+        position=(0, 0),
+        actuator=StaticActuator(
+            {
+                "type": "info",
+                "title": "Polacksbacken",
+                "markdown": lorem_ipsum_data,
+                "titleImage": "https://images.unsplash.com/photo-1477238134895-98438ad85c30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+                "background": "https://images.unsplash.com/photo-1519452575417-564c1401ecc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+                "actions": [
+                    {
+                        "type": "navigate",
+                        "title": "Study engineering",
+                        "id": "engineering"
+                    },
+                    {
+                        "type": "navigate",
+                        "title": "Study math",
+                        "id": "math"
+                    },
+                    {
+                        "type": "navigate",
+                        "title": "Study physics",
+                        "id": "physics"
+                    },
+                    {
+                        "type": "navigate",
+                        "title": "Study computer science",
+                        "id": "computer-science"
+                    },
+                    {
+                        "type": "navigate",
+                        "title": "Leave",
+                        "id": "leave"
+                    }
+                ],
+            },
+            [
+                go_back_action
+            ],
+            [
+                action_id_target(
+                    "engineering",
+                    StaticActuator(
+                        {
+                            "type": "info",
+                            "title": "Engineering",
+                            "markdown": lorem_ipsum_data,
+                            "titleImage": "https://images.unsplash.com/photo-1581094017399-34c4fb48c65b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+                            "background": "https://images.unsplash.com/photo-1580810709956-ea1561ce6bcb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1875&q=80",
+                            "actions": [
+                                {
+                                    "type": "navigate",
+                                    "title": "Leave",
+                                    "id": "leave"
+                                }
+                            ],
+                        }
+                    )
+                ),
+            ]
+        )
+    ),
+    GameLocation(
+        parent=uppsala,
+        title="Flogsta",
+        background="https://images.unsplash.com/photo-1567513022376-eaef86f2f92b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80",
+        position=(0, 0)
+    ),
+]
+
+cities = [
     uppsala,
     stockholm
 ]
+
+world = StaticGameWorld(
+    locations=(
+        cities + stockholm_locations + uppsala_locations
+    )
+)

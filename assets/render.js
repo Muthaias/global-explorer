@@ -30,10 +30,13 @@ function contentRenderer(element, content, onAction, options) {
         const menuContent = {
             type: "menu",
             title: content.title,
-            actions: content.locations.map(location => ({
-                title: location.title,
-                ...location.action,
-            })),
+            actions: [
+                ...content.locations.map(location => ({
+                    title: location.title,
+                    ...location.action,
+                })),
+                ...(content.actions || [])
+            ],
             background: content.background
         }
         fixedRenderMenu(element, menuContent, onAction, options)

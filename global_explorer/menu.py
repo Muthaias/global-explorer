@@ -9,11 +9,7 @@ class Menu:
         self.__allow_back = allow_back
         self.background = background
 
-    @property
-    def scope(self):
-        return self if not self.__allow_back else None
-
-    def content(self, id_generator):
+    def content(self, context, id_generator):
         return {
             "type": "menu",
             "background": self.background,

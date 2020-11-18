@@ -20,7 +20,7 @@ class GameRunner:
             return id
 
         try:
-            content = actuator.content(id_generator)
+            content = actuator.content(self.__context, id_generator)
             self.__action_map = action_map
             return content
         except Exception as e:
@@ -37,7 +37,6 @@ class GameRunner:
         return self.__actuators[-1]
 
     def set_actuator(self, actuator):
-        actuator = actuator if actuator else self.__context.scope
         if actuator:
             actuatorIndex = next(
                 (

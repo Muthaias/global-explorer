@@ -4,12 +4,15 @@ from global_explorer import (
     Menu,
     MenuEntry,
     StaticActuator,
-    Game,
+    GameActuator,
     Player,
     Account,
     Transaction,
-    GameRunner
+    GameRunner,
+    Game,
+    LocationHub
 )
+from time import time
 import game_maps
 
 noop = StaticActuator({
@@ -50,10 +53,23 @@ player = Player(
     skills=[]
 )
 
-sthlm = Game(
-    player=player,
-    maps=game_maps.maps,
-    currentMap=game_maps.stockholm
+sthlm = GameActuator(
+    game=Game(
+        world=game_maps.world,
+        location=game_maps.stockholm,
+        time=time(),
+        player=player,
+    ),
+    actuator=LocationHub()
+)
+upsl = GameActuator(
+    game=Game(
+        world=game_maps.world,
+        location=game_maps.uppsala,
+        time=time(),
+        player=player,
+    ),
+    actuator=LocationHub()
 )
 new_game_menu = Menu(
     [
@@ -65,11 +81,7 @@ new_game_menu = Menu(
         MenuEntry(
             type="navigate",
             title="Uppsala",
-            actuator=Game(
-                player=player,
-                maps=game_maps.maps,
-                currentMap=game_maps.uppsala
-            )
+            actuator=upsl
         ),
         MenuEntry(
             type="navigate",

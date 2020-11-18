@@ -13,6 +13,10 @@ class ChainedContext:
         )
 
     @property
+    def location(self):
+        return self.chained_attr("location")
+
+    @property
     def scope(self):
         return self.chained_attr("scope")
 
