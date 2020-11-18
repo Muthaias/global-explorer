@@ -5,7 +5,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: #000;
+    background: #666;
 }
 
 #app {
@@ -62,7 +62,6 @@ body {
     height: 100%;
     background-size: 100% auto;
     background-repeat: no-repeat;
-    background-color: #000;
     background-position: 50% 50%;
 }
 
