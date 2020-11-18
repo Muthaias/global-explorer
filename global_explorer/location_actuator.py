@@ -1,10 +1,10 @@
 class LocationHub:
-    def content(self, context, id_generator):
+    def content(self, context):
         game = context.game
         return (
-            self.content_from_game(game, id_generator)
+            self.content_from_game(game, context)
             if game
-            else self.default_content(context, id_generator)
+            else self.default_content(context)
         )
 
     def action(self, context, action):
@@ -18,7 +18,7 @@ class LocationHub:
                 return action.update(game)
         return None
 
-    def content_from_game(self, game, id_generator):
+    def content_from_game(self, game, context):
         return {
             "type": "map",
             "title": game.location.title,
@@ -28,7 +28,7 @@ class LocationHub:
                     "title": location.title,
                     "action": {
                         "type": "navigate",
-                        "id": id_generator(location)
+                        "id": context.get_id(location)
                     },
                     "position": location.position,
                 }
@@ -38,14 +38,14 @@ class LocationHub:
                 {
                     "title": action.title,
                     "type": "navigate",
-                    "id": id_generator(action)
+                    "id": context.get_id(action)
                 }
                 for action in game.location.actions
                 if action.match(game)
             ]
         }
 
-    def default_content(self, context, id_generator):
+    def default_content(self, context):
         raise ValueError("Context has no Game object")
 
     def location_from_action(self, context, action):
@@ -60,7 +60,7 @@ class LocationHub:
 
 
 class LocationVisit(LocationHub):
-    def content_from_game(self, game, id_generator):
+    def content_from_game(self, game, context):
         location = game.location
         return {
             "type": "info",
@@ -72,7 +72,7 @@ class LocationVisit(LocationHub):
                 {
                     "title": action.title,
                     "type": "navigate",
-                    "id": id_generator(action)
+                    "id": context.get_id(action)
                 }
                 for action in location.actions
                 if action.match(game)

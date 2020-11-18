@@ -4,7 +4,7 @@ class StaticActuator:
         self.__modifiers = modifiers
         self.__targets = targets
 
-    def content(self, context, id_generator):
+    def content(self, context):
         return self.__content
 
     def action(self, context, action):

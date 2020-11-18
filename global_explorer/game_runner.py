@@ -1,5 +1,4 @@
-from .context import ChainedContext
-from uuid import uuid4
+from .context import Context
 from datetime import datetime
 import math
 
@@ -15,16 +14,8 @@ class GameRunner:
 
     def content(self):
         actuator = self.actuator()
-        action_map = {}
-
-        def id_generator(action):
-            id = str(uuid4())
-            action_map[id] = action
-            return id
-
         try:
-            content = actuator.content(self.__context, id_generator)
-            self.__action_map = action_map
+            content = actuator.content(self.__context)
             return content
         except Exception as e:
             print("Get content failed")
@@ -74,11 +65,11 @@ class GameRunner:
             self.__actuators = self.__actuators[
                 0:len(self.__actuators) - 1
             ]
-        self.__context = ChainedContext(self.__actuators)
+        self.__context = Context(self.__actuators)
 
     def action(self, action_data):
         try:
-            action = self.__action_map.get(action_data["id"], None)
+            action = self.__context.get_obj(action_data["id"])
             actuator = self.actuator()
             selectedActuator = actuator.action(
                 self.__context,

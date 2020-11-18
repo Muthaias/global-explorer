@@ -20,8 +20,8 @@ class GameActuator:
         location = self.game.location
         return location.actuator if location.actuator else self.__actuator
 
-    def content(self, context, id_generator):
-        return self.actuator.content(context, id_generator)
+    def content(self, context):
+        return self.actuator.content(context)
 
     def action(self, context, action):
         actuator = self.actuator.action(context, action)

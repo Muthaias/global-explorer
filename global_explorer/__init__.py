@@ -4,7 +4,7 @@ from .menu import Menu, MenuEntry
 from .player import Player, Account, Transaction
 from .static_actuator import StaticActuator
 from .game_runner import GameRunner
-from .context import ChainedContext
+from .context import Context
 from .location_actuator import LocationVisit, LocationHub
 
 __all__ = (
@@ -18,7 +18,7 @@ __all__ = (
     'Transaction',
     'StaticActuator',
     'GameRunner',
-    'ChainedContext',
+    'Context',
     'GameActuator',
     'GameAction',
     'LocationVisit',

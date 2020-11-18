@@ -9,13 +9,13 @@ class Menu:
         self.__allow_back = allow_back
         self.background = background
 
-    def content(self, context, id_generator):
+    def content(self, context):
         return {
             "type": "menu",
             "background": self.background,
             "actions": [{
                 "type": "navigate",
-                "id": id_generator(action),
+                "id": context.get_id(action),
                 "title": action.title,
             } for action in self.actions],
         }

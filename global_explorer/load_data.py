@@ -5,6 +5,7 @@ from global_explorer import (
     LocationHub,
 )
 
+
 def actuator_from_entry(entry):
     actuator_dict = {
         "visit": LocationVisit,
