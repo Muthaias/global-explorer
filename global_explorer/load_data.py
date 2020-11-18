@@ -44,7 +44,11 @@ def locations_from_entries(location_entries):
 def load_locations(paths):
     entries = []
     for path in paths:
-        with open(path, "r") as file:
-            data = yaml.safe_load(file)
-            entries += data.get("locations", [])
+        data = load_yaml(path)
+        entries += data.get("locations", [])
     return locations_from_entries(entries)
+
+
+def load_yaml(path):
+    with open(path, "r") as file:
+        return yaml.safe_load(file)

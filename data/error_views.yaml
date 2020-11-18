@@ -1,0 +1,8 @@
+type: errors
+errors:
+  - id: content-error
+    type: "menu"
+    title: Content Error
+    description: Nothing for you here
+    background: https://images.unsplash.com/photo-1487803556724-cb9f0b8151d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1858&q=80
+    actions: []

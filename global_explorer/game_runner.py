@@ -5,8 +5,9 @@ import math
 
 
 class GameRunner:
-    def __init__(self, actuator):
+    def __init__(self, actuator, error_views=[]):
         self.__actuators = []
+        self.__errors = error_views
         self.set_actuator(actuator)
 
     def version(self):
@@ -28,6 +29,14 @@ class GameRunner:
         except Exception as e:
             print("Get content failed")
             print(e)
+            return self.get_error_content("content-error")
+
+    def get_error_content(self, id):
+        return next((
+            e
+            for e in iter(self.__errors)
+            if e.get("id", None) == id
+        ), None)
 
     def player(self):
         player = self.__context.player
@@ -68,9 +77,9 @@ class GameRunner:
         self.__context = ChainedContext(self.__actuators)
 
     def action(self, action_data):
-        action = self.__action_map.get(action_data["id"], None)
-        actuator = self.actuator()
         try:
+            action = self.__action_map.get(action_data["id"], None)
+            actuator = self.actuator()
             selectedActuator = actuator.action(
                 self.__context,
                 action if action else action_data

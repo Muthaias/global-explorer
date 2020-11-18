@@ -6,7 +6,7 @@ from global_explorer import (
     LocationVisit,
     LocationHub,
 )
-from global_explorer.load_data import load_locations
+from global_explorer.load_data import load_locations, load_yaml
 
 
 def action_id_condition(id, modifier):
@@ -161,3 +161,5 @@ cities = [
 world = StaticGameWorld(
     locations=loaded_locations
 )
+
+error_views = load_yaml("data/error_views.yaml").get("errors", [])

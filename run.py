@@ -101,6 +101,9 @@ main_menu = Menu(
     "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
 )
 
-api = GameRunner(main_menu)
+api = GameRunner(
+    actuator=main_menu,
+    error_views=game_maps.error_views
+)
 webview.create_window("Global Explorer", "assets/index.html", js_api=api)
 webview.start(debug=True)

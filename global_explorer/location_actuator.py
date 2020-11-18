@@ -46,16 +46,7 @@ class LocationHub:
         }
 
     def default_content(self, context, id_generator):
-        return {
-            "type": "menu",
-            "title": "Nothing for you here",
-            "background": "https://images.unsplash.com/photo-1487803556724-cb9f0b8151d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1858&q=80",
-            "actions": [{
-                "type": "exit",
-                "id": id_generator("exit"),
-                "title": "Go back",
-            }],
-        }
+        raise ValueError("Context has no Game object")
 
     def location_from_action(self, context, action):
         game = context.game
