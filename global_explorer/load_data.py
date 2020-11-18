@@ -1,5 +1,17 @@
 import yaml
-from global_explorer import GameLocation
+from global_explorer import (
+    GameLocation,
+    LocationVisit,
+    LocationHub,
+)
+
+def actuator_from_entry(entry):
+    actuator_dict = {
+        "visit": LocationVisit,
+        "hub": LocationHub,
+    }
+    actuator_id = entry.get("actuator", "hub")
+    return actuator_dict.get(actuator_id, LocationHub)()
 
 
 def locations_from_entries(location_entries):
@@ -30,7 +42,8 @@ def locations_from_entries(location_entries):
                 default.get("title_image", "")
             ),
             position=entry.get("position", (0, 0)),
-            actions=None if "parent_id" in entry else []
+            actions=None if "parent_id" in entry else [],
+            actuator=actuator_from_entry(entry)
         ) for id, entry in entry_dict.items()
     }
     for id, location in location_dict.items():

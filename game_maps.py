@@ -127,11 +127,6 @@ update_dict = {
     "flogsta": add_cash_action(10)
 }
 
-actuator_dict = {
-    "polacksbacken": LocationVisit(),
-    "ofvandahls": LocationVisit(),
-}
-
 loaded_locations = load_locations([
     "data/defaults.yaml",
     "data/stockholm.yaml",
@@ -139,12 +134,10 @@ loaded_locations = load_locations([
 ])
 
 for location in loaded_locations:
-    actuator = actuator_dict.get(location.id, LocationHub())
     actions = actions_dict.get(location.id, None)
     update = update_dict.get(location.id, None)
     match = match_dict.get(location.id, None)
 
-    location.actuator = actuator
     if update:
         location.update = update
     if match:
