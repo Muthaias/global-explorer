@@ -11,6 +11,18 @@ locations:
     background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
     position: [0, 0]
     actions: []
+  - title: Sal A
+    id: sal-a
+    parent_id: carolina-rediviva
+    background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
+    position: [0, 0]
+    actions: []
+  - title: Sal B
+    id: sal-b
+    parent_id: carolina-rediviva
+    background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
+    position: [0, 0]
+    actions: []
   - title: Ofvandahls konditori
     id: ofvandahls
     parent_id: uppsala
