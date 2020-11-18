@@ -13,6 +13,9 @@ class LocationHub:
             location = self.location_from_action(context, action)
             if location:
                 game.location = location
+
+            if hasattr(action, "update"):
+                return action.update(game)
         return None
 
     def content_from_game(self, game, id_generator):
@@ -93,6 +96,4 @@ class LocationVisit(LocationHub):
 
     def action(self, context, action):
         game = context.game
-        if game and hasattr(action, "update"):
-            action.update(game)
         return LocationHub.action(self, context, action)
