@@ -12,7 +12,7 @@ class LocationHub:
         if game:
             location = self.location_from_action(context, action)
             if location:
-                game.location = location
+                game.set_location(location)
 
             if hasattr(action, "update"):
                 return action.update(game)

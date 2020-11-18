@@ -143,7 +143,8 @@ uppsala_locations = [
         parent=uppsala,
         title="Studentvägen",
         background="https://images.unsplash.com/photo-1560685145-bafda179f1b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80",
-        position=(0, 0)
+        position=(0, 0),
+        match=lambda game:game.player.account.balance < 1000
     ),
     GameLocation(
         parent=uppsala,
@@ -178,7 +179,8 @@ uppsala_locations = [
         parent=uppsala,
         title="Flogsta",
         background="https://images.unsplash.com/photo-1567513022376-eaef86f2f92b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80",
-        position=(0, 0)
+        position=(0, 0),
+        update=add_cash_action(10),
     ),
 ]
 

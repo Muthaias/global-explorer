@@ -3,14 +3,23 @@ class Game:
         self.time = time
         self.world = world
         self.player = player
-        self.location = location
+        self.__location = location
 
     def pass_time(self, days=0, hours=0, seconds=0):
         self.time += seconds + hours * 3600 + days * 24 * 3600
 
+    def set_location(self, location):
+        self.__location = location
+
+    @property
+    def location(self):
+        return self.__location
+
     @property
     def sub_locations(self):
-        return self.world.locations_by_parent(self.location)
+        for location in self.world.locations_by_parent(self.location):
+            if location.match(self):
+                yield location
 
 
 class GameWorld:
@@ -54,7 +63,20 @@ class StaticGameWorld(GameWorld):
                 yield loc_a if loc_a is not origin else loc_b
 
 
-class GameLocation:
+class GameAction:
+    def __init__(self, title, update=None, match=None):
+        self.title = title
+        self.__update = update
+        self.__match = match
+
+    def match(self, game):
+        return self.__match(game) if self.__match else True
+
+    def update(self, game):
+        return self.__update(game) if self.__update else None
+
+
+class GameLocation(GameAction):
     def __init__(
         self,
         title,
@@ -64,8 +86,15 @@ class GameLocation:
         actions=None,
         parent=None,
         actuator=None,
-        description=None
+        description=None,
+        match=None,
+        update=None,
     ):
+        super().__init__(
+            title=title,
+            match=match,
+            update=update
+        )
         self.title = title
         self.description = description
         self.background = background
@@ -80,15 +109,3 @@ class GameLocation:
         self.actuator = actuator
         self.parent = parent
 
-
-class GameAction:
-    def __init__(self, title, update=None, match=None):
-        self.title = title
-        self.__update = update
-        self.__match = match
-
-    def match(self, game):
-        return self.__match(game) if self.__match else True
-
-    def update(self, game):
-        return self.__update(game) if self.__update else None
