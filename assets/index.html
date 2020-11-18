@@ -14,13 +14,14 @@
     <body>
         <div id="app" class="visible"></div>
         <div class="account" id="account">
+            <div class="info" id="date">Time: - - -</div>
             <div class="credit-card closed">
                 <div class="name" id="credit-card-name">Guy Anonymous</div>
                 <div class="number" id="credit-card-number">1111 1111 1111 1111</div>
                 <div class="chip"></div>
                 <div class="logo">SHOWYA</div>
             </div>
-            <div class="balance" id="account-balance">Account balance: 1000</div>
+            <div class="info" id="account-balance">Account balance: -</div>
         </div>
     </body>
     <script>
@@ -33,12 +34,13 @@ window.addEventListener('pywebviewready', () => {
             return markdownConverter.makeHtml(markdown)
         }
     })
-    const creditCard = createCreditCardControl("account", "credit-card-name", "credit-card-number", "account-balance")
+    const creditCard = createCreditCardControl("account", "credit-card-name", "credit-card-number", "account-balance", "date")
     const core = new GlobalExplorer(pywebview.api, () => {
         console.log(core.version)
         console.log(core.player)
         console.log(core.content)
-        creditCard(core.player)
+        console.log(core.game)
+        creditCard(core.player, core.game)
         render(core.content, (action) => {
             console.log(action)
             core.action(action)

@@ -13,13 +13,6 @@ Maecenas id accumsan tellus, non hendrerit magna. Donec pulvinar lacus sapien, n
 In hac habitasse platea dictumst. Morbi quis purus enim. Sed consectetur lacinia tempor. Nulla ultrices iaculis justo eget laoreet. Nam nec ipsum consequat sapien cursus consequat. Mauris aliquet efficitur nisl, vel vulputate dui consequat at. Nullam sit amet condimentum ante, id tincidunt lorem. Sed pharetra fringilla nisl, ut viverra dolor porta at. Praesent finibus tempor diam, et venenatis velit lacinia ac. Aenean nec tincidunt ligula. Quisque commodo lorem eget velit pharetra, nec lobortis dolor commodo. Quisque lobortis elit tristique mattis gravida.
 """.strip()
 
-
-def add_cash_modifier(amount):
-    def modifier(game):
-        game.player.account.add_transaction(Transaction(amount))
-    return modifier
-
-
 def action_id_condition(id, modifier):
     def conditional_modifier(context, action):
         if action["id"] == id:
@@ -33,6 +26,12 @@ def action_id_target(id, actuator):
     return (match, actuator)
 
 
+def add_cash_action(amount):
+    def modifier(game):
+        game.player.account.add_transaction(Transaction(amount))
+    return modifier
+
+
 def go_back_action(context, action):
     game = context.game
     if game and game.location.parent:
@@ -44,6 +43,26 @@ def enter_actuator_action(actuator):
         return actuator
     return action
 
+
+def pass_time_action(seconds=0, hours=0, days=0):
+    def action(game):
+        game.pass_time(
+            seconds=seconds,
+            hours=hours,
+            days=days
+        )
+    return action
+
+
+def combine_actions(actions):
+    def action(game):
+        actuator = None
+        for a in actions:
+            result = a(game)
+            actuator = result if result else actuator
+        return actuator
+    return action
+        
 
 stockholm = GameLocation(
     title="Stockholm",
@@ -102,11 +121,17 @@ uppsala_locations = [
         actions=[
             GameAction(
                 title="Have a fika",
-                update=add_cash_modifier(-10)
+                update=combine_actions([
+                    add_cash_action(-10),
+                    pass_time_action(hours=2)
+                ])
             ),
             GameAction(
                 title="Have a coffee",
-                update=add_cash_modifier(-5)
+                update=combine_actions([
+                    add_cash_action(-5),
+                    pass_time_action(hours=1)
+                ])
             ),
             GameAction(
                 title="Leave",

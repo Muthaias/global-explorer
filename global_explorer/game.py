@@ -5,8 +5,8 @@ class Game:
         self.player = player
         self.location = location
 
-    def pass_time(self, day=0, hour=0, second=0):
-        self.time += second + hour * 3600 + day * 24 * 3600
+    def pass_time(self, days=0, hours=0, seconds=0):
+        self.time += seconds + hours * 3600 + days * 24 * 3600
 
     @property
     def sub_locations(self):

@@ -108,18 +108,25 @@ function connectActions(actions, onAction) {
     }
 }
 
-function createCreditCardControl(cardId, nameId, cardNumberId, accountBalanceId) {
+function createCreditCardControl(cardId, nameId, cardNumberId, accountBalanceId, dateId) {
     const [
         card,
         name,
         cardNumber,
-        accountBalance
-    ] = [cardId, nameId, cardNumberId, accountBalanceId].map(id => document.getElementById(id))
+        accountBalance,
+        date
+    ] = [
+        cardId,
+        nameId,
+        cardNumberId,
+        accountBalanceId,
+        dateId
+    ].map(id => document.getElementById(id))
 
     let isOpen = false
     let currentBalance = 0
     let balanceInterval = null
-    return (player) => {
+    return (player, game) => {
         isOpen = !!player
         if (player) {
             name.innerHTML = player.name
@@ -139,6 +146,10 @@ function createCreditCardControl(cardId, nameId, cardNumberId, accountBalanceId)
                     balanceInterval = null
                 }
             }, 50)
+        }
+        console.log(game)
+        if (game) {
+            date.innerText = `Time: ${game.time}`
         }
         if (isOpen) {
             card.classList.remove("closed")
