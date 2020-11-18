@@ -1,4 +1,5 @@
 from uuid import uuid4
+import random
 
 
 class Player:
@@ -35,14 +36,22 @@ class Account:
         self,
         transactions=[],
         owner="Anonymous",
-        card_number="1337 1337 1337 1337",
+        card_number=None,
         card_valid_thru="12/20"
     ):
         self.transactions = transactions
         self.balance = self.calculate_balance()
         self.owner = owner
-        self.card_number = card_number
+        self.card_number = self.random_card_number()
         self.card_valid_thru = card_valid_thru
+
+    def random_card_number(self):
+        card_elements = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+        card_number = ""
+        for i in range(0, 16):
+            card_number += random.choice(card_elements)
+            card_number += " " if i % 4 == 3 else ""
+        return card_number
 
     def calculate_balance(self):
         balance = 0
