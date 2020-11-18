@@ -1,6 +1,6 @@
 from global_explorer import (
     GameAction,
-    StaticGameWorld,
+    GameWorld,
     StaticActuator,
     Transaction,
     LocationVisit,
@@ -158,7 +158,7 @@ cities = [
     if location.id == "uppsala" or location.id == "stockholm"
 ]
 
-world = StaticGameWorld(
+world = GameWorld(
     locations=loaded_locations
 )
 

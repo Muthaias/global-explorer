@@ -22,21 +22,7 @@ class Game:
                 yield location
 
 
-class GameWorld:
-    def location_by_id(self, id):
-        pass
-
-    def locations_by_type(self, type):
-        pass
-
-    def locations_by_parent(self, parent):
-        pass
-
-    def locations_by_link(self, origin):
-        pass
-
-
-class StaticGameWorld(GameWorld):
+class GameWorld():
     def __init__(self, locations, links=[]):
         self.__locations = locations
         self.__links = links

@@ -1,4 +1,4 @@
-from .game import Game, GameAction, StaticGameWorld, GameLocation
+from .game import Game, GameAction, GameWorld, GameLocation
 from .game_actuator import GameActuator
 from .menu import Menu, MenuEntry
 from .player import Player, Account, Transaction
@@ -9,7 +9,7 @@ from .location_actuator import LocationVisit, LocationHub
 
 __all__ = (
     'Game',
-    'StaticGameWorld',
+    'GameWorld',
     'GameLocation',
     'Menu',
     'MenuEntry',
