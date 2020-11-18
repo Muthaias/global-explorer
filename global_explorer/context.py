@@ -32,10 +32,6 @@ class Context:
         return self.chained_attr("location")
 
     @property
-    def scope(self):
-        return self.chained_attr("scope")
-
-    @property
     def game(self):
         return self.chained_attr("game")
 
