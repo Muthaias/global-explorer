@@ -11,7 +11,7 @@ def step_into(ids, dict):
 
 def step_into_random(ids, count, dict):
     def _step_into_random(node, game):
-        random_ids = random.choices(k=count)
+        random_ids = random.sample(ids, k=count)
         step_into(random_ids, dict)(node, game)
     return _step_into_random
 

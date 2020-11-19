@@ -6,8 +6,8 @@ from game import (
 from actions import (
     combine_actions,
     pass_time,
+    step_into_random,
     step_into,
-    step_out,
     step,
     add_trace,
     to_seconds,
@@ -100,7 +100,7 @@ if __name__ == "__main__":
                 apply=branch(
                     time_is_more(game_start + 2 * 3600),
                     step_into(["c"], dict),
-                    step_into(["b0", "b1", "b2"], dict),
+                    step_into_random(["b0", "b1", "b2"], 2, dict),
                 )
             ),
         ],
