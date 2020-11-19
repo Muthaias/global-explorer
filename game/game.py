@@ -60,16 +60,22 @@ class Node:
         actions=None,
         on_enter=None,
         on_action=None,
-        on_exit=None
+        on_exit=None,
+        descriptor=None
     ):
         self.__actions = actions if actions is not None else []
         self.__on_enter = on_enter
         self.__on_action = on_action
         self.__on_exit = on_exit
+        self.__descriptor = descriptor
 
     @property
     def actions(self):
         return self.__actions
+
+    @property
+    def descriptor(self):
+        return self.__descriptor
 
     def handle_action(self, game, action):
         if action in self.__actions and action.match(self, game):
@@ -87,9 +93,14 @@ class Node:
 
 
 class Action:
-    def __init__(self, match=None, apply=None):
+    def __init__(self, match=None, apply=None, descriptor=None):
         self.__apply = apply
         self.__match = match
+        self.__descriptor = descriptor
+
+    @property
+    def descriptor(self):
+        return self.__descriptor
 
     def match(self, node, game):
         return self.__match(node, game) if self.__match else True

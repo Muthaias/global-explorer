@@ -169,3 +169,25 @@ def run_nav_demo():
     for node in game.state.trace:
         id = reverse_dict.get(node, None)
         print(id, node)
+
+
+def load_from_data():
+    loaded_nodes = load_nodes([
+        "data/defaults.yaml",
+        "data/uppsala.yaml"
+    ])
+    trotter = TrotterState(
+        player={},
+        time=time(),
+        trace=[]
+    )
+    uppsala = next(
+        node
+        for node in loaded_nodes
+        if node.descriptor.id == "uppsala"
+    )
+    game = Game(
+        state=trotter,
+        stack=[[uppsala]]
+    )
+    return game

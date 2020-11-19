@@ -19,18 +19,12 @@ class NodeActuator:
         node = game.node
         return {
             "type": "map",
-            "title": "%s: %s" % (
-                node.__class__.__name__,
-                hex(id(node))
-            ),
-            "background": "",
+            "title": self.title(node),
+            "background": node.descriptor.background,
             "locations": [],
             "actions": [
                 {
-                    "title": "%s: %s" % (
-                        action.__class__.__name__,
-                        hex(id(action))
-                    ),
+                    "title": self.title(action),
                     "type": "navigate",
                     "id": context.get_id(action)
                 }
@@ -38,6 +32,17 @@ class NodeActuator:
                 if action.match(node, game)
             ]
         }
+
+    def title(self, obj):
+        return (
+            obj.descriptor.title
+            if obj.descriptor
+            is not None
+            else "%s: %s" % (
+                obj.__class__.__name__,
+                hex(id(obj))
+            )
+        )
 
     def default_content(self, context):
         raise ValueError("Context has no Game object")

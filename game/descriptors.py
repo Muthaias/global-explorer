@@ -18,7 +18,7 @@ class NodeDescriptor:
         title_image=None,
         id=None,
         position=None,
-        parent=None
+        parent=None,
     ):
         self.title = title
         self.description = description

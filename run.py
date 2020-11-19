@@ -13,7 +13,7 @@ from global_explorer import (
     LocationHub
 )
 from game.node_actuator import NodeActuator
-from game.trotter import quick_setup
+from game.trotter import quick_setup, run_nav_demo, load_from_data
 from time import time
 import game_maps
 
@@ -77,7 +77,7 @@ new_game_menu = Menu(
             type="navigate",
             title="Experimental",
             actuator=GameActuator(
-                game=experimental_game,
+                game=load_from_data(),
                 actuator=NodeActuator()
             )
         )

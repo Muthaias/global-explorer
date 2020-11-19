@@ -1,5 +1,53 @@
 import yaml
-from .descriptors import NodeDescriptor
+from collections import defaultdict
+from .descriptors import NodeDescriptor, ActionDescriptor
+from .game import Node, Action
+from .actions import step_into, combine_actions, add_trace, step_out
+
+
+def action_from_entry(entry, node_dict):
+    id = entry.get("id")
+    return Action(
+        apply=combine_actions([
+            add_trace,
+            step_into([id], node_dict),
+        ]),
+        descriptor=action_descriptor_from_entry(entry)
+    )
+
+
+def action_descriptor_from_entry(entry):
+    return ActionDescriptor(
+        title=entry.get("title", "Action"),
+    )
+
+
+def node_from_entry(entry, actions, default):
+    return Node(
+        descriptor=node_descriptor_from_entry(entry, default),
+        actions=actions
+    )
+
+
+def node_descriptor_from_entry(entry, default):
+    id = entry.get("id")
+    return NodeDescriptor(
+        id=id,
+        title=entry.get("title", id),
+        description=entry.get(
+            "description",
+            default.get("description", "")
+        ),
+        background=entry.get(
+            "background",
+            default.get("background", "")
+        ),
+        title_image=entry.get(
+            "title_image",
+            default.get("title_image", "")
+        ),
+        position=entry.get("position", (0, 0)),
+    )
 
 
 def load_nodes_from_entries(location_entries):
@@ -13,30 +61,38 @@ def load_nodes_from_entries(location_entries):
     entry_dict = {
         entry["id"]: entry for entry in location_entries if "id" in entry
     }
-    node_dict = {
-        id: NodeDescriptor(
-            id=id,
-            title=entry.get("title", id),
-            description=entry.get(
-                "description",
-                default.get("description", "")
-            ),
-            background=entry.get(
-                "background",
-                default.get("background", "")
-            ),
-            title_image=entry.get(
-                "title_image",
-                default.get("title_image", "")
-            ),
-            position=entry.get("position", (0, 0)),
-        ) for id, entry in entry_dict.items()
-    }
-    for id, location in node_dict.items():
-        entry = entry_dict[id]
+    node_dict = {}
+    travel_actions_dict = {}
+    back_action = Action(
+        apply=combine_actions([
+            add_trace,
+            step_out
+        ]),
+        descriptor=ActionDescriptor(title="Back")
+    )
+    for id, entry in entry_dict.items():
         parent_id = entry.get("parent_id", None)
         if parent_id:
-            location.parent = node_dict[parent_id]
+            actions = travel_actions_dict.get(parent_id, None)
+            travel_actions_dict[parent_id] = (
+                actions
+                if actions is not None
+                else []
+            ) + [action_from_entry(entry, node_dict)]
+
+    for id, entry in entry_dict.items():
+        actions = travel_actions_dict.get(id, [])
+        parent_id = entry_dict[id].get("parent_id", None)
+        node_dict[id] = node_from_entry(
+            entry,
+            (
+                actions
+                if parent_id is None
+                else (actions + [back_action])
+            ),
+            default
+        )
+
     return node_dict.values()
 
 
