@@ -15,7 +15,10 @@ class Game:
 
     def step(self):
         self.node.on_exit(self)
-        next(self.__stack[-1])
+        try:
+            next(self.__stack[-1])
+        except StopIteration:
+            del self.__stack[-1]
         self.node.on_enter(self)
 
     @property
@@ -43,10 +46,7 @@ class Sequence:
 
     def __next__(self):
         element = self.__current
-        try:
-            self.__current = next(self.__iterator)
-        except StopIteration:
-            pass
+        self.__current = next(self.__iterator)
         return element
 
     @property
@@ -57,14 +57,12 @@ class Sequence:
 class Node:
     def __init__(
         self,
-        match=None,
         actions=None,
         on_enter=None,
         on_action=None,
         on_exit=None
     ):
         self.__actions = actions if actions is not None else []
-        self.__match = match
         self.__on_enter = on_enter
         self.__on_action = on_action
         self.__on_exit = on_exit
@@ -72,9 +70,6 @@ class Node:
     @property
     def actions(self):
         return self.__actions
-
-    def match(self, game):
-        return self.__match(game) if self.__match else True
 
     def handle_action(self, game, action):
         if action in self.__actions and action.match(self, game):

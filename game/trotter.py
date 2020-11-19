@@ -110,7 +110,7 @@ if __name__ == "__main__":
             Action(apply=combine_actions([
                 add_trace,
                 pass_time(to_seconds(minutes=10)),
-                step_out
+                step
             ])),
         ]
     )
@@ -147,4 +147,3 @@ if __name__ == "__main__":
     for node in game.state.trace:
         id = reverse_dict.get(node, None)
         print(id, node)
-
