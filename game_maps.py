@@ -3,8 +3,6 @@ from global_explorer import (
     GameWorld,
     StaticActuator,
     Transaction,
-    LocationVisit,
-    LocationHub,
 )
 from global_explorer.load_data import load_locations, load_yaml
 
