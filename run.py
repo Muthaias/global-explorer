@@ -13,7 +13,7 @@ from global_explorer import (
     LocationHub
 )
 from game.node_actuator import NodeActuator
-from game.trotter import quick_setup, run_nav_demo, load_from_data
+from game.load_node_data import load_from_data
 from time import time
 import game_maps
 
@@ -55,7 +55,7 @@ player = Player(
     skills=[]
 )
 
-(experimental_game, _reverse_dict) = quick_setup()
+
 new_game_menu = Menu(
     [
         MenuEntry(

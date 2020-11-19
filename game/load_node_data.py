@@ -1,8 +1,9 @@
 import yaml
-from collections import defaultdict
 from .descriptors import NodeDescriptor, ActionDescriptor
-from .game import Node, Action
+from .game import Game, Node, Action
 from .actions import step_into, combine_actions, add_trace, step_out
+from .trotter import TrotterState
+from time import time
 
 
 def action_from_entry(entry, node_dict):
@@ -107,3 +108,25 @@ def load_nodes(paths):
 def load_yaml(path):
     with open(path, "r") as file:
         return yaml.safe_load(file)
+
+
+def load_from_data():
+    loaded_nodes = load_nodes([
+        "data/defaults.yaml",
+        "data/uppsala.yaml"
+    ])
+    trotter = TrotterState(
+        player={},
+        time=time(),
+        trace=[]
+    )
+    uppsala = next(
+        node
+        for node in loaded_nodes
+        if node.descriptor.id == "uppsala"
+    )
+    game = Game(
+        state=trotter,
+        stack=[[uppsala]]
+    )
+    return game
