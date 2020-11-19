@@ -11,6 +11,7 @@ from actions import (
     step,
     add_trace,
     to_seconds,
+    branch,
 )
 from time import time
 from datetime import datetime
@@ -67,7 +68,22 @@ class NodeBuilder:
         return self.__dict.get(action, None)
 
 
+def time_is_more(t):
+    def _time_is_more(node, game):
+        print(
+            datetime.fromtimestamp(game.state.time),
+            datetime.fromtimestamp(t)
+        )
+        return game.state.time > t
+    return _time_is_more
+
+
 if __name__ == "__main__":
+    game_start = time()
+    on_action = combine_actions([
+        add_trace,
+        step
+    ])
     dict = {}
     dict["a"] = Node(
         actions=[
@@ -80,39 +96,42 @@ if __name__ == "__main__":
     )
     dict["b"] = Node(
         actions=[
-            Action(apply=combine_actions([
-                add_trace,
-                pass_time(to_seconds(hours=1)),
-                step_into(["b0", "b1", "b2"], dict)
-            ])),
-        ]
+            Action(
+                apply=branch(
+                    time_is_more(game_start + 2 * 3600),
+                    step_into(["c"], dict),
+                    step_into(["b0", "b1", "b2"], dict),
+                )
+            ),
+        ],
+        on_action=combine_actions([
+            add_trace,
+            pass_time(to_seconds(hours=1)),
+        ])
     )
     dict["b0"] = Node(
         actions=[
             Action(apply=combine_actions([
-                add_trace,
                 pass_time(to_seconds(minutes=10)),
-                step
             ])),
-        ]
+        ],
+        on_action=on_action
     )
     dict["b1"] = Node(
         actions=[
             Action(apply=combine_actions([
-                add_trace,
                 pass_time(to_seconds(minutes=10)),
-                step
             ])),
-        ]
+        ],
+        on_action=on_action
     )
     dict["b2"] = Node(
         actions=[
             Action(apply=combine_actions([
-                add_trace,
                 pass_time(to_seconds(minutes=10)),
-                step
             ])),
-        ]
+        ],
+        on_action=on_action
     )
     dict["c"] = Node(
         actions=[
@@ -128,7 +147,7 @@ if __name__ == "__main__":
     }
     trotter = TrotterState(
         player={},
-        time=time(),
+        time=game_start,
         trace=[]
     )
     game = Game(
