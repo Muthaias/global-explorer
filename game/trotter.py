@@ -1,9 +1,12 @@
-from game import (
+from time import time
+from datetime import datetime
+
+from .game import (
     Game,
     Node,
     Action,
 )
-from actions import (
+from .actions import (
     combine_actions,
     pass_time,
     step_into_random,
@@ -13,8 +16,7 @@ from actions import (
     to_seconds,
     branch,
 )
-from time import time
-from datetime import datetime
+from .load_node_data import load_nodes
 
 
 class TrotterState:
@@ -47,27 +49,6 @@ class TrotterState:
         self.__trace.append(node)
 
 
-class NodeBuilder:
-    def __init__(self):
-        self.__dict = {}
-
-    def create_location(self, location_data):
-        node = Node()
-        self.__dict[node] = location_data
-        return node
-
-    def create_action(self, action_data):
-        action = Action()
-        self.__dict[action] = action_data
-        return action
-
-    def get_location_data(self, node):
-        return self.__dict.get(node, None)
-
-    def get_action_data(self, action):
-        return self.__dict.get(action, None)
-
-
 def time_is_more(t):
     def _time_is_more(node, game):
         print(
@@ -78,20 +59,32 @@ def time_is_more(t):
     return _time_is_more
 
 
-if __name__ == "__main__":
+def quick_setup():
     game_start = time()
     on_action = combine_actions([
         add_trace,
         step
     ])
     dict = {}
+    to_a = Action(apply=combine_actions([
+        add_trace,
+        pass_time(to_seconds(hours=1)),
+        step_into(["a"], dict)
+    ]))
+    to_b = Action(apply=combine_actions([
+        add_trace,
+        pass_time(to_seconds(hours=1)),
+        step_into(["b"], dict)
+    ]))
+    to_c = Action(apply=combine_actions([
+        add_trace,
+        pass_time(to_seconds(hours=1)),
+        step_into(["c"], dict)
+    ]))
     dict["a"] = Node(
         actions=[
-            Action(apply=combine_actions([
-                add_trace,
-                pass_time(to_seconds(hours=1)),
-                step_into(["b"], dict)
-            ])),
+            to_b,
+            to_c,
         ]
     )
     dict["b"] = Node(
@@ -103,6 +96,8 @@ if __name__ == "__main__":
                     step_into_random(["b0", "b1", "b2"], 2, dict),
                 )
             ),
+            to_a,
+            to_c,
         ],
         on_action=combine_actions([
             add_trace,
@@ -135,11 +130,8 @@ if __name__ == "__main__":
     )
     dict["c"] = Node(
         actions=[
-            Action(apply=combine_actions([
-                add_trace,
-                pass_time(to_seconds(hours=1)),
-                step_into(["a"], dict)
-            ])),
+            to_a,
+            to_b,
         ]
     )
     reverse_dict = {
@@ -154,6 +146,17 @@ if __name__ == "__main__":
         state=trotter,
         stack=[[dict["a"]]]
     )
+    return (game, reverse_dict)
+
+
+def run_nav_demo():
+    loaded_nodes = load_nodes([
+        "data/defaults.yaml",
+        "data/uppsala.yaml"
+    ])
+    print(loaded_nodes)
+
+    (game, reverse_dict) = quick_setup()
 
     for i in range(20):
         node = game.node

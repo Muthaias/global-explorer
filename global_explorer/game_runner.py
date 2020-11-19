@@ -37,7 +37,7 @@ class GameRunner:
 
     def game(self):
         game = self.__context.game
-        if game:
+        if game and hasattr(game, "time"):
             return {
                 "time": str(datetime.fromtimestamp(math.floor(game.time)))
             }

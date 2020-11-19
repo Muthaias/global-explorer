@@ -12,6 +12,8 @@ from global_explorer import (
     Game,
     LocationHub
 )
+from game.node_actuator import NodeActuator
+from game.trotter import quick_setup
 from time import time
 import game_maps
 
@@ -53,7 +55,7 @@ player = Player(
     skills=[]
 )
 
-
+(experimental_game, _reverse_dict) = quick_setup()
 new_game_menu = Menu(
     [
         MenuEntry(
@@ -70,6 +72,15 @@ new_game_menu = Menu(
             )
         )
         for city in game_maps.cities
+    ] + [
+        MenuEntry(
+            type="navigate",
+            title="Experimental",
+            actuator=GameActuator(
+                game=experimental_game,
+                actuator=NodeActuator()
+            )
+        )
     ],
     "https://images.unsplash.com/photo-1554123168-b400f9c806ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
     allow_back=True
