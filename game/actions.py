@@ -1,6 +1,11 @@
 import random
 
 
+class objectview(object):
+    def __init__(self, d):
+        self.__dict__ = d
+
+
 def step_into(ids, dict):
     def _step_into(node, game):
         nodes = [dict[id] for id in ids if id in dict]
@@ -28,7 +33,7 @@ def step(node, game):
     game.step()
 
 
-def combine_actions(actions):
+def combine_actions(*actions):
     def _combine_actions(node, game):
         for action in actions:
             action(node, game)
@@ -39,6 +44,17 @@ def pass_time(seconds=0):
     def _pass_time(node, game):
         game.state.pass_time(seconds)
     return _pass_time
+
+
+def charge_card(amount=0, issuer=None):
+    def _charge_card(node, game):
+        game.state.player.account.add_transaction(
+            objectview({
+                "amount": -amount,
+                "description": issuer if issuer else "Unknown"
+            })
+        )
+    return _charge_card
 
 
 def branch(condition, a, b):

@@ -29,7 +29,11 @@ locations:
     title_image: https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80
     background: https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80
     position: [0, 0]
-    actions: []
+    actions:
+      - title: Have a fika
+        action: [combine, [pass_time, 1], [charge_card, 10, "Ofvandahls konditori"], [step_out]]
+      - title: Have a coffee
+        action: [combine, [pass_time, 0.5], [charge_card, 5, "Ofvandahls konditori"], [step_out]]
     actuator: "visit"
   - title: Studentvägen
     id: studentvagen

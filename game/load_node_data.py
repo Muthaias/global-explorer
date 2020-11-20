@@ -1,21 +1,66 @@
 import yaml
+from time import time
 from collections import ChainMap
 from .descriptors import NodeDescriptor, ActionDescriptor
 from .game import Game, Node, Action
-from .actions import step_into, combine_actions, add_trace, step_out
+from .actions import (
+    step_into,
+    combine_actions,
+    add_trace,
+    step_out,
+    pass_time,
+    charge_card,
+)
 from .trotter import TrotterState
-from time import time
 
 
-def action_from_entry(entry, node_dict):
+def travel_action_from_entry(entry, node_dict):
     id = entry.get("id")
     return Action(
-        apply=combine_actions([
+        apply=combine_actions(
             add_trace,
             step_into([id], node_dict),
-        ]),
+        ),
         descriptor=action_descriptor_from_entry(entry)
     )
+
+
+def action_from_entry(entry):
+    action = entry.get("action", None)
+    return Action(
+        apply=parse_apply_func(action) if action else (lambda: True),
+        descriptor=action_descriptor_from_entry(entry)
+    )
+
+
+def single_apply_func(func):
+    def _single_apply_func(args):
+        return func(*args)
+    return _single_apply_func
+
+
+def function_arguments(func):
+    def _functional_arguments(args):
+        return func(*[
+            parse_apply_func(struct)
+            for struct in args
+        ])
+    return _functional_arguments
+
+
+def parse_apply_func(struct):
+    funcs = {
+        "step_into": single_apply_func(step_into),
+        "combine": function_arguments(combine_actions),
+        "add_trace": single_apply_func(lambda: add_trace),
+        "step_out": single_apply_func(lambda: step_out),
+        "pass_time": single_apply_func(pass_time),
+        "charge_card": single_apply_func(charge_card),
+    }
+    [id, *args] = struct
+    func = funcs.get(id)
+    print(id)
+    return func(args)
 
 
 def action_descriptor_from_entry(entry):
@@ -27,7 +72,12 @@ def action_descriptor_from_entry(entry):
 def node_from_entry(entry, actions, default):
     return Node(
         descriptor=node_descriptor_from_entry(entry, default),
-        actions=actions
+        actions=(
+            [
+                action_from_entry(action_entry)
+                for action_entry in entry.get("actions", [])
+            ] + actions
+        )
     )
 
 
@@ -59,10 +109,10 @@ def load_nodes_from_entries(location_entries):
     node_dict = {}
     travel_actions_dict = {}
     back_action = Action(
-        apply=combine_actions([
+        apply=combine_actions(
             add_trace,
             step_out
-        ]),
+        ),
         descriptor=ActionDescriptor(title="Back")
     )
     for id, entry in entry_dict.items():
@@ -73,7 +123,7 @@ def load_nodes_from_entries(location_entries):
                 actions
                 if actions is not None
                 else []
-            ) + [action_from_entry(entry, node_dict)]
+            ) + [travel_action_from_entry(entry, node_dict)]
 
     for id, entry in entry_dict.items():
         actions = travel_actions_dict.get(id, [])
@@ -104,13 +154,13 @@ def load_yaml(path):
         return yaml.safe_load(file)
 
 
-def load_from_data():
+def load_from_data(player=None):
     loaded_nodes = load_nodes([
         "data/defaults.yaml",
         "data/uppsala.yaml"
     ])
     trotter = TrotterState(
-        player={},
+        player=player if player else {},
         time=time(),
         trace=[]
     )

@@ -77,7 +77,9 @@ new_game_menu = Menu(
             type="navigate",
             title="Experimental",
             actuator=GameActuator(
-                game=load_from_data(),
+                game=load_from_data(
+                    player=player
+                ),
                 actuator=NodeActuator()
             )
         )
