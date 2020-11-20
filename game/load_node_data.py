@@ -1,4 +1,5 @@
 import yaml
+from collections import ChainMap
 from .descriptors import NodeDescriptor, ActionDescriptor
 from .game import Game, Node, Action
 from .actions import step_into, combine_actions, add_trace, step_out
@@ -32,22 +33,15 @@ def node_from_entry(entry, actions, default):
 
 def node_descriptor_from_entry(entry, default):
     id = entry.get("id")
+    e = ChainMap(default, entry)
     return NodeDescriptor(
         id=id,
-        title=entry.get("title", id),
-        description=entry.get(
-            "description",
-            default.get("description", "")
-        ),
-        background=entry.get(
-            "background",
-            default.get("background", "")
-        ),
-        title_image=entry.get(
-            "title_image",
-            default.get("title_image", "")
-        ),
-        position=entry.get("position", (0, 0)),
+        title=e.get("title", id),
+        description=e.get("description", ""),
+        background=e.get("background", ""),
+        title_image=e.get("title_image", ""),
+        position=e.get("position", (0, 0)),
+        type=e.get("actuator", "hub"),
     )
 
 

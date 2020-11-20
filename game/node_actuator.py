@@ -15,33 +15,61 @@ class NodeActuator:
         return self
 
     def content_from_game(self, game, context):
-        print(game)
+        node = game.node
+        type = self.obj_attr(node, "type")
+        if type == "hub":
+            return self.content_from_map(game, context)
+        elif type == "visit":
+            return self.content_from_info(game, context)
+        else:
+            return self.content_from_map(game, context)
+
+    def content_from_map(self, game, context):
         node = game.node
         return {
             "type": "map",
             "title": self.title(node),
             "background": node.descriptor.background,
             "locations": [],
-            "actions": [
-                {
-                    "title": self.title(action),
-                    "type": "navigate",
-                    "id": context.get_id(action)
-                }
-                for action in node.actions
-                if action.match(node, game)
-            ]
+            "actions": self.action_content(game, context)
         }
 
+    def content_from_info(self, game, context):
+        node = game.node
+        d = node.descriptor
+        return {
+            "type": "info",
+            "title": self.title(node),
+            "markdown": d.description if d.description else "",
+            "background": d.background,
+            "titleImage": d.title_image if d.title_image else "",
+            "actions": self.action_content(game, context)
+        }
+    
+    def action_content(self, game, context):
+        node = game.node
+        return [
+            {
+                "title": self.title(action),
+                "type": "navigate",
+                "id": context.get_id(action),
+                "enabled": action.match(node, game)
+            }
+            for action in node.actions
+        ]
+
     def title(self, obj):
+        return self.obj_attr(obj, "title", "%s: %s" % (
+            obj.__class__.__name__,
+            hex(id(obj))
+        ))
+    
+    def obj_attr(self, obj, attr_id, default=None):
         return (
-            obj.descriptor.title
+            getattr(obj.descriptor, attr_id)
             if obj.descriptor
             is not None
-            else "%s: %s" % (
-                obj.__class__.__name__,
-                hex(id(obj))
-            )
+            else default
         )
 
     def default_content(self, context):
