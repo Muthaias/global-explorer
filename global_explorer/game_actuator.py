@@ -12,21 +12,8 @@ class GameActuator:
         return self.game.state.player
 
     @property
-    def location(self):
-        return (
-            self.game.location
-            if hasattr(self.game, "location")
-            else None
-        )
-
-    @property
     def actuator(self):
-        location = self.location
-        return (
-            location.actuator
-            if location and location.actuator
-            else self.__actuator
-        )
+        return self.__actuator
 
     def content(self, context):
         return self.actuator.content(context)

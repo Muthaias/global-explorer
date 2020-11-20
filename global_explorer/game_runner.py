@@ -39,7 +39,9 @@ class GameRunner:
         game = self.__context.game
         if game:
             return {
-                "time": str(datetime.fromtimestamp(math.floor(game.state.time)))
+                "time": str(datetime.fromtimestamp(
+                    math.floor(game.state.time))
+                )
             }
         return None
 

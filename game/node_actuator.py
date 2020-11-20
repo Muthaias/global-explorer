@@ -45,7 +45,7 @@ class NodeActuator:
             "titleImage": d.title_image if d.title_image else "",
             "actions": self.action_content(game, context)
         }
-    
+
     def action_content(self, game, context):
         node = game.node
         return [
@@ -63,7 +63,7 @@ class NodeActuator:
             obj.__class__.__name__,
             hex(id(obj))
         ))
-    
+
     def obj_attr(self, obj, attr_id, default=None):
         return (
             getattr(obj.descriptor, attr_id)

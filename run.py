@@ -5,16 +5,11 @@ from global_explorer import (
     MenuEntry,
     StaticActuator,
     GameActuator,
-    Player,
-    Account,
-    Transaction,
     GameRunner,
-    Game,
-    LocationHub
 )
 from game.node_actuator import NodeActuator
 from game.load_node_data import load_from_data
-from time import time
+from game.trotter import Player, Account, Transaction
 import game_maps
 
 noop = StaticActuator({
@@ -55,27 +50,11 @@ player = Player(
     skills=[]
 )
 
-
 new_game_menu = Menu(
     [
         MenuEntry(
             type="navigate",
-            title=city.title,
-            actuator=GameActuator(
-                game=Game(
-                    world=game_maps.world,
-                    location=city,
-                    time=time(),
-                    player=player,
-                ),
-                actuator=LocationHub()
-            )
-        )
-        for city in game_maps.cities
-    ] + [
-        MenuEntry(
-            type="navigate",
-            title="Experimental",
+            title="Uppsala",
             actuator=GameActuator(
                 game=load_from_data(
                     player=player

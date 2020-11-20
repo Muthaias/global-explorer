@@ -1,9 +1,5 @@
 import random
-
-
-class objectview(object):
-    def __init__(self, d):
-        self.__dict__ = d
+from .trotter import Transaction
 
 
 def step_into(ids, dict):
@@ -49,10 +45,10 @@ def pass_time(seconds=0):
 def charge_card(amount=0, issuer=None):
     def _charge_card(node, game):
         game.state.player.account.add_transaction(
-            objectview({
-                "amount": -amount,
-                "description": issuer if issuer else "Unknown"
-            })
+            Transaction(
+                amount=-amount,
+                description=issuer if issuer else "Unknown"
+            )
         )
     return _charge_card
 
