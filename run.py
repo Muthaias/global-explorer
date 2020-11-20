@@ -50,7 +50,15 @@ player = Player(
     skills=[]
 )
 
-games = load_from_data(player=player)
+games = load_from_data(
+    [
+        "data/defaults.yaml",
+        "data/polacks.yaml",
+        "data/uppsala.yaml",
+        "data/stockholm.yaml"
+    ],
+    player=player
+)
 new_game_menu = Menu(
     [
         MenuEntry(

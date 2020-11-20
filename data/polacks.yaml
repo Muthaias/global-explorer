@@ -1,0 +1,32 @@
+type: locations
+locations:
+  - title: Start education
+    id: start-education
+    title_image: https://images.unsplash.com/photo-1512626120412-faf41adb4874?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
+    background: https://images.unsplash.com/photo-1531545514256-b1400bc00f31?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1934&q=80
+    actuator: visit
+    actions:
+      - title: Continue
+        action: [combine, [pass_hours, 1], [step]]
+      - title: Drop out
+        action: [step_out]
+  - title: Engineering
+    id: study-engineering
+    title_image: https://images.unsplash.com/photo-1580983553428-01fd27e32ef6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
+    background: https://images.unsplash.com/photo-1519452575417-564c1401ecc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
+    actuator: visit
+    actions:
+      - title: Continue
+        action: [combine, [pass_hours, 1], [step]]
+      - title: Drop out
+        action: [step_out]
+  - title: Study hard
+    id: study-hard
+    title_image: https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
+    background: https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80
+    actuator: visit
+    actions:
+      - title: Continue
+        action: [combine, [pass_hours, 1], [step]]
+      - title: Drop out
+        action: [step_out]

@@ -8,6 +8,7 @@ from .actions import (
     combine_actions,
     add_trace,
     step_out,
+    step,
     pass_time,
     charge_card,
 )
@@ -25,26 +26,34 @@ def travel_action_from_entry(entry, node_dict):
     )
 
 
-def action_from_entry(entry):
+def action_from_entry(entry, extra_funcs={}):
     action = entry.get("action", None)
     return Action(
-        apply=parse_apply_func(action) if action else (lambda: True),
+        apply=(
+            parse_apply_func(action, extra_funcs)
+            if action
+            else (lambda: True)
+        ),
         descriptor=action_descriptor_from_entry(entry, "action"),
     )
 
 
-def parse_apply_func(struct):
+def parse_apply_func(struct, extra_funcs={}):
     if not isinstance(struct, list):
         return struct
-    funcs = {
-        "step_into": step_into,
-        "combine": combine_actions,
-        "add_trace": lambda: add_trace,
-        "step_out": lambda: step_out,
-        "pass_time": pass_time,
-        "pass_hours": lambda hours: pass_time(hours * 3600),
-        "charge_card": charge_card,
-    }
+    funcs = ChainMap(
+        {
+            "combine": combine_actions,
+            "add_trace": lambda: add_trace,
+            "step_out": lambda: step_out,
+            "step": lambda: step,
+            "pass_time": pass_time,
+            "pass_hours": lambda hours: pass_time(hours * 3600),
+            "charge_card": charge_card,
+            "list": lambda *items: [item for item in items]
+        },
+        extra_funcs
+    )
     [id, *args] = struct
     parsed_args = [
         parse_apply_func(s)
@@ -61,12 +70,12 @@ def action_descriptor_from_entry(entry, type):
     )
 
 
-def node_from_entry(entry, actions, default):
+def node_from_entry(entry, actions, default, extra_funcs={}):
     return Node(
         descriptor=node_descriptor_from_entry(entry, default),
         actions=(
             [
-                action_from_entry(action_entry)
+                action_from_entry(action_entry, extra_funcs)
                 for action_entry in entry.get("actions", [])
             ] + actions
         )
@@ -128,7 +137,10 @@ def load_nodes_from_entries(location_entries):
                 if parent_id is None
                 else (actions + [back_action])
             ),
-            default
+            default,
+            {
+                "step_into": lambda ids: step_into(ids, node_dict)
+            }
         )
 
     return node_dict.values()
@@ -147,12 +159,8 @@ def load_yaml(path):
         return yaml.safe_load(file)
 
 
-def load_from_data(player=None):
-    loaded_nodes = load_nodes([
-        "data/defaults.yaml",
-        "data/uppsala.yaml",
-        "data/stockholm.yaml"
-    ])
+def load_from_data(paths, player=None):
+    loaded_nodes = load_nodes(paths)
     trotter = TrotterState(
         player=player if player else {},
         time=time(),
