@@ -50,18 +50,18 @@ player = Player(
     skills=[]
 )
 
+games = load_from_data(player=player)
 new_game_menu = Menu(
     [
         MenuEntry(
             type="navigate",
-            title="Uppsala",
+            title=title,
             actuator=GameActuator(
-                game=load_from_data(
-                    player=player
-                ),
+                game=game,
                 actuator=NodeActuator()
             )
         )
+        for title, game in games
     ],
     "https://images.unsplash.com/photo-1554123168-b400f9c806ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
     allow_back=True

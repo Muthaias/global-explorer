@@ -46,7 +46,6 @@ def parse_apply_func(struct):
         "charge_card": charge_card,
     }
     [id, *args] = struct
-    print(id)
     parsed_args = [
         parse_apply_func(s)
         for s in args
@@ -85,6 +84,7 @@ def node_descriptor_from_entry(entry, default):
         title_image=e.get("title_image", ""),
         position=e.get("position", (0, 0)),
         type=e.get("actuator", "hub"),
+        is_entry_point=e.get("is_entry_point", False),
     )
 
 
@@ -150,20 +150,23 @@ def load_yaml(path):
 def load_from_data(player=None):
     loaded_nodes = load_nodes([
         "data/defaults.yaml",
-        "data/uppsala.yaml"
+        "data/uppsala.yaml",
+        "data/stockholm.yaml"
     ])
     trotter = TrotterState(
         player=player if player else {},
         time=time(),
         trace=[]
     )
-    uppsala = next(
-        node
+    games = [
+        (
+            node.descriptor.title,
+            Game(
+                state=trotter,
+                stack=[[node]]
+            )
+        )
         for node in loaded_nodes
-        if node.descriptor.id == "uppsala"
-    )
-    game = Game(
-        state=trotter,
-        stack=[[uppsala]]
-    )
-    return game
+        if node.descriptor.is_entry_point
+    ]
+    return games

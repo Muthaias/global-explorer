@@ -19,6 +19,7 @@ class NodeDescriptor:
         id=None,
         position=None,
         parent=None,
+        is_entry_point=False
     ):
         self.title = title
         self.description = description
@@ -28,3 +29,4 @@ class NodeDescriptor:
         self.id = id
         self.position = position
         self.parent = parent
+        self.is_entry_point = is_entry_point
