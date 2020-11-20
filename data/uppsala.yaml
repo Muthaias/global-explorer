@@ -31,9 +31,9 @@ locations:
     position: [0, 0]
     actions:
       - title: Have a fika
-        action: [combine, [pass_time, 1], [charge_card, 10, "Ofvandahls konditori"], [step_out]]
+        action: [combine, [pass_hours, 1], [charge_card, 10, Ofvandahls konditori], [step_out]]
       - title: Have a coffee
-        action: [combine, [pass_time, 0.5], [charge_card, 5, "Ofvandahls konditori"], [step_out]]
+        action: [combine, [pass_hours, 0.5], [charge_card, 5, Ofvandahls konditori], [step_out]]
     actuator: "visit"
   - title: Studentvägen
     id: studentvagen

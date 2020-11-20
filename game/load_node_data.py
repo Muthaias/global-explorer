@@ -21,7 +21,7 @@ def travel_action_from_entry(entry, node_dict):
             add_trace,
             step_into([id], node_dict),
         ),
-        descriptor=action_descriptor_from_entry(entry)
+        descriptor=action_descriptor_from_entry(entry, "location")
     )
 
 
@@ -29,7 +29,7 @@ def action_from_entry(entry):
     action = entry.get("action", None)
     return Action(
         apply=parse_apply_func(action) if action else (lambda: True),
-        descriptor=action_descriptor_from_entry(entry)
+        descriptor=action_descriptor_from_entry(entry, "action"),
     )
 
 
@@ -55,6 +55,7 @@ def parse_apply_func(struct):
         "add_trace": single_apply_func(lambda: add_trace),
         "step_out": single_apply_func(lambda: step_out),
         "pass_time": single_apply_func(pass_time),
+        "pass_hours": single_apply_func(lambda hours: pass_time(hours * 3600)),
         "charge_card": single_apply_func(charge_card),
     }
     [id, *args] = struct
@@ -63,9 +64,10 @@ def parse_apply_func(struct):
     return func(args)
 
 
-def action_descriptor_from_entry(entry):
+def action_descriptor_from_entry(entry, type):
     return ActionDescriptor(
         title=entry.get("title", "Action"),
+        type=type
     )
 
 

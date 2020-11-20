@@ -12,6 +12,10 @@ class Game:
         self.__location = location
 
     @property
+    def state(self):
+        return self
+
+    @property
     def location(self):
         return self.__location
 

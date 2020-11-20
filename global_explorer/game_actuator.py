@@ -9,11 +9,7 @@ class GameActuator:
 
     @property
     def player(self):
-        return (
-            self.game.player
-            if hasattr(self.game, "player")
-            else self.game.state.player
-        )
+        return self.game.state.player
 
     @property
     def location(self):
