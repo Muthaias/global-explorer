@@ -1,13 +1,13 @@
 
 import webview
-from global_explorer import (
+from presentation import (
     Menu,
     MenuEntry,
     StaticActuator,
     GameActuator,
     GameRunner,
+    NodeActuator,
 )
-from game.node_actuator import NodeActuator
 from game.load_node_data import load_from_data
 from game.trotter import Player, Account, Transaction
 import game_maps
