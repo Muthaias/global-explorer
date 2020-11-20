@@ -33,34 +33,26 @@ def action_from_entry(entry):
     )
 
 
-def single_apply_func(func):
-    def _single_apply_func(args):
-        return func(*args)
-    return _single_apply_func
-
-
-def function_arguments(func):
-    def _functional_arguments(args):
-        return func(*[
-            parse_apply_func(struct)
-            for struct in args
-        ])
-    return _functional_arguments
-
-
 def parse_apply_func(struct):
+    if not isinstance(struct, list):
+        return struct
     funcs = {
-        "step_into": single_apply_func(step_into),
-        "combine": function_arguments(combine_actions),
-        "add_trace": single_apply_func(lambda: add_trace),
-        "step_out": single_apply_func(lambda: step_out),
-        "pass_time": single_apply_func(pass_time),
-        "pass_hours": single_apply_func(lambda hours: pass_time(hours * 3600)),
-        "charge_card": single_apply_func(charge_card),
+        "step_into": step_into,
+        "combine": combine_actions,
+        "add_trace": lambda: add_trace,
+        "step_out": lambda: step_out,
+        "pass_time": pass_time,
+        "pass_hours": lambda hours: pass_time(hours * 3600),
+        "charge_card": charge_card,
     }
     [id, *args] = struct
+    print(id)
+    parsed_args = [
+        parse_apply_func(s)
+        for s in args
+    ]
     func = funcs.get(id)
-    return func(args)
+    return func(*parsed_args)
 
 
 def action_descriptor_from_entry(entry, type):
