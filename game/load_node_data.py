@@ -60,7 +60,6 @@ def parse_apply_func(struct):
     }
     [id, *args] = struct
     func = funcs.get(id)
-    print(id)
     return func(args)
 
 

@@ -34,7 +34,7 @@ locations:
         action: [combine, [pass_hours, 1], [charge_card, 10, Ofvandahls konditori], [step_out]]
       - title: Have a coffee
         action: [combine, [pass_hours, 0.5], [charge_card, 5, Ofvandahls konditori], [step_out]]
-    actuator: "visit"
+    actuator: visit
   - title: Studentvägen
     id: studentvagen
     parent_id: uppsala
@@ -58,7 +58,15 @@ locations:
   - title: Palermo
     id: palermo
     parent_id: uppsala
+    title_image: https://images.unsplash.com/photo-1604743089023-c9c7725233ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
     background: https://images.unsplash.com/photo-1565755713428-1bdfaa7db8ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1875&q=80
     position: [0, 0]
-    actions: []
+    actuator: visit
+    actions:
+      - title: Have a beer
+        action: [combine, [pass_hours, 1], [charge_card, 10, Ofvandahls konditori], [step_out]]
+      - title: Have a pizza
+        action: [combine, [pass_hours, 1], [charge_card, 10, Ofvandahls konditori], [step_out]]
+      - title: Hang out
+        action: [combine, [pass_hours, 4], [charge_card, 30, Ofvandahls konditori], [step_out]]
     
