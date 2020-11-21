@@ -87,4 +87,4 @@ entries:
     tags: [barkeep, exit]
     actions:
       - title: Thank you
-        action: [step_out]
+        action: [step]

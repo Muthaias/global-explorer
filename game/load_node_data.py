@@ -11,6 +11,7 @@ from .actions import (
     step,
     pass_time,
     charge_card,
+    select_by_tags,
 )
 from .trotter import TrotterState
 
@@ -26,7 +27,7 @@ def travel_action_from_entry(entry, node_dict):
     )
 
 
-def action_from_entry(entry, extra_funcs={}):
+def action_from_entry(entry, extra_funcs):
     action = entry.get("action", None)
     return Action(
         apply=(
@@ -38,7 +39,7 @@ def action_from_entry(entry, extra_funcs={}):
     )
 
 
-def parse_apply_func(struct, extra_funcs={}):
+def parse_apply_func(struct, extra_funcs):
     if not isinstance(struct, list):
         return struct
     funcs = ChainMap(
@@ -50,17 +51,26 @@ def parse_apply_func(struct, extra_funcs={}):
             "pass_time": pass_time,
             "pass_hours": lambda hours: pass_time(hours * 3600),
             "charge_card": charge_card,
-            "list": lambda *items: [item for item in items]
+            "list": lambda *items: [
+                item
+                for subitems in items
+                for item in (
+                    subitems
+                    if isinstance(subitems, list)
+                    else [subitems]
+                )
+            ],
         },
         extra_funcs
     )
     [id, *args] = struct
     parsed_args = [
-        parse_apply_func(s)
+        parse_apply_func(s, extra_funcs)
         for s in args
     ]
     func = funcs.get(id)
-    return func(*parsed_args)
+    result = func(*parsed_args)
+    return result
 
 
 def action_descriptor_from_entry(entry, type):
@@ -70,7 +80,7 @@ def action_descriptor_from_entry(entry, type):
     )
 
 
-def node_from_entry(entry, actions, default, extra_funcs={}):
+def node_from_entry(entry, actions, default, extra_funcs):
     return Node(
         descriptor=node_descriptor_from_entry(entry, default),
         actions=(
@@ -94,6 +104,7 @@ def node_descriptor_from_entry(entry, default):
         position=e.get("position", (0, 0)),
         type=e.get("actuator", "hub"),
         is_entry_point=e.get("is_entry_point", False),
+        tags=(tag for tag in e.get("tags", []))
     )
 
 
@@ -139,7 +150,11 @@ def load_nodes_from_entries(location_entries):
             ),
             default,
             {
-                "step_into": lambda ids: step_into(ids, node_dict)
+                "step_into": lambda ids: step_into(ids, node_dict),
+                "by_tags": (
+                    lambda tags, count=0:
+                        select_by_tags(tags, node_dict, count)
+                ),
             }
         )
 

@@ -17,6 +17,19 @@ def step_into_random(ids, count, dict):
     return _step_into_random
 
 
+def select_by_tags(tags, dict, count=0):
+    ids = [
+        id
+        for id, node in dict.items()
+        if False not in ((tag in node.descriptor.tags) for tag in tags)
+    ]
+    count = (
+        min(count, len(ids))
+        if count > 0 else len(ids)
+    )
+    return ids[0:count]
+
+
 def step_out(node, game):
     game.step_out()
 

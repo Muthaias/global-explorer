@@ -15,7 +15,7 @@ entries:
     position: [0, 0]
     actions:
       - title: Work in the bar
-        action: [step_into, [list, barkeep-enter, guinness-beer, barkeep-exit]]
+        action: [step_into, [by_tags, [list, barkeep]]]
   - title: Carolina Rediviva
     id: carolina-rediviva
     parent_id: uppsala

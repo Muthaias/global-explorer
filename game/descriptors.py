@@ -2,7 +2,7 @@ class ActionDescriptor:
     def __init__(
         self,
         title,
-        type=None
+        type=None,
     ):
         self.title = title
         self.type = type
@@ -19,7 +19,8 @@ class NodeDescriptor:
         id=None,
         position=None,
         parent=None,
-        is_entry_point=False
+        is_entry_point=False,
+        tags=None,
     ):
         self.title = title
         self.description = description
@@ -30,3 +31,4 @@ class NodeDescriptor:
         self.position = position
         self.parent = parent
         self.is_entry_point = is_entry_point
+        self.tags = () if tags is None else tags
