@@ -66,7 +66,7 @@ def parse_apply_func(struct, extra_funcs):
         extra_funcs
     )
     [id, *args] = struct
-    if id == "lamda":
+    if id == "lambda":
         return lambda: parse_apply_func(args[0], extra_funcs)
     else:
         parsed_args = [
