@@ -1,4 +1,5 @@
 import yaml
+import random
 from time import time
 from collections import ChainMap
 from .descriptors import NodeDescriptor, ActionDescriptor
@@ -60,6 +61,7 @@ def parse_apply_func(struct, extra_funcs):
                     else [subitems]
                 )
             ],
+            "rlist": lambda items, count: random.sample(items, k=count)
         },
         extra_funcs
     )
@@ -80,15 +82,10 @@ def action_descriptor_from_entry(entry, type):
     )
 
 
-def node_from_entry(entry, actions, default, extra_funcs):
+def node_from_entry(entry, actions, default):
     return Node(
         descriptor=node_descriptor_from_entry(entry, default),
-        actions=(
-            [
-                action_from_entry(action_entry, extra_funcs)
-                for action_entry in entry.get("actions", [])
-            ] + actions
-        )
+        actions=actions
     )
 
 
@@ -104,7 +101,7 @@ def node_descriptor_from_entry(entry, default):
         position=e.get("position", (0, 0)),
         type=e.get("actuator", "hub"),
         is_entry_point=e.get("is_entry_point", False),
-        tags=(tag for tag in e.get("tags", []))
+        tags={tag for tag in e.get("tags", [])}
     )
 
 
@@ -148,15 +145,20 @@ def load_nodes_from_entries(location_entries):
                 if parent_id is None
                 else (actions + [back_action])
             ),
-            default,
-            {
+            default
+        )
+    for id, node in node_dict.items():
+        entry = entry_dict[id]
+        node.set_actions([
+            action_from_entry(action_entry, {
                 "step_into": lambda ids: step_into(ids, node_dict),
                 "by_tags": (
-                    lambda tags, count=0:
-                        select_by_tags(tags, node_dict, count)
+                    lambda tags, count=0, ex_tags=[]:
+                        select_by_tags(tags, node_dict, count, ex_tags)
                 ),
-            }
-        )
+            })
+            for action_entry in entry.get("actions", [])
+        ] + node.actions)
 
     return node_dict.values()
 

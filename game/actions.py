@@ -17,11 +17,18 @@ def step_into_random(ids, count, dict):
     return _step_into_random
 
 
-def select_by_tags(tags, dict, count=0):
+def select_by_tags(tags, dict, count=0, ex_tags=[]):
     ids = [
         id
         for id, node in dict.items()
-        if False not in ((tag in node.descriptor.tags) for tag in tags)
+        if False not in {
+            (tag in node.descriptor.tags)
+            for tag in tags
+        }
+        and True not in {
+            (ex_tag in node.descriptor.tags)
+            for ex_tag in ex_tags
+        }
     ]
     count = (
         min(count, len(ids))

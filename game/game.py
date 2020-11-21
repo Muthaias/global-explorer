@@ -69,6 +69,9 @@ class Node:
         self.__on_exit = on_exit
         self.__descriptor = descriptor
 
+    def set_actions(self, actions):
+        self.__actions = actions
+
     @property
     def actions(self):
         return self.__actions

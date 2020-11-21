@@ -31,4 +31,4 @@ class NodeDescriptor:
         self.position = position
         self.parent = parent
         self.is_entry_point = is_entry_point
-        self.tags = () if tags is None else tags
+        self.tags = {} if tags is None else tags
