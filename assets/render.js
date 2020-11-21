@@ -81,7 +81,9 @@ function fixedRenderInfo(element, content, onAction, {markdownTransform}) {
 `
 <div class="info-content" style="background-image: url('${background}')">
     <div class="info">
-        <div class="header" style="background-image: url('${titleImage}')">${title}</div>
+        <div class="header" style="background-image: url('${titleImage}')">
+            <div class="text">${title}</div>
+        </div>
         <div class="content">${markdownTransform(markdown)}</div>
         <div class="footer">${actionButtons}</div>
     </div>
