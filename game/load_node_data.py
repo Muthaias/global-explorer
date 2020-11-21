@@ -66,13 +66,16 @@ def parse_apply_func(struct, extra_funcs):
         extra_funcs
     )
     [id, *args] = struct
-    parsed_args = [
-        parse_apply_func(s, extra_funcs)
-        for s in args
-    ]
-    func = funcs.get(id)
-    result = func(*parsed_args)
-    return result
+    if id == "lamda":
+        return lambda: parse_apply_func(args[0], extra_funcs)
+    else:
+        parsed_args = [
+            parse_apply_func(s, extra_funcs)
+            for s in args
+        ]
+        func = funcs.get(id)
+        result = func(*parsed_args)
+        return result
 
 
 def action_descriptor_from_entry(entry, type):

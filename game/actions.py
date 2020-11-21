@@ -2,8 +2,9 @@ import random
 from .trotter import Transaction
 
 
-def step_into(ids, dict):
+def step_into(ids_or_func, dict):
     def _step_into(node, game):
+        ids = ids_or_func if isinstance(ids_or_func, list) else ids_or_func()
         nodes = [dict[id] for id in ids if id in dict]
         if len(nodes) > 0:
             game.step_into(nodes)
