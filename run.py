@@ -54,6 +54,7 @@ games = load_from_data(
     [
         "data/defaults.yaml",
         "data/polacks.yaml",
+        "data/barkeep.yaml",
         "data/uppsala.yaml",
         "data/stockholm.yaml"
     ],

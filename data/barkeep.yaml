@@ -1,0 +1,90 @@
+type: global-explorer-data
+entries:
+  - title: Work as barkeep
+    actuator: visit
+    id: barkeep-enter
+    title_image: https://images.unsplash.com/photo-1604138808764-e873853af44e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1817&q=80
+    background: https://images.unsplash.com/photo-1538488881038-e252a119ace7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
+    tags: [barkeep, enter]
+    actions:
+      - title: Accept position
+        action: [combine, [pass_hours, 1], [step]]
+      - title: Decline position
+        action: [step_out]
+  - title: What kind of beer is a Guinness?
+    actuator: visit
+    id: guinness-beer
+    title_image: https://images.unsplash.com/photo-1532634667-69b3d36142a8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60
+    background: https://images.unsplash.com/photo-1520361580263-96c088e660a3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1825&q=80
+    actions:
+      - title: Stout
+        action: [combine, [charge_card, -30, Norrlands Nation], [step]]
+      - title: Ale
+        action: [step]
+      - title: IPA
+        action: [step]
+      - title: Rauchbier
+        action: [step]
+      - title: Lager
+        action: [step]
+    tags: [barkeep]
+  - title: Where is Tsingtao produced?
+    actuator: visit
+    id: tsingtao-beer
+    title_image: https://images.unsplash.com/photo-1605011766342-3843b1a6221f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80
+    background: https://images.unsplash.com/photo-1573740688883-b73d536fa56f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
+    actions:
+      - title: China
+        action: [combine, [charge_card, -30, Norrlands Nation], [step]]
+      - title: Germany
+        action: [step]
+      - title: England
+        action: [step]
+      - title: Belgium
+        action: [step]
+      - title: Chile
+        action: [step]
+    tags: [barkeep]
+  - title: What was the standard beer at Norrlands nation in 2015?
+    actuator: visit
+    id: nn-legacy-beer
+    title_image: https://images.unsplash.com/photo-1546622891-02c72c1537b6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
+    background: https://images.unsplash.com/photo-1569939379836-669f9a5e01e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=669&q=80
+    actions:
+      - title: Falcon
+        action: [combine, [charge_card, -30, Norrlands Nation], [step]]
+      - title: Norrlands guld
+        action: [step]
+      - title: Lapin kulta
+        action: [step]
+      - title: Karhu
+        action: [step]
+      - title: Pripps blå
+        action: [step]
+    tags: [barkeep]
+  - title: How many beers make a complete pub-crawl in Uppsala?
+    actuator: visit
+    id: pubcrawl-beer
+    title_image: https://images.unsplash.com/photo-1602179646776-fd67df594768?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1952&q=80
+    background: https://images.unsplash.com/photo-1572663459735-75425e957ab9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTZ8fHB1YiUyMGNyYXdsfGVufDB8fDB8&auto=format&fit=crop&w=500&q=60
+    actions:
+      - title: 14
+        action: [combine, [charge_card, -30, Norrlands Nation], [step]]
+      - title: Falcon
+        action: [step]
+      - title: 14
+        action: [step]
+      - title: 15
+        action: [step]
+      - title: 10
+        action: [step]
+    tags: [barkeep]
+  - title: Final day
+    actuator: visit
+    id: barkeep-exit
+    title_image: https://images.unsplash.com/photo-1604138808764-e873853af44e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1817&q=80
+    background: https://images.unsplash.com/photo-1538488881038-e252a119ace7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
+    tags: [barkeep, exit]
+    actions:
+      - title: Thank you
+        action: [step_out]

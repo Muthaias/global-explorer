@@ -1,45 +1,21 @@
-type: locations
-activities:
-  - title: Work as barkeep
-    id: barkeep_enter
-    title_image: https://images.unsplash.com/photo-1604138808764-e873853af44e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1817&q=80
-    background: https://images.unsplash.com/photo-1538488881038-e252a119ace7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
-    tags: [barkeep, enter]
-    actions:
-      - title: Accept position
-        action: [combine, [pass_hours, 1], [step]]
-      - title: Decline position
-        action: [step_out]
-  - title: What kind of beer is a Guinness
-    id: guinness-beer
-    title_image: https://images.unsplash.com/photo-1532634667-69b3d36142a8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60
-    background: https://images.unsplash.com/photo-1520361580263-96c088e660a3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1825&q=80
-    actions:
-      - title: Stout
-        action: [step]
-      - title: Ale
-        action: [step]
-      - title: IPA
-        action: [step]
-      - title: Rauchbier
-        action: [step]
-      - title: Lager
-        action: [step]
-  - title: Final day
-    id: barkeep_exit
-    title_image: https://images.unsplash.com/photo-1604138808764-e873853af44e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1817&q=80
-    background: https://images.unsplash.com/photo-1538488881038-e252a119ace7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
-    tags: [barkeep, exit]
-    actions:
-      - title: Thank you
-        action: [step_out]
-locations:
+type: global-explorer-data
+entries:
   - title: Uppsala
     is_entry_point: true
     id: uppsala
     background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
     position: [0, 0]
     actions: []
+  - title: Norrlands Nation
+    actuator: visit
+    id: norrlands-nation
+    parent_id: uppsala
+    title_image: https://images.unsplash.com/photo-1571872175163-354a582405a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2082&q=80
+    background: https://images.unsplash.com/photo-1574521091464-a55e7763c1e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=663&q=80
+    position: [0, 0]
+    actions:
+      - title: Work in the bar
+        action: [step_into, [list, barkeep-enter, guinness-beer, barkeep-exit]]
   - title: Carolina Rediviva
     id: carolina-rediviva
     parent_id: uppsala
@@ -102,9 +78,9 @@ locations:
     actuator: visit
     actions:
       - title: Have a beer
-        action: [combine, [pass_hours, 1], [charge_card, 10, Ofvandahls konditori], [step_out]]
+        action: [combine, [pass_hours, 1], [charge_card, 10, Palermo], [step_out]]
       - title: Have a pizza
-        action: [combine, [pass_hours, 1], [charge_card, 10, Ofvandahls konditori], [step_out]]
+        action: [combine, [pass_hours, 1], [charge_card, 10, Palermo], [step_out]]
       - title: Hang out
-        action: [combine, [pass_hours, 4], [charge_card, 30, Ofvandahls konditori], [step_out]]
+        action: [combine, [pass_hours, 4], [charge_card, 30, Palermo], [step_out]]
     

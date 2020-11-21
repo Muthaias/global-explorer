@@ -1,4 +1,4 @@
-type: errors
+type: global-explorer-data
 errors:
   - id: content-error
     type: "menu"

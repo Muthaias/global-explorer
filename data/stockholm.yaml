@@ -1,5 +1,5 @@
-type: locations
-locations:
+type: global-explorer-data
+entries:
   - title: Stockholm
     is_entry_point: true
     id: stockholm

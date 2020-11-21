@@ -150,7 +150,7 @@ def load_nodes(paths):
     entries = []
     for path in paths:
         data = load_yaml(path)
-        entries += data.get("locations", [])
+        entries += data.get("entries", [])
     return load_nodes_from_entries(entries)
 
 
