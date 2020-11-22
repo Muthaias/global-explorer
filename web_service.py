@@ -1,18 +1,22 @@
-from game.node_manager import NodeManager
-from game.trotter import Player, Account, Transaction
-from game_runner import create_game_runner
 import asyncio
 import websockets
 import json
+from uuid import uuid4
+
+from game.node_manager import NodeManager
+from game.trotter import Player, Account, Transaction
+from game_runner import create_game_runner
 
 
 class Server:
     def __init__(self, handlers=None):
         self.__handlers = {} if handlers is None else handlers
-        self.__socket_id = {}
+        self.__socket_ids = {}
 
     def socket_id(self, websocket):
-        return websocket
+        socket_id = self.__socket_ids.get(websocket, str(uuid4()))
+        self.__socket_ids[websocket] = socket_id
+        return socket_id
 
     def add_handler(self, id, func):
         self.__handlers[id] = func
