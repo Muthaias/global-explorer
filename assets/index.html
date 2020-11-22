@@ -43,7 +43,7 @@ async function setup() {
         "date"
     )
     const core = await GlobalExplorer.from_websocket(
-        "ws://localhost:8765/",
+        "ws://localhost:5000/",
         () => {
             console.log(core.version)
             console.log(core.player)

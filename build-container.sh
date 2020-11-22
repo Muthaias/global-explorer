@@ -1,0 +1,1 @@
+podman build --tag fedora:global-explorer -f Dockerfile
