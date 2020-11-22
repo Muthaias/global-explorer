@@ -26,8 +26,7 @@
     </body>
     <script>
 
-
-window.addEventListener('pywebviewready', () => {
+async function setup() {
     const markdownConverter = new showdown.Converter()
     const render = createContentRenderer("app", {
         markdownTransform: (markdown) => {
@@ -35,21 +34,25 @@ window.addEventListener('pywebviewready', () => {
         }
     })
     const creditCard = createCreditCardControl("account", "credit-card-name", "credit-card-number", "account-balance", "date")
-    const core = new GlobalExplorer(pywebview.api, () => {
-        console.log(core.version)
-        console.log(core.player)
-        console.log(core.content)
-        console.log(core.game)
-        creditCard(core.player, core.game)
-        render(core.content, (action) => {
-            console.log(action)
-            core.action(action)
-        })
-    });
+    const core = await GlobalExplorer.from_websocket(
+        "ws://localhost:8765/",
+        () => {
+            console.log(core.version)
+            console.log(core.player)
+            console.log(core.content)
+            console.log(core.game)
+            creditCard(core.player, core.game)
+            render(core.content, (action) => {
+                console.log(action)
+                core.action(action)
+            })
+        }
+    );
     core.init().then(() => {
         const content = core.content
     })
-    
-})
+}
+setup()
+
     </script>
 </html>
