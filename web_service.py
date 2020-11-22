@@ -70,7 +70,6 @@ def create_server():
 
     @server_handler(server)
     def player(data, id):
-        raise Exception("test")
         return runners[id].player()
 
     @server_handler(server)
