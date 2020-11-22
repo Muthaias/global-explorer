@@ -30,7 +30,7 @@ class Server:
             except Exception as e:
                 print(e)
 
-    def serve(self, host="localhost", port=8765):
+    def serve(self, host="0.0.0.0", port=5000):
         return websockets.serve(self.handle, host, port)
 
 
