@@ -61,7 +61,7 @@ class GlobalExplorer {
                 this._socket.onmessage = (event) => {
                     const rpc = JSON.parse(event.data)
                     if (this._messages[rpc._id]) {
-                        this._messages[rpc._id](rpc.response)
+                        this._messages[rpc._id](rpc.response, rpc.error)
                     }
                 };
             }
@@ -106,10 +106,15 @@ class GlobalExplorer {
                         console.warn("Timeout: ", id, data)
                         reject("Timeout error")
                     }, 1000)
-                    this._messages[id] = (data) => {
+                    this._messages[id] = (data, error) => {
                         clearTimeout(timeout)
                         delete this._messages[id]
-                        resolve(data)
+                        if(!error) {
+                            resolve(data)
+                        } else {
+                            resolve(data)
+                            console.warn("Server side error: ", error)
+                        }
                     }
                     
                 })

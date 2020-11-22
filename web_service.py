@@ -70,6 +70,7 @@ def create_server():
 
     @server_handler(server)
     def player(data, id):
+        raise Exception("test")
         return runners[id].player()
 
     @server_handler(server)
@@ -87,11 +88,17 @@ def server_handler(server):
     def _server_handler(func):
         async def _handler(data, websocket, path):
             socket_id = server.socket_id(websocket)
-            response = func(data, socket_id)
-            blob = json.dumps({
-                "_id": data.get("_id", None),
-                "response": response
-            })
+            try:
+                response = func(data, socket_id)
+                blob = json.dumps({
+                    "_id": data.get("_id", None),
+                    "response": response
+                })
+            except Exception as e:
+                blob = json.dumps({
+                    "_id": data.get("_id", None),
+                    "error": str(e)
+                })
             await websocket.send(blob)
 
         server.add_handler(func.__name__, _handler)
