@@ -1,9 +1,8 @@
 import yaml
 import random
-from time import time
 from collections import ChainMap
 from .descriptors import NodeDescriptor, ActionDescriptor
-from .game import Game, Node, Action
+from .game import Node, Action
 from .actions import (
     step_into,
     combine_actions,
@@ -14,7 +13,6 @@ from .actions import (
     charge_card,
     select_by_tags,
 )
-from .trotter import TrotterState
 
 
 def travel_action_from_entry(entry, node_dict):
@@ -163,38 +161,17 @@ def load_nodes_from_entries(location_entries):
             for action_entry in entry.get("actions", [])
         ] + node.actions)
 
-    return node_dict.values()
+    return node_dict.items()
 
 
-def load_nodes(paths):
+def load_entires(paths):
     entries = []
     for path in paths:
         data = load_yaml(path)
         entries += data.get("entries", [])
-    return load_nodes_from_entries(entries)
+    return entries
 
 
 def load_yaml(path):
     with open(path, "r") as file:
         return yaml.safe_load(file)
-
-
-def load_from_data(paths, player=None):
-    loaded_nodes = load_nodes(paths)
-    trotter = TrotterState(
-        player=player if player else {},
-        time=time(),
-        trace=[]
-    )
-    games = [
-        (
-            node.descriptor.title,
-            Game(
-                state=trotter,
-                stack=[[node]]
-            )
-        )
-        for node in loaded_nodes
-        if node.descriptor.is_entry_point
-    ]
-    return games

@@ -1,5 +1,6 @@
 
 import webview
+from time import time
 from presentation import (
     Menu,
     MenuEntry,
@@ -8,8 +9,9 @@ from presentation import (
     GameRunner,
     NodeActuator,
 )
-from game.load_node_data import load_from_data
-from game.trotter import Player, Account, Transaction
+from game.game import Game
+from game.trotter import Player, Account, Transaction, TrotterState
+from game.node_manager import NodeManager
 import game_maps
 
 noop = StaticActuator({
@@ -50,16 +52,28 @@ player = Player(
     skills=[]
 )
 
-games = load_from_data(
+node_manager = NodeManager.from_paths(
     [
         "data/defaults.yaml",
         "data/polacks.yaml",
         "data/barkeep.yaml",
         "data/uppsala.yaml",
         "data/stockholm.yaml"
-    ],
-    player=player
+    ]
 )
+games = [
+    (
+        entry_point.descriptor.title,
+        Game.from_node(
+            node=entry_point,
+            state=TrotterState(
+                player=player,
+                time=time(),
+            ),
+        )
+    )
+    for entry_point in node_manager.entry_points
+]
 new_game_menu = Menu(
     [
         MenuEntry(

@@ -34,6 +34,13 @@ class Game:
         if node:
             node.handle_action(self, action)
 
+    @staticmethod
+    def from_node(node, state=None):
+        return Game(
+            stack=[[node]],
+            state=state,
+        )
+
 
 class Sequence:
     def __init__(self, iterator):
