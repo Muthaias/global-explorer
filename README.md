@@ -12,5 +12,28 @@ The project structure is mainly intended as a platform do the following:
 * Play with raw DOM-manipulation in JavaScript
 * Use websockets
 
+## To run (with podman)
+The simplest way to run this system is by installing `podman` or `docker`. This setup has been tested only using `podman` in `Fedora 33`. Rootless `podman` has `not` been tested with success.
+
+### In shell
+```
+sudo sh build-container.sh
+sudo sh run-container.sh
+```
+### In container shell
+```
+sh start.sh
+```
+
+## To run (without podman)
+To run without podman the requirements are as follows:
+* python
+* libs: pyyaml and websockets
+
+### In shell
+```
+sh start.sh
+```
+
 ## Legacy notes
 This project previously used `pywebview` as a means of presenting the interface. It proved to be a cumbersome dependencies and has since been removed. The system now relies on a websocket server and a static webserver to present state and data in a standard browser.
