@@ -19,7 +19,7 @@
                 <div class="name" id="credit-card-name">Guy Anonymous</div>
                 <div class="number" id="credit-card-number">1111 1111 1111 1111</div>
                 <div class="chip"></div>
-                <div class="logo">SHOWYA</div>
+                <div class="logo" id="credit-card-issuer">SHOWYA</div>
             </div>
             <div class="info" id="account-balance">Account balance: -</div>
         </div>
@@ -33,7 +33,14 @@ async function setup() {
             return markdownConverter.makeHtml(markdown)
         }
     })
-    const creditCard = createCreditCardControl("account", "credit-card-name", "credit-card-number", "account-balance", "date")
+    const creditCard = createCreditCardControl(
+        "account",
+        "credit-card-name",
+        "credit-card-number",
+        "credit-card-issuer",
+        "account-balance",
+        "date"
+    )
     const core = await GlobalExplorer.from_websocket(
         "ws://localhost:8765/",
         () => {

@@ -56,7 +56,8 @@ class Player:
             "account": {
                 "card_number": self.account.card_number,
                 "balance": self.account.balance,
-                "valid_thru": self.account.card_valid_thru
+                "valid_thru": self.account.card_valid_thru,
+                "card_issuer": self.account.card_issuer
             }
         }
 
@@ -67,13 +68,33 @@ class Account:
         transactions=[],
         owner="Anonymous",
         card_number=None,
-        card_valid_thru="12/20"
+        card_valid_thru="12/20",
+        card_issuer=None
     ):
         self.transactions = transactions
         self.balance = self.calculate_balance()
         self.owner = owner
-        self.card_number = self.random_card_number()
+        self.card_number = (
+            self.random_card_number()
+            if card_number is None
+            else card_number
+        )
         self.card_valid_thru = card_valid_thru
+        self.card_issuer = (
+            self.random_card_issuer()
+            if card_issuer is None
+            else card_issuer
+        )
+
+    def random_card_issuer(self):
+        issuers = [
+            "SHOWYA",
+            "PRES",
+            "Adeptcard",
+            "Acecard",
+            "Skilledcard",
+        ]
+        return random.choice(issuers)
 
     def random_card_number(self):
         card_elements = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]

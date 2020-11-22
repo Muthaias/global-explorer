@@ -110,19 +110,28 @@ function connectActions(actions, onAction) {
     }
 }
 
-function createCreditCardControl(cardId, nameId, cardNumberId, accountBalanceId, dateId) {
+function createCreditCardControl(
+    cardId,
+    nameId,
+    cardNumberId,
+    cardIssuerId,
+    accountBalanceId,
+    dateId,
+) {
     const [
         card,
         name,
         cardNumber,
         accountBalance,
-        date
+        date,
+        cardIssuer,
     ] = [
         cardId,
         nameId,
         cardNumberId,
         accountBalanceId,
-        dateId
+        dateId,
+        cardIssuerId,
     ].map(id => document.getElementById(id))
 
     let isOpen = false
@@ -133,6 +142,7 @@ function createCreditCardControl(cardId, nameId, cardNumberId, accountBalanceId,
         if (player) {
             name.innerHTML = player.name
             cardNumber.innerHTML = player.account.card_number
+            cardIssuer.innerHTML = player.account.card_issuer
             if (balanceInterval !== null) {
                 clearInterval(balanceInterval)
             }
