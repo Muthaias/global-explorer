@@ -1,5 +1,3 @@
-
-import webview
 from time import time
 from presentation import (
     Menu,
@@ -106,25 +104,3 @@ def create_game_runner(node_manager, player):
         error_views=game_maps.error_views
     )
     return api
-
-
-if __name__ == "__main__":
-    initial_funds = Transaction(1000)
-    player = Player(
-        name="Rick Pickle",
-        account=Account([initial_funds]),
-        skills=[]
-    )
-
-    node_manager = NodeManager.from_paths(
-        [
-            "data/defaults.yaml",
-            "data/polacks.yaml",
-            "data/barkeep.yaml",
-            "data/uppsala.yaml",
-            "data/stockholm.yaml"
-        ]
-    )
-    api = create_game_runner(node_manager, player)
-    webview.create_window("Global Explorer", "assets/index.html", js_api=api)
-    webview.start(debug=True)
