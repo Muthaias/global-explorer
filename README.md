@@ -7,6 +7,10 @@ Global Explorer is a game which teaches the player about the world and the worki
 The project structure is mainly intended as a platform do the following: 
 * Experiment with data structures and libraries
 * Use python
+* Use python decorators
 * Use types in python
-* Use pywebview
 * Play with raw DOM-manipulation in JavaScript
+* Use websockets
+
+## Legacy notes
+This project previously used `pywebview` as a means of presenting the interface. It proved to be a cumbersome dependencies and has since been removed. The system now relies on a websocket server and a static webserver to present state and data in a standard browser.
