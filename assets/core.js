@@ -66,8 +66,8 @@ class GlobalExplorer {
                 };
             }
 
-            async init() {
-                return this._rpc({type: "init"})
+            async init(name) {
+                return this._rpc({type: "init", name})
             }
 
             async player() {
@@ -124,7 +124,8 @@ class GlobalExplorer {
         return new Promise((resolve, reject) => {
             ws.onopen = async () => {
                 const api = new _Api(ws)
-                await api.init()
+                name = prompt("Choose player name", "Dirk Smallwood")
+                await api.init(name)
                 resolve(new GlobalExplorer(api, onUpdate))
             }
         })
