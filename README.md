@@ -31,9 +31,16 @@ To run without podman the requirements are as follows:
 * libs: pyyaml and websockets
 
 ### In shell
+Preferrably run these in separate shells to make it easy to shut them down separately
 ```
-sh start.sh
+sh start-backend.sh
 ```
+
+```
+sh start-frontend.sh
+```
+## Access a running instance
+The frontend can be accessed on http://localhost:3000 and the backend is hosted on port 5000.
 
 ## Legacy notes
 This project previously used `pywebview` as a means of presenting the interface. It proved to be a cumbersome dependencies and has since been removed. The system now relies on a websocket server and a static webserver to present state and data in a standard browser.
