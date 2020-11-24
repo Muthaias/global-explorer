@@ -42,9 +42,17 @@ entries:
     position: [0, 0]
     actions:
       - title: Have a fika
-        action: [combine, [pass_hours, 1], [charge_card, 10, Ofvandahls konditori], [step_out]]
+        action:
+          - sequence
+          - [pass_hours, 1]
+          - [charge_card, 10, Ofvandahls konditori]
+          - [step_out]
       - title: Have a coffee
-        action: [combine, [pass_hours, 0.5], [charge_card, 5, Ofvandahls konditori], [step_out]]
+        action:
+          - sequence
+          - [pass_hours, 0.5]
+          - [charge_card, 5, Ofvandahls konditori]
+          - [step_out]
     actuator: visit
   - title: Studentvägen
     id: studentvagen
@@ -78,9 +86,21 @@ entries:
     actuator: visit
     actions:
       - title: Have a beer
-        action: [combine, [pass_hours, 1], [charge_card, 10, Palermo], [step_out]]
+        action:
+          - sequence
+          - [pass_hours, 1]
+          - [charge_card, 10, Palermo]
+          - [step_out]
       - title: Have a pizza
-        action: [combine, [pass_hours, 1], [charge_card, 10, Palermo], [step_out]]
+        action:
+          - sequence
+          - [pass_hours, 1]
+          - [charge_card, 10, Palermo]
+          - [step_out]
       - title: Hang out
-        action: [combine, [pass_hours, 4], [charge_card, 30, Palermo], [step_out]]
+        action:
+          - sequence
+          - [pass_hours, 4]
+          - [charge_card, 30, Palermo]
+          - [step_out]
     

@@ -45,7 +45,6 @@ def parse_apply_func(struct, extra_funcs):
     funcs = ChainMap(
         {
             "sequence": combine_actions,
-            "combine": combine_actions,
             "add_trace": lambda: add_trace,
             "step_out": lambda: step_out,
             "step": lambda: step,

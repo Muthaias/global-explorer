@@ -7,7 +7,7 @@ entries:
     actuator: visit
     actions:
       - title: Continue
-        action: [combine, [pass_hours, 1], [step]]
+        action: [sequence, [pass_hours, 1], [step]]
       - title: Drop out
         action: [step_out]
   - title: Engineering
@@ -17,7 +17,7 @@ entries:
     actuator: visit
     actions:
       - title: Continue
-        action: [combine, [pass_hours, 1], [step]]
+        action: [sequence, [pass_hours, 1], [step]]
       - title: Drop out
         action: [step_out]
   - title: Study hard
@@ -27,6 +27,6 @@ entries:
     actuator: visit
     actions:
       - title: Continue
-        action: [combine, [pass_hours, 1], [step]]
+        action: [sequence, [pass_hours, 1], [step]]
       - title: Drop out
         action: [step_out]
