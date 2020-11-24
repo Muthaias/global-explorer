@@ -1,5 +1,5 @@
 import random
-from .trotter import Transaction
+from .trotter import Transaction, Skill
 
 
 def step_into(ids_or_func, dict):
@@ -36,6 +36,18 @@ def select_by_tags(tags, dict, count=0, ex_tags=[]):
         if count > 0 else len(ids)
     )
     return ids[0:count]
+
+
+def add_skill(id, value, description=None):
+    def _add_skill(node, game):
+        skill = Skill(
+            description=description,
+            skill_points={
+                id: value
+            }
+        )
+        game.state.player.add_skill(skill)
+    return _add_skill
 
 
 def step_out(node, game):

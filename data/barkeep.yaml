@@ -8,7 +8,7 @@ entries:
     tags: [barkeep, enter]
     actions:
       - title: Accept position
-        action: [combine, [pass_hours, 1], [step]]
+        action: [sequence, [pass_hours, 1], [step]]
       - title: Decline position
         action: [step_out]
   - title: What kind of beer is a Guinness?
@@ -18,7 +18,11 @@ entries:
     background: https://images.unsplash.com/photo-1520361580263-96c088e660a3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1825&q=80
     actions:
       - title: Stout
-        action: [combine, [charge_card, -30, Norrlands Nation], [step]]
+        action:
+          - sequence
+          - [charge_card, -30, Norrlands Nation]
+          - [step]
+          - [skill, barkeep, 1]
       - title: Ale
         action: [step]
       - title: IPA
@@ -35,7 +39,11 @@ entries:
     background: https://images.unsplash.com/photo-1573740688883-b73d536fa56f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
     actions:
       - title: China
-        action: [combine, [charge_card, -30, Norrlands Nation], [step]]
+        action:
+          - sequence
+          - [charge_card, -30, Norrlands Nation]
+          - [step]
+          - [skill, barkeep, 1]
       - title: Germany
         action: [step]
       - title: England
@@ -52,7 +60,11 @@ entries:
     background: https://images.unsplash.com/photo-1569939379836-669f9a5e01e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=669&q=80
     actions:
       - title: Falcon
-        action: [combine, [charge_card, -30, Norrlands Nation], [step]]
+        action:
+          - sequence
+          - [charge_card, -30, Norrlands Nation]
+          - [step]
+          - [skill, barkeep, 1]
       - title: Norrlands guld
         action: [step]
       - title: Lapin kulta
@@ -69,7 +81,11 @@ entries:
     background: https://images.unsplash.com/photo-1572663459735-75425e957ab9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTZ8fHB1YiUyMGNyYXdsfGVufDB8fDB8&auto=format&fit=crop&w=500&q=60
     actions:
       - title: 14
-        action: [combine, [charge_card, -30, Norrlands Nation], [step]]
+        action:
+          - sequence
+          - [charge_card, -30, Norrlands Nation]
+          - [step]
+          - [skill, barkeep, 1]
       - title: Falcon
         action: [step]
       - title: 14

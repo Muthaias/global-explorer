@@ -12,6 +12,7 @@ from .actions import (
     pass_time,
     charge_card,
     select_by_tags,
+    add_skill,
 )
 
 
@@ -43,6 +44,7 @@ def parse_apply_func(struct, extra_funcs):
         return struct
     funcs = ChainMap(
         {
+            "sequence": combine_actions,
             "combine": combine_actions,
             "add_trace": lambda: add_trace,
             "step_out": lambda: step_out,
@@ -50,6 +52,7 @@ def parse_apply_func(struct, extra_funcs):
             "pass_time": pass_time,
             "pass_hours": lambda hours: pass_time(hours * 3600),
             "charge_card": charge_card,
+            "skill": add_skill,
             "list": lambda *items: [
                 item
                 for subitems in items

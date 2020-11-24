@@ -36,18 +36,16 @@ class Player:
     def __init__(self, account, skills, name=None):
         self.id = str(uuid4())
         self.account = account
-        self.skills = skills
+        self.skills = []
         self.name = name if name is not None else account.owner
-        self.skill_points = self.calculate_skill_points()
-
-    def calculate_skill_points(self):
-        return {
-            "skill_id": 1337
-        }
+        self.skill_points = {}
+        for skill in skills:
+            self.add_skill(skill)
 
     def add_skill(self, skill):
         self.skills.append(skill)
-        self.skill_points = self.skill_points
+        for key, value in skill.skill_points.items():
+            self.skill_points[key] = self.skill_points.get(key, 0) + value
 
     def content(self):
         return {
@@ -58,7 +56,8 @@ class Player:
                 "balance": self.account.balance,
                 "valid_thru": self.account.card_valid_thru,
                 "card_issuer": self.account.card_issuer
-            }
+            },
+            "skill_points": self.skill_points
         }
 
 
@@ -122,7 +121,7 @@ class Transaction:
         self.description = description
 
 
-class Skills:
+class Skill:
     def __init__(self, description, skill_points):
         self.description = description
         self.skill_points = skill_points
