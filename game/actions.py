@@ -2,10 +2,15 @@ import random
 from .trotter import Transaction, Skill
 
 
+def get_nodes(ids_or_func, dict):
+    ids = ids_or_func if isinstance(ids_or_func, list) else ids_or_func()
+    nodes = [dict[id] for id in ids if id in dict]
+    return nodes
+
+
 def step_into(ids_or_func, dict):
     def _step_into(node, game):
-        ids = ids_or_func if isinstance(ids_or_func, list) else ids_or_func()
-        nodes = [dict[id] for id in ids if id in dict]
+        nodes = get_nodes(ids_or_func, dict)
         if len(nodes) > 0:
             game.step_into(nodes)
     return _step_into
@@ -48,6 +53,14 @@ def add_skill(id, value, description=None):
         )
         game.state.player.add_skill(skill)
     return _add_skill
+
+
+def transfer(ids_or_func, dict):
+    def _transfer(node, game):
+        nodes = get_nodes(ids_or_func, dict)
+        if len(nodes) > 0:
+            game.transfer(nodes)
+    return _transfer
 
 
 def step_out(node, game):

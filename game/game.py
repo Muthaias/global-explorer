@@ -2,7 +2,7 @@ class Game:
     def __init__(self, state, stack=[]):
         self.__stack = []
         for sequence in stack:
-            self.__stack.append(Sequence(iter(sequence)))
+            self.step_into(sequence)
         self.__state = state
 
     def step_into(self, sequence):
@@ -11,6 +11,13 @@ class Game:
     def step_out(self):
         self.node.on_exit(self)
         del self.__stack[-1]
+        self.node.on_enter(self)
+
+    def transfer(self, sequence):
+        self.node.on_exit(self)
+        if len(self.__stack) > 0:
+            del self.__stack[-1]
+        self.step_into(sequence)
         self.node.on_enter(self)
 
     def step(self):

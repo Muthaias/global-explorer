@@ -13,6 +13,7 @@ from .actions import (
     charge_card,
     select_by_tags,
     add_skill,
+    transfer,
 )
 
 
@@ -155,6 +156,7 @@ def load_nodes_from_entries(location_entries):
         node.set_actions([
             action_from_entry(action_entry, {
                 "step_into": lambda ids: step_into(ids, node_dict),
+                "transfer": lambda ids: transfer(ids, node_dict),
                 "by_tags": (
                     lambda tags, count=0, ex_tags=[]:
                         select_by_tags(tags, node_dict, count, ex_tags)

@@ -5,10 +5,19 @@ entries:
     id: stockholm
     background: https://images.unsplash.com/photo-1508189860359-777d945909ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
     position: [0, 0]
-    actions: []
+    actions:
+      - title: Take the train to Uppsala
+        action: [transfer, [list, travel-by-train, uppsala]]
   - title: Kungliga biblioteket
     id: royal-swedish-library
     parent_id: stockholm
     background: https://images.unsplash.com/photo-1534988333262-c455b9332e52?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1866&q=80
     position: [0, 0]
     actions: []
+  - title: Travel by train
+    id: travel-by-train
+    background: https://images.unsplash.com/photo-1602595353668-410ccaa0ec01?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80
+    position: [0, 0]
+    actions:
+      - title: Step out
+        action: [step]
