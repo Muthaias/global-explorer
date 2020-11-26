@@ -88,7 +88,7 @@ entries:
       - title: Have a beer
         match: 
           - all
-          - [require_time, "12:00:00", "23:59:00"]
+          - [require_time, "12:00:00", "04:00:00"]
           - [require_funds, 10]
         action:
           - sequence
@@ -105,7 +105,7 @@ entries:
       - title: Hang out
         match:
           - all
-          - [require_time, "12:00:00", "23:59:00"]
+          - [require_time, "12:00:00", "04:00:00"]
           - [require_funds, 30]
         action:
           - sequence

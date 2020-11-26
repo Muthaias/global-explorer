@@ -65,10 +65,12 @@ def require_time(iso_time_a, iso_time_b, wdays=None):
         time_b = datetime.time.fromisoformat(iso_time_b)
 
         if (
-            wdays is None or
-            (wday >= wdays[0] and wday <= wdays[1])
+            wdays is None
+            or (wday >= wdays[0] and wday <= wdays[1])
         ):
-            if time >= time_a and time <= time_b:
+            if time_a < time_b and time >= time_a and time <= time_b:
+                return True
+            elif time_a > time_b and (time >= time_a or time <= time_b):
                 return True
         return False
     return _require_time
