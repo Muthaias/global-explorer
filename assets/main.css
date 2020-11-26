@@ -101,7 +101,7 @@ body {
     background-color: rgba(255, 255, 255, 0);
 }
 
-.menu .disabled {
+.menu .disabled, .info .disabled {
     opacity: 0.5;
     pointer-events: none;
 }
