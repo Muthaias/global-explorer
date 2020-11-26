@@ -96,7 +96,10 @@ entries:
           - [charge_card, 10, Palermo]
           - [step_out]
       - title: Have a pizza
-        match: [require_funds, 10]
+        match: 
+          - all
+          - [require_funds, 10]
+          - [require_time, "10:00:00", "22:00:00"]
         action:
           - sequence
           - [pass_hours, 1]
