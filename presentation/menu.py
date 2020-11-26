@@ -24,7 +24,7 @@ class Menu:
     def actions(self):
         return self.__actions
 
-    def action(self, context, action):
+    def action(self, context, action, value=None):
         if action.owner is self:
             return action.actuator
 

@@ -36,10 +36,10 @@ class Game:
     def node(self):
         return self.__stack[-1].current
 
-    def handle_action(self, action):
+    def handle_action(self, action, value=None):
         node = self.node
         if node:
-            node.handle_action(self, action)
+            node.handle_action(self, action, value)
 
     @staticmethod
     def from_node(node, state=None):
@@ -94,11 +94,11 @@ class Node:
     def descriptor(self):
         return self.__descriptor
 
-    def handle_action(self, game, action):
+    def handle_action(self, game, action, value=None):
         if action in self.__actions and action.match(self, game):
             if self.__on_action:
                 self.__on_action(self, game)
-            action.apply(self, game)
+            action.apply(self, game, value)
 
     def on_enter(self, game):
         if self.__on_enter:
@@ -122,6 +122,6 @@ class Action:
     def match(self, node, game):
         return self.__match(node, game) if self.__match else True
 
-    def apply(self, node, game):
+    def apply(self, node, game, value):
         if self.__apply:
-            self.__apply(node, game)
+            self.__apply(node, game, value)

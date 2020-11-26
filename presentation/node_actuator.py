@@ -7,10 +7,10 @@ class NodeActuator:
             else self.default_content(context)
         )
 
-    def action(self, context, action):
+    def action(self, context, action, value=None):
         game = context.game
         if game:
-            game.handle_action(action)
+            game.handle_action(action, value)
 
         return self
 

@@ -10,7 +10,7 @@ def get_nodes(ids_or_func, dict):
 
 
 def step_into(ids_or_func, dict):
-    def _step_into(node, game):
+    def _step_into(node, game, value):
         nodes = get_nodes(ids_or_func, dict)
         if len(nodes) > 0:
             game.step_into(nodes)
@@ -18,9 +18,9 @@ def step_into(ids_or_func, dict):
 
 
 def step_into_random(ids, count, dict):
-    def _step_into_random(node, game):
+    def _step_into_random(node, game, value):
         random_ids = random.sample(ids, k=count)
-        step_into(random_ids, dict)(node, game)
+        step_into(random_ids, dict)(node, game, value)
     return _step_into_random
 
 
@@ -75,7 +75,7 @@ def require_time(iso_time_a, iso_time_b, wdays=None):
 
 
 def add_skill(id, value, description=None):
-    def _add_skill(node, game):
+    def _add_skill(node, game, value):
         skill = Skill(
             description=description,
             skill_points={
@@ -87,40 +87,40 @@ def add_skill(id, value, description=None):
 
 
 def transfer(ids_or_func, dict):
-    def _transfer(node, game):
+    def _transfer(node, game, value):
         nodes = get_nodes(ids_or_func, dict)
         if len(nodes) > 0:
             game.transfer(nodes)
     return _transfer
 
 
-def step_out(node, game):
+def step_out(node, game, value):
     game.step_out()
 
 
-def add_trace(node, game):
+def add_trace(node, game, value):
     game.state.add_trace(node)
 
 
-def step(node, game):
+def step(node, game, value):
     game.step()
 
 
 def combine_actions(*actions):
-    def _combine_actions(node, game):
+    def _combine_actions(node, game, value):
         for action in actions:
-            action(node, game)
+            action(node, game, value)
     return _combine_actions
 
 
 def pass_time(seconds=0):
-    def _pass_time(node, game):
+    def _pass_time(node, game, value):
         game.state.pass_time(seconds)
     return _pass_time
 
 
 def charge_card(amount=0, issuer=None):
-    def _charge_card(node, game):
+    def _charge_card(node, game, value):
         game.state.player.account.add_transaction(
             Transaction(
                 amount=-amount,
@@ -131,11 +131,11 @@ def charge_card(amount=0, issuer=None):
 
 
 def branch(condition, a, b):
-    def _branch(node, game):
-        if condition(node, game):
-            a(node, game)
+    def _branch(node, game, value):
+        if condition(node, game, value):
+            a(node, game, value)
         else:
-            b(node, game)
+            b(node, game, value)
     return _branch
 
 

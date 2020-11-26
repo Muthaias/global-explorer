@@ -18,6 +18,6 @@ class GameActuator:
     def content(self, context):
         return self.actuator.content(context)
 
-    def action(self, context, action):
-        actuator = self.actuator.action(context, action)
+    def action(self, context, action, value=None):
+        actuator = self.actuator.action(context, action, value)
         return actuator if actuator else self

@@ -72,10 +72,12 @@ class GameRunner:
     def action(self, action_data):
         try:
             action = self.__context.get_obj(action_data["id"])
+            value = action_data.get("value", None)
             actuator = self.actuator()
             selectedActuator = actuator.action(
-                self.__context,
-                action if action else action_data
+                context=self.__context,
+                action=action if action else action_data,
+                value=value
             )
             self.set_actuator(selectedActuator)
         except Exception as e:
