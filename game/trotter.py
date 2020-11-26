@@ -47,6 +47,9 @@ class Player:
         for key, value in skill.skill_points.items():
             self.skill_points[key] = self.skill_points.get(key, 0) + value
 
+    def verify_skill(self, skill_id, value):
+        return self.skill_points.get(skill_id, 0) >= value
+
     def content(self):
         return {
             "id": self.id,
@@ -112,7 +115,6 @@ class Account:
     def add_transaction(self, transaction):
         self.transactions.append(transaction)
         self.balance += transaction.amount
-        pass
 
 
 class Transaction:

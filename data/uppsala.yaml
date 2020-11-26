@@ -86,6 +86,7 @@ entries:
     actuator: visit
     actions:
       - title: Have a beer
+        match: [require_time, "12:00:00", "23:59:00"]
         action:
           - sequence
           - [pass_hours, 1]
@@ -98,6 +99,7 @@ entries:
           - [charge_card, 10, Palermo]
           - [step_out]
       - title: Hang out
+        match: [require_time, "12:00:00", "23:59:00"]
         action:
           - sequence
           - [pass_hours, 4]

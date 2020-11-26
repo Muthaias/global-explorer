@@ -1,4 +1,5 @@
 import random
+import datetime
 from .trotter import Transaction, Skill
 
 
@@ -41,6 +42,36 @@ def select_by_tags(tags, dict, count=0, ex_tags=[]):
         if count > 0 else len(ids)
     )
     return ids[0:count]
+
+
+def require_skill(id, value):
+    def _require_skill(node, game):
+        return game.state.player.verify_skill(id, value)
+    return _require_skill
+
+
+def require_funds(value):
+    def _require_funds(node, game):
+        return game.state.player.account.balance >= value
+    return _require_funds
+
+
+def require_time(iso_time_a, iso_time_b, wdays=None):
+    def _require_time(node, game):
+        current_dt = datetime.datetime.fromtimestamp(game.state.time)
+        time = current_dt.time()
+        wday = current_dt.weekday()
+        time_a = datetime.time.fromisoformat(iso_time_a)
+        time_b = datetime.time.fromisoformat(iso_time_b)
+
+        if (
+            wdays is None or
+            (wday >= wdays[0] and wday <= wdays[1])
+        ):
+            if time >= time_a and time <= time_b:
+                return True
+        return False
+    return _require_time
 
 
 def add_skill(id, value, description=None):

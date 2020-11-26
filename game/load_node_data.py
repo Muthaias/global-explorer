@@ -14,6 +14,9 @@ from .actions import (
     select_by_tags,
     add_skill,
     transfer,
+    require_skill,
+    require_time,
+    require_funds,
 )
 
 
@@ -30,11 +33,17 @@ def travel_action_from_entry(entry, node_dict):
 
 def action_from_entry(entry, extra_funcs):
     action = entry.get("action", None)
+    match = entry.get("match", None)
     return Action(
         apply=(
             parse_apply_func(action, extra_funcs)
             if action
-            else (lambda: True)
+            else None
+        ),
+        match=(
+            parse_apply_func(match, extra_funcs)
+            if match
+            else None
         ),
         descriptor=action_descriptor_from_entry(entry, "action"),
     )
@@ -53,6 +62,9 @@ def parse_apply_func(struct, extra_funcs):
             "pass_hours": lambda hours: pass_time(hours * 3600),
             "charge_card": charge_card,
             "skill": add_skill,
+            "require_skill": require_skill,
+            "require_time": require_time,
+            "require_funds": require_funds,
             "list": lambda *items: [
                 item
                 for subitems in items
