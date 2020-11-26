@@ -4,7 +4,6 @@ import json
 from uuid import uuid4
 
 from game.node_manager import NodeManager
-from game.trotter import Player, Account, Transaction
 from game_runner import create_game_runner
 
 
@@ -48,16 +47,8 @@ def create_server():
 
     @server_handler(server)
     def init(data, id):
-        name = data.get("name", "Dirk Smallwood")
-        initial_funds = Transaction(1000)
-        player = Player(
-            name=name,
-            account=Account([initial_funds]),
-            skills=[]
-        )
         runners[id] = create_game_runner(
             node_manager=node_manager,
-            player=player,
         )
         return {
             "name": player.name,
@@ -82,7 +73,8 @@ def create_server():
 
     @server_handler(server)
     def action(data, id):
-        return runners[id].action(data.get("action"))
+        action = data.get("action", None)
+        return runners[id].action(action)
 
     return server
 

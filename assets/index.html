@@ -50,9 +50,9 @@ async function setup() {
             console.log(core.content)
             console.log(core.game)
             creditCard(core.player, core.game)
-            render(core.content, (action) => {
-                console.log(action)
-                core.action(action)
+            render(core.content, (action, value) => {
+                console.log(action, value)
+                core.action(action, value)
             })
         }
     );

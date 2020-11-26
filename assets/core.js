@@ -28,8 +28,8 @@ class GlobalExplorer {
         await this._update()
     }
 
-    async action(action) {
-        await this._api.action(action)
+    async action(action, value) {
+        await this._api.action(action, value)
         await this._update()
     }
 
@@ -66,8 +66,8 @@ class GlobalExplorer {
                 };
             }
 
-            async init(name) {
-                return this._rpc({type: "init", name})
+            async init() {
+                return this._rpc({type: "init"})
             }
 
             async player() {
@@ -86,10 +86,13 @@ class GlobalExplorer {
                 return this._rpc({type: "version"})
             }
 
-            async action(action) {
+            async action(action, value) {
                 return this._rpc({
                     type: "action",
-                    action: action
+                    action: {
+                        ...action,
+                        ...(value === undefined ? {} : {value: value})
+                    },
                 })
             }
 
@@ -124,8 +127,7 @@ class GlobalExplorer {
         return new Promise((resolve, reject) => {
             ws.onopen = async () => {
                 const api = new _Api(ws)
-                name = prompt("Choose player name", "Dirk Smallwood")
-                await api.init(name)
+                await api.init()
                 resolve(new GlobalExplorer(api, onUpdate))
             }
         })

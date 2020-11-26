@@ -101,7 +101,7 @@ body {
     background-color: rgba(255, 255, 255, 0);
 }
 
-.menu-item.disabled {
+.menu .disabled {
     opacity: 0.5;
     pointer-events: none;
 }
@@ -109,6 +109,21 @@ body {
 .menu-item:hover {
     background-color: rgba(255, 255, 255, 0.8);
     color: #000;
+}
+
+.menu-group {
+    display: grid;
+    grid-template-columns: auto;
+    align-content: center;
+    grid-row-gap: 5px;
+}
+
+.menu-group > input {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 0;
+    border: 0;
+    padding: 10px;
 }
 
 .account {

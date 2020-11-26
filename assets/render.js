@@ -56,7 +56,7 @@ function fixedRenderMenu(element, content, onAction, options) {
         }] : [])
     ]
     const title = content.title
-    const menuItems = actions.map(renderButton).join("")
+    const menuItems = actions.map(renderAction).join("")
     const menuTitle = title ? `<div class="title">${title}</div>` : ""
     element.innerHTML = (
 `
@@ -76,7 +76,7 @@ function fixedRenderInfo(element, content, onAction, {markdownTransform}) {
         background,
         actions
     } = content
-    const actionButtons = actions.map(renderButton).join("")
+    const actionButtons = actions.map(renderAction).join("")
     element.innerHTML = (
 `
 <div class="info-content" style="background-image: url('${background}')">
@@ -93,8 +93,27 @@ function fixedRenderInfo(element, content, onAction, {markdownTransform}) {
     connectActions(actions, onAction)
 }
 
+function renderAction(action) {
+    switch (action.type) {
+        case "navigate": return renderButton(action)
+        case "input": return renderInput(action)
+        default: return renderButton(action)
+    }
+}
+
 function renderButton({title, id, enabled}) {
     return `<div class="menu-item ${enabled === false ? "disabled" : ""}" id="${id}">${title}</div>`
+}
+
+function renderInput({title, id, enabled, type, value}) {
+    return (
+`
+<span class="menu-group ${enabled === false ? "disabled" : ""}">
+    <input type="${type}" value="${value || ""}" id="${id}-input">
+    ${renderButton({title, id, enabled: true})}
+</span>
+`
+    )
 }
 
 function markdownToHTML(markdown) {
@@ -105,7 +124,9 @@ function connectActions(actions, onAction) {
     for (const action of actions) {
         const actionElement = document.getElementById(action.id)
         actionElement.addEventListener("click", () => {
-            onAction(action)
+            inputElement = document.getElementById(action.id + "-input")
+            value = inputElement ? inputElement.value : undefined
+            onAction(action, value)
         })
     }
 }

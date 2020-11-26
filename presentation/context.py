@@ -1,10 +1,17 @@
 from uuid import uuid4
+from collections import ChainMap
 
 
 class Context:
     def __init__(self, contexts=[]):
         self.__contexts = contexts
         self.__object_dict = {}
+        self.__props = ChainMap(*[
+            context.props
+            for context
+            in contexts
+            if hasattr(context, "props")
+        ])
 
     def chained_attr(self, id):
         return next(
@@ -15,6 +22,9 @@ class Context:
             ),
             None
         )
+
+    def get_prop(self, id):
+        return self.__props.get(id, None)
 
     def get_id(self, obj):
         id = self.__object_dict.get(obj, None)
