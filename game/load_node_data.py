@@ -17,6 +17,8 @@ from .actions import (
     require_skill,
     require_time,
     require_funds,
+    require_some,
+    require_all,
 )
 
 
@@ -65,6 +67,8 @@ def parse_apply_func(struct, extra_funcs):
             "require_skill": require_skill,
             "require_time": require_time,
             "require_funds": require_funds,
+            "all": require_all,
+            "some": require_some,
             "list": lambda *items: [
                 item
                 for subitems in items

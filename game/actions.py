@@ -45,19 +45,19 @@ def select_by_tags(tags, dict, count=0, ex_tags=[]):
 
 
 def require_skill(id, value):
-    def _require_skill(node, game):
+    def _require_skill(node, game, value=None):
         return game.state.player.verify_skill(id, value)
     return _require_skill
 
 
-def require_funds(value):
-    def _require_funds(node, game):
-        return game.state.player.account.balance >= value
+def require_funds(funds):
+    def _require_funds(node, game, value=None):
+        return game.state.player.account.balance >= funds
     return _require_funds
 
 
 def require_time(iso_time_a, iso_time_b, wdays=None):
-    def _require_time(node, game):
+    def _require_time(node, game, value=None):
         current_dt = datetime.datetime.fromtimestamp(game.state.time)
         time = current_dt.time()
         wday = current_dt.weekday()
@@ -72,6 +72,24 @@ def require_time(iso_time_a, iso_time_b, wdays=None):
                 return True
         return False
     return _require_time
+
+
+def require_all(*funcs):
+    def _require_all(node, game, value=None):
+        for func in funcs:
+            if func(node, game, value) is False:
+                return False
+        return True
+    return _require_all
+
+
+def require_some(*funcs):
+    def _require_some(node, game, value=None):
+        for func in funcs:
+            if func(node, game, value) is True:
+                return True
+        return False
+    return _require_some
 
 
 def add_skill(id, value, description=None):
