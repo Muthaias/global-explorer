@@ -93,8 +93,8 @@ function fixedRenderInfo(element, content, onAction, {markdownTransform}) {
     connectActions(actions, onAction)
 }
 
-function renderButton({title, id}) {
-    return `<div class="menu-item" id="${id}">${title}</div>`
+function renderButton({title, id, enabled}) {
+    return `<div class="menu-item ${enabled === false ? "disabled" : ""}" id="${id}">${title}</div>`
 }
 
 function markdownToHTML(markdown) {
