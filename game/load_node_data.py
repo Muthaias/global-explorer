@@ -24,11 +24,13 @@ from .actions import (
 
 def travel_action_from_entry(entry, node_dict):
     id = entry.get("id")
+    opening_hours = entry.get("opening_hours", None)
     return Action(
         apply=combine_actions(
             add_trace,
             step_into([id], node_dict),
         ),
+        match=require_time(*opening_hours) if opening_hours else None,
         descriptor=action_descriptor_from_entry(entry, "location")
     )
 

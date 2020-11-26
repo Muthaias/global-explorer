@@ -84,6 +84,7 @@ entries:
     background: https://images.unsplash.com/photo-1565755713428-1bdfaa7db8ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1875&q=80
     position: [0, 0]
     actuator: visit
+    opening_hours: ["10:00:00", "04:00:00"]
     actions:
       - title: Have a beer
         match: 
