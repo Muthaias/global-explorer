@@ -94,12 +94,12 @@ def require_some(*funcs):
     return _require_some
 
 
-def add_skill(id, value, description=None):
+def add_skill(id, skill_value, description=None):
     def _add_skill(node, game, value):
         skill = Skill(
             description=description,
             skill_points={
-                id: value
+                id: skill_value
             }
         )
         game.state.player.add_skill(skill)
