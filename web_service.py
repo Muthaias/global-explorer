@@ -50,10 +50,6 @@ def create_server():
         runners[id] = create_game_runner(
             node_manager=node_manager,
         )
-        return {
-            "name": player.name,
-            "account_balance": player.account.balance
-        }
 
     @server_handler(server)
     def version(data, id):
