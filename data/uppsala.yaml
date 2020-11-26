@@ -13,6 +13,7 @@ entries:
     title_image: https://images.unsplash.com/photo-1571872175163-354a582405a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2082&q=80
     background: https://images.unsplash.com/photo-1574521091464-a55e7763c1e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=663&q=80
     position: [0, 0]
+    opening_hours: ["13:00:00", "01:00:00"]
     actions:
       - title: Work in the bar
         action: [step_into, [lambda, [list, barkeep-enter, [rlist, [by_tags, [list, barkeep], 0, [list, exit, enter]], 2], barkeep-exit]]]
@@ -21,6 +22,7 @@ entries:
     parent_id: uppsala
     background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
     position: [0, 0]
+    opening_hours: ["10:00:00", "19:00:00"]
     actions: []
   - title: Sal A
     id: sal-a
@@ -40,6 +42,7 @@ entries:
     title_image: https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80
     background: https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80
     position: [0, 0]
+    opening_hours: ["10:00:00", "20:00:00"]
     actions:
       - title: Have a fika
         action:
