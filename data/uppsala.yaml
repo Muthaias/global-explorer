@@ -62,7 +62,10 @@ entries:
     parent_id: uppsala
     background: https://images.unsplash.com/photo-1560685145-bafda179f1b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80
     position: [0, 0]
-    actions: []
+    actions:
+      - title: Take a nap
+        match: [require_time, "22:00:00", "06:00:00"]
+        action: [pass_hours, 8]
   - title: Polacksbacken
     id: polacksbacken
     parent_id: uppsala
