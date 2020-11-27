@@ -6,7 +6,7 @@ class Game:
         self.__state = state
 
     def step_into(self, sequence):
-        self.__stack.append(Sequence(iter(sequence)))
+        self.__stack.append([node for node in sequence])
 
     def step_out(self):
         self.node.on_exit(self)
@@ -22,9 +22,8 @@ class Game:
 
     def step(self):
         self.node.on_exit(self)
-        try:
-            next(self.__stack[-1])
-        except StopIteration:
+        self.__stack[-1] = self.__stack[-1][1:len(self.__stack[-1])]
+        if len(self.__stack[-1]) == 0:
             del self.__stack[-1]
         self.node.on_enter(self)
 
@@ -34,7 +33,7 @@ class Game:
 
     @property
     def node(self):
-        return self.__stack[-1].current
+        return self.__stack[-1][0]
 
     def handle_action(self, action, value=None):
         node = self.node
@@ -47,25 +46,6 @@ class Game:
             stack=[[node]],
             state=state,
         )
-
-
-class Sequence:
-    def __init__(self, iterator):
-        self.__iterator = iterator
-        self.__current = None
-        self.__next__()
-
-    def __iter__(self):
-        self
-
-    def __next__(self):
-        element = self.__current
-        self.__current = next(self.__iterator)
-        return element
-
-    @property
-    def current(self):
-        return self.__current
 
 
 class Node:
