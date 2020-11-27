@@ -8,6 +8,10 @@ class GlobalExplorer {
         this._onUpdate = onUpdate
     }
 
+    get api() {
+        return this._api
+    }
+
     get player() {
         return this._player
     }
@@ -50,12 +54,13 @@ class GlobalExplorer {
 
     static async from_websocket(
         path,
-        onUpdate = () => {}
+        onUpdate = () => {},
+        sessionId
     ) {
         class _Api {
-            constructor(socket) {
+            constructor(socket, sessionId) {
                 this._socket = socket
-                console.log(socket)
+                this._sessionId = sessionId
                 this._messages = {}
                 this._counter = 0
                 this._socket.onmessage = (event) => {
@@ -66,8 +71,14 @@ class GlobalExplorer {
                 };
             }
 
+            get sessionId() {
+                return this._sessionId
+            }
+
             async init() {
-                return this._rpc({type: "init"})
+                const result = await this._rpc({type: "init"})
+                this._sessionId = result.session_id
+                return result
             }
 
             async player() {
@@ -102,6 +113,7 @@ class GlobalExplorer {
                     const stringData = JSON.stringify({
                         ...data,
                         _id: id,
+                        ...(this._sessionId ? {_session_id: this._sessionId} : {})
                     })
                     this._socket.send(stringData)
                     const timeout = setTimeout(() => {
@@ -126,7 +138,7 @@ class GlobalExplorer {
         const ws = new WebSocket(path)
         return new Promise((resolve, reject) => {
             ws.onopen = async () => {
-                const api = new _Api(ws)
+                const api = new _Api(ws, sessionId)
                 await api.init()
                 resolve(new GlobalExplorer(api, onUpdate))
             }

@@ -42,8 +42,9 @@ async function setup() {
         "account-balance",
         "date"
     )
+    const savedSessionId = window.localStorage.getItem("global_explorer_session")
     const core = await GlobalExplorer.from_websocket(
-        "ws://localhost:5000/",
+        `ws://${window.location.hostname}:5000/`,
         () => {
             console.log(core.version)
             console.log(core.player)
@@ -54,10 +55,14 @@ async function setup() {
                 console.log(action, value)
                 core.action(action, value)
             })
-        }
+        },
+        savedSessionId
     );
     core.init().then(() => {
-        const content = core.content
+        const sessionId = core.api.sessionId
+        if (sessionId) {
+            window.localStorage.setItem("global_explorer_session", sessionId)
+        }
     })
 }
 setup()

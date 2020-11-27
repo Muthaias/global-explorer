@@ -10,12 +10,6 @@ from game_runner import create_game_runner
 class Server:
     def __init__(self, handlers=None):
         self.__handlers = {} if handlers is None else handlers
-        self.__socket_ids = {}
-
-    def socket_id(self, websocket):
-        socket_id = self.__socket_ids.get(websocket, str(uuid4()))
-        self.__socket_ids[websocket] = socket_id
-        return socket_id
 
     def add_handler(self, id, func):
         self.__handlers[id] = func
@@ -47,9 +41,14 @@ def create_server():
 
     @server_handler(server)
     def init(data, id):
-        runners[id] = create_game_runner(
-            node_manager=node_manager,
-        )
+
+        if id not in runners:
+            runners[id] = create_game_runner(
+                node_manager=node_manager,
+            )
+        return {
+            "session_id": id
+        }
 
     @server_handler(server)
     def version(data, id):
@@ -78,9 +77,9 @@ def create_server():
 def server_handler(server):
     def _server_handler(func):
         async def _handler(data, websocket, path):
-            socket_id = server.socket_id(websocket)
             try:
-                response = func(data, socket_id)
+                session_id = data.get("_session_id", str(uuid4()))
+                response = func(data, session_id)
                 blob = json.dumps({
                     "_id": data.get("_id", None),
                     "response": response
