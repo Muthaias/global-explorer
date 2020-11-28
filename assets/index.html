@@ -42,7 +42,8 @@ async function setup() {
         "account-balance",
         "date"
     )
-    const savedSessionId = window.localStorage.getItem("global_explorer_session")
+    const urlParams = new URLSearchParams(window.location.search)
+    const savedSessionId = urlParams.get('session_id') || window.localStorage.getItem("global_explorer_session")
     const core = await GlobalExplorer.from_websocket(
         `ws://${window.location.hostname}:5000/`,
         () => {
