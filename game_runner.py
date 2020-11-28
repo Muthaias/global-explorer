@@ -12,37 +12,7 @@ from game.trotter import TrotterState, Player, Account, Transaction
 import game_maps
 
 
-def create_game_runner(node_manager):
-    noop = StaticActuator({
-        "type": "menu",
-        "background": "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80",
-        "actions": [
-            {
-                "type": "navigate",
-                "title": "New game",
-                "id": "new-game"
-            },
-            {
-                "type": "navigate",
-                "title": "Load game",
-                "id": "load-game"
-            }
-        ]
-    })
-
-    info = StaticActuator({
-        "type": "info",
-        "title": "Hello World!",
-        "markdown": "This is a test of the info type content",
-        "titleImage": "https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1347&q=80",
-        "background": "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80",
-        "actions": [{
-            "type": "navigate",
-            "title": "Finish",
-            "id": "finish"
-        }],
-    })
-
+def create_game_runner(node_manager, previous_game):
     def new_game_menu(
         context=None,
         owner=None,
@@ -93,21 +63,16 @@ def create_game_runner(node_manager):
                 value="Unknown Player",
                 actuator=new_game_menu
             ),
-            MenuEntry(
-                type="navigate",
-                title="Load game",
-                actuator=info
-            ),
-            MenuEntry(
-                type="navigate",
-                title="Settings",
-                actuator=noop
-            ),
-            MenuEntry(
-                type="navigate",
-                title="Credits",
-                actuator=noop
-            ),
+            *([
+                MenuEntry(
+                    type="navigate",
+                    title="Load game",
+                    actuator=GameActuator(
+                        game=previous_game,
+                        actuator=NodeActuator()
+                    )
+                )
+            ] if previous_game else []),
         ],
         "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
     )

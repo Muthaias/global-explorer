@@ -2,9 +2,12 @@ import asyncio
 import websockets
 import json
 import os
+import traceback
 from uuid import uuid4
 
 from game.node_manager import NodeManager
+from game.game import Game
+from game.trotter import TrotterState
 from game_runner import create_game_runner
 
 
@@ -18,7 +21,7 @@ class Store:
 
     def store(self, id, data):
         with open(self.__path(id), "w") as f:
-            return json.dump(data, f)
+            return json.dump(data, f, indent=2)
 
     def load(self, id):
         with open(self.__path(id), "r") as f:
@@ -62,10 +65,24 @@ def create_server(store):
 
     @server_handler(server)
     def init(data, id):
-
         if id not in runners:
+            previous_game = None
+            try:
+                data = store.load(id)
+                id_stack = data["stack"]
+                state_data = data["state"]
+                state = TrotterState.from_data(state_data, node_manager)
+                previous_game = Game.from_id_stack(
+                    id_stack=id_stack,
+                    node_manager=node_manager,
+                    state=state
+                )
+            except Exception:
+                traceback.print_exc()
+                pass
             runners[id] = create_game_runner(
                 node_manager=node_manager,
+                previous_game=previous_game,
             )
         return {
             "session_id": id
@@ -95,8 +112,6 @@ def create_server(store):
         if game:
             id_stack = game.to_id_stack(node_manager)
             state_data = game.state.to_data(node_manager)
-            print(id_stack)
-            print(state_data)
             store.store(id, {
                 "stack": id_stack,
                 "state": state_data,

@@ -183,7 +183,7 @@ def load_nodes_from_entries(location_entries):
             for action_entry in entry.get("actions", [])
         ] + node.actions)
 
-    return node_dict.items()
+    return node_dict
 
 
 def load_entires(paths):

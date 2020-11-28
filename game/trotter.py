@@ -214,6 +214,7 @@ class Transaction:
             description=description
         )
 
+
 class Skill:
     def __init__(self, description, skill_points):
         self.description = description

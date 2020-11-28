@@ -8,11 +8,11 @@ from .load_node_data import (
 class NodeManager:
     def __init__(self, dict):
         self.__dict = dict
-        self.__node_dict = {node: id for id, node in dict}
+        self.__node_dict = {node: id for id, node in dict.items()}
 
     @property
     def entry_points(self):
-        for id, node in self.__dict:
+        for id, node in self.__dict.items():
             if node.descriptor.is_entry_point:
                 yield node
 
