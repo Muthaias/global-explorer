@@ -1,10 +1,31 @@
 import asyncio
 import websockets
 import json
+import os
 from uuid import uuid4
 
 from game.node_manager import NodeManager
 from game_runner import create_game_runner
+
+
+class Store:
+    def __init__(self, root):
+        self.__root = root
+        try:
+            os.makedirs(root)
+        except FileExistsError:
+            pass
+
+    def store(self, id, data):
+        with open(self.__path(id), "w") as f:
+            return json.dump(data, f)
+
+    def load(self, id):
+        with open(self.__path(id), "r") as f:
+            return json.load(f)
+
+    def __path(self, id):
+        return os.path.join(self.__root, id + ".json")
 
 
 class Server:
@@ -27,7 +48,7 @@ class Server:
         return websockets.serve(self.handle, host, port)
 
 
-def create_server():
+def create_server(store):
     node_manager = NodeManager.from_paths([
         "data/defaults.yaml",
         "data/polacks.yaml",
@@ -69,7 +90,18 @@ def create_server():
     @server_handler(server)
     def action(data, id):
         action = data.get("action", None)
-        return runners[id].action(action)
+        game = runners[id].context.game
+        result = runners[id].action(action)
+        if game:
+            id_stack = game.to_id_stack(node_manager)
+            state_data = game.state.to_data(node_manager)
+            print(id_stack)
+            print(state_data)
+            store.store(id, {
+                "stack": id_stack,
+                "state": state_data,
+            })
+        return result
 
     return server
 
@@ -97,7 +129,8 @@ def server_handler(server):
 
 
 if __name__ == "__main__":
-    server = create_server()
+    store = Store("./__store__")
+    server = create_server(store)
 
     asyncio.get_event_loop().run_until_complete(server.serve())
     asyncio.get_event_loop().run_forever()

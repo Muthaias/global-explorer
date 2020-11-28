@@ -8,6 +8,7 @@ from .load_node_data import (
 class NodeManager:
     def __init__(self, dict):
         self.__dict = dict
+        self.__node_dict = {node: id for id, node in dict}
 
     @property
     def entry_points(self):
@@ -21,6 +22,9 @@ class NodeManager:
 
     def node_by_id(self, id):
         return self.__dict[id]
+
+    def id_by_node(self, node):
+        return self.__node_dict[node]
 
     def nodes_by_tags(self, tags, ex_tags=[], count=0):
         return select_by_tags(

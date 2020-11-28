@@ -40,11 +40,29 @@ class Game:
         if node:
             node.handle_action(self, action, value)
 
+    def to_id_stack(self, node_manager):
+        id_stack = [
+            [node_manager.id_by_node(id) for id in level]
+            for level in self.__stack
+        ]
+        return id_stack
+
     @staticmethod
     def from_node(node, state=None):
         return Game(
             stack=[[node]],
             state=state,
+        )
+
+    @staticmethod
+    def from_id_stack(id_stack, node_manager, state=None):
+        stack = [
+            [node_manager.node_by_id(id) for id in level]
+            for level in id_stack
+        ]
+        return Game(
+            stack=stack,
+            state=state
         )
 
 

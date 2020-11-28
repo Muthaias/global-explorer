@@ -82,3 +82,7 @@ class GameRunner:
             self.set_actuator(selectedActuator)
         except Exception as e:
             print(e)
+
+    @property
+    def context(self):
+        return self.__context
