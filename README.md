@@ -25,6 +25,13 @@ sudo sh run-container.sh
 sh start.sh
 ```
 
+## To run (with docker compose)
+It is so easy. Just make sure you have docker and docker-compose installed. Run the following commands in your shell.
+```
+docker-compose create
+docker-compose up -d
+```
+
 ## To run (without podman)
 To run without podman the requirements are as follows:
 * python
