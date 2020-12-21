@@ -16,19 +16,28 @@
         <script src="components/ge-base.js"></script>
         <script src="components/ge-credit-card.js"></script>
         <script src="components/ge-info.js"></script>
+        <script src="components/ge-menu-content.js"></script>
+        <script src="components/ge-info-content.js"></script>
     </head>
     <body>
         <div id="app" class="visible">
-            <ge-base
+            <ge-info-content
+                v-if="content.type === 'info'"
                 :title="content.title"
                 :content-transform="contentTransform"
                 :content="content.markdown"
                 :title-image="content.titleImage"
                 :background="content.background"
                 :actions="content.actions"
-                :type="content.type"
                 :on-action="onAction"
-            ></ge-base>
+            ></ge-info-content>
+            <ge-menu-content
+                v-else
+                :title="content.title"
+                :background="content.background"
+                :actions="content.actions"
+                :on-action="onAction"
+            ></ge-menu-content>
             <div class="account" id="account" v-bind:class="{closed: !showPlayer}">
                 <ge-info title="Time" :value="game.time"></ge-info>
                 <ge-credit-card

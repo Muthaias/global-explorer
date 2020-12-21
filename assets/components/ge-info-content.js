@@ -1,4 +1,4 @@
-Vue.component("ge-base", {
+Vue.component("ge-info-content", {
     props: {
         title: {
             type: String,
@@ -15,10 +15,6 @@ Vue.component("ge-base", {
         content: {
             type: String,
             default: ``
-        },
-        type: {
-            type: String,
-            default: "info"
         },
         actions: {
             type: Array,
