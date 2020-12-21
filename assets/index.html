@@ -13,14 +13,13 @@
         ></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js" crossorigin="anonymous"></script>
         <script src="components/ge-action.js"></script>
-        <script src="components/ge-base.js"></script>
         <script src="components/ge-credit-card.js"></script>
         <script src="components/ge-info.js"></script>
         <script src="components/ge-menu-content.js"></script>
         <script src="components/ge-info-content.js"></script>
     </head>
     <body>
-        <div id="app" class="visible">
+        <div id="app" :class="{visible}" ref="content">
             <ge-info-content
                 v-if="content.type === 'info'"
                 :title="content.title"
@@ -59,6 +58,8 @@ async function setup() {
         el: "#app",
         data: {
             content: {},
+            viewContent: {},
+            visible: false,
             player: {
                 name: "John Stirling",
                 account: {
@@ -71,10 +72,30 @@ async function setup() {
             },
             showPlayer: false,
             contentTransform: transform,
-            onAction(a) {
-                console.log(a)
-            }
+            onAction(a) {}
         },
+        watch: {
+            viewContent(value, oldValue) {
+                const element = this.$refs.content
+                if (
+                    JSON.stringify(value) === JSON.stringify(oldValue)
+                    || !element
+                ) return
+
+                if (this.visible) {
+                    const onTransitionEnd = () => {
+                        this.content = value
+                        element.removeEventListener("transitionend", onTransitionEnd);
+                        this.visible = true
+                    };
+                    element.addEventListener("transitionend", onTransitionEnd);
+                    this.visible = false
+                } else {
+                    this.content = value
+                    this.visible = true
+                }
+            }
+        }
     })
     const urlParams = new URLSearchParams(window.location.search)
     const savedSessionId = urlParams.get('session_id') || window.localStorage.getItem("global_explorer_session")
@@ -94,7 +115,7 @@ async function setup() {
                 }
             }
             app.showPlayer = !!core.player
-            app.content = core.content
+            app.viewContent = core.content
         },
         savedSessionId
     );
