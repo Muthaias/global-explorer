@@ -32,13 +32,15 @@ async function setup() {
                 ) return
 
                 if (this.visible) {
-                    const onTransitionEnd = () => {
-                        this.content = value
+                    const onTransitionEnd = (event) => {
+                        if (event.target !== element) return;
+
                         element.removeEventListener("transitionend", onTransitionEnd);
+                        this.content = value
                         this.visible = true
                     };
-                    element.addEventListener("transitionend", onTransitionEnd);
                     this.visible = false
+                    element.addEventListener("transitionend", onTransitionEnd);
                 } else {
                     this.content = value
                     this.visible = true
