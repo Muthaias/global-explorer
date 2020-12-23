@@ -29,6 +29,7 @@ body {
     background-color: #666;
 }
 
+
 .menu {
     position: relative;
     display: grid;
@@ -45,14 +46,25 @@ body {
     background: rgba(0, 0, 0, 0.8);
 }
 
-.menu > .title {
+.menu > .info {
     position: absolute;
     top: 50%;
     left: -20px;
-    font-size: 30px;
     color: #fff;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
     transform: translateX(-100%) translateY(-50%);
+}
+
+.menu > .info > .title {
+    font-size: 30px;
+    text-align: right;
+}
+
+.menu > .info > .content {
+    font-size: 12px;
+    max-height: 200px;
+    overflow: auto;
+    padding: 0;
 }
 
 .menu-item {

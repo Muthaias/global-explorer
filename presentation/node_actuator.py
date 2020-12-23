@@ -26,10 +26,12 @@ class NodeActuator:
 
     def content_from_map(self, game, context):
         node = game.node
+        d = node.descriptor
         return {
             "type": "map",
             "title": self.title(node),
-            "background": node.descriptor.background,
+            "markdown": d.description if d.description else "",
+            "background": d.background,
             "locations": [],
             "actions": self.action_content(game, context)
         }

@@ -15,13 +15,24 @@ Vue.component("ge-menu-content", {
         onAction: {
             type: Function,
             default() {}
-        }
+        },
+        content: {
+            type: String,
+            default: ``
+        },
+        contentTransform: {
+            type: Function,
+            default: function(c) {return c}
+        },
     },
     template: (
 `
 <div class="menu-content" :style="backgroundStyle">
     <div class="menu">
-        <div class="title">{{title}}</div>
+        <div class="info">
+            <div class="title">{{title}}</div>
+            <div class="content" v-html="transformedContent"></div>
+        </div>
         <ge-action
             v-for="action in actions"
             v-bind:key="action.id"
@@ -37,5 +48,6 @@ Vue.component("ge-menu-content", {
     ),
     computed: {
         backgroundStyle() {return `background-image: url('${this.background}')`},
+        transformedContent() {return this.contentTransform(this.content)}
     }
 })

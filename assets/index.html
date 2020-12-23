@@ -34,7 +34,9 @@
                 :title="content.title"
                 :background="content.background"
                 :actions="content.actions"
+                :content="content.markdown"
                 :on-action="onAction"
+                :content-transform="contentTransform"
             ></ge-menu-content>
             <div class="account" id="account" v-bind:class="{closed: !showPlayer}">
                 <ge-info title="Time" :value="game.time"></ge-info>
