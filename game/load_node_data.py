@@ -113,7 +113,7 @@ def node_from_entry(entry, actions, default):
 
 def node_descriptor_from_entry(entry, default):
     id = entry.get("id")
-    e = ChainMap(default, entry)
+    e = ChainMap(entry, default)
     return NodeDescriptor(
         id=id,
         title=e.get("title", id),
