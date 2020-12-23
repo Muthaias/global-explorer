@@ -3,12 +3,18 @@ entries:
   - title: Uppsala
     is_entry_point: true
     id: uppsala
+    description: |
+      Welcome to Uppsala. The city where the students rule the nightlife and knowledge is king.
     background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
     position: [0, 0]
     actions: []
   - title: Norrlands Nation
     actuator: visit
     id: norrlands-nation
+    description: |
+      Norrlands nation is the biggest student nation in Uppsala and also the one with the most fun activities.
+      
+      Engage with drunkards in the pub or join some crazy student festivities.
     parent_id: uppsala
     title_image: https://images.unsplash.com/photo-1571872175163-354a582405a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2082&q=80
     background: https://images.unsplash.com/photo-1574521091464-a55e7763c1e5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=663&q=80
@@ -19,6 +25,10 @@ entries:
         action: [step_into, [lambda, [list, barkeep-enter, [rlist, [by_tags, [list, barkeep], 0, [list, exit, enter]], 2], barkeep-exit]]]
   - title: Carolina Rediviva
     id: carolina-rediviva
+    description: |
+      Carolina Rediviva is probably the best library in the world. If it didn't do books it would probably excel in some other range of activities.
+
+      Research history. Get to know everything about anything. This is the place to go if you are a student or a scholar of any kind.
     parent_id: uppsala
     background: https://images.unsplash.com/photo-1553106789-988f8d3c366f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
     position: [0, 0]
@@ -38,6 +48,10 @@ entries:
     actions: []
   - title: Ofvandahls konditori
     id: ofvandahls
+    description: |
+      This is the most traditional of cafés in the city of Uppsala. They have the best coffee and the sweetest buns.
+
+      Enjoy a fika with a friend or by yourself. A great time, anytime.
     parent_id: uppsala
     title_image: https://images.unsplash.com/photo-1588956950505-3c8d99dac5d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80
     background: https://images.unsplash.com/photo-1518892383208-347332432268?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80
@@ -59,6 +73,8 @@ entries:
     actuator: visit
   - title: Studentvägen
     id: studentvagen
+    description: |
+      Studentvägen is the place to go when you feel lonely, sad or just tired. This is where you can find a place to rest.
     parent_id: uppsala
     background: https://images.unsplash.com/photo-1560685145-bafda179f1b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80
     position: [0, 0]
@@ -69,6 +85,8 @@ entries:
   - title: Polacksbacken
     id: polacksbacken
     parent_id: uppsala
+    description: |
+      A place to learn and find friends sharing a common interest in science.
     title_image: https://images.unsplash.com/photo-1477238134895-98438ad85c30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80
     background: https://images.unsplash.com/photo-1519452575417-564c1401ecc0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80
     position: [0, 0]
@@ -79,12 +97,16 @@ entries:
     actuator: visit
   - title: Flogsta
     id: flogsta
+    description: |
+      Welcome to the place of student horrors.
     parent_id: uppsala
     background: https://images.unsplash.com/photo-1567513022376-eaef86f2f92b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1867&q=80
     position: [0, 0]
     actions: []
   - title: Palermo
     id: palermo
+    description: |
+      Palermo is th emost classic of hangouts when it comes to getting drunk. You can drink all through the night with zero consequence.
     parent_id: uppsala
     title_image: https://images.unsplash.com/photo-1604743089023-c9c7725233ad?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
     background: https://images.unsplash.com/photo-1565755713428-1bdfaa7db8ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1875&q=80
