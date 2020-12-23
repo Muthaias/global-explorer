@@ -21,6 +21,7 @@ Vue.component("ge-menu-content", {
 `
 <div class="menu-content" :style="backgroundStyle">
     <div class="menu">
+        <div class="title">{{title}}</div>
         <ge-action
             v-for="action in actions"
             v-bind:key="action.id"
