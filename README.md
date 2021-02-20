@@ -9,7 +9,7 @@ The project structure is mainly intended as a platform do the following:
 * Use python
 * Use python decorators
 * Use types in python
-* Play with raw DOM-manipulation in JavaScript
+* Play with VUE.js as for DOM manipulation
 * Use websockets
 
 ## To run (with podman)
