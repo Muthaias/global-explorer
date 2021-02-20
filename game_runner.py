@@ -52,7 +52,9 @@ def create_game_runner(node_manager, previous_game):
                 for title, game in games
             ],
             "https://images.unsplash.com/photo-1554123168-b400f9c806ca?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
-            allow_back=True
+            allow_back=True,
+            title="Select Location",
+            description="Where in the world would you like to start?"
         )
 
     main_menu = Menu(
@@ -74,7 +76,9 @@ def create_game_runner(node_manager, previous_game):
                 )
             ] if previous_game else []),
         ],
-        "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80"
+        "https://images.unsplash.com/photo-1503221043305-f7498f8b7888?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1935&q=80",
+        title="Global Explorer",
+        description="Welcome to Global Explorer. The game where you travel the world and learn about professions by engaging and doing things yourself."
     )
 
     api = GameRunner(

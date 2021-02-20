@@ -2,7 +2,7 @@ Vue.component("ge-info-content", {
     props: {
         title: {
             type: String,
-            default: "Hello world"
+            default: ""
         },
         background: {
             type: String,

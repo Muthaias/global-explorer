@@ -1,5 +1,5 @@
 class Menu:
-    def __init__(self, entries, background, allow_back=False):
+    def __init__(self, entries, background, allow_back=False, title="", description=""):
         all_entries = entries + ([
             MenuEntry("navigate", "Back")
         ] if allow_back else [])
@@ -8,13 +8,17 @@ class Menu:
             for entry in all_entries
         ]
         self.__allow_back = allow_back
-        self.background = background
+        self.__background = background
         self.__props = {}
+        self.__title = title
+        self.__description = description
 
     def content(self, context):
         return {
             "type": "menu",
-            "background": self.background,
+            "title": self.__title,
+            "markdown": self.__description,
+            "background": self.__background,
             "actions": [{
                 "type": action.type,
                 "id": context.get_id(action),
