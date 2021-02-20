@@ -85,6 +85,7 @@ class Player:
                 "valid_thru": self.account.card_valid_thru,
                 "card_issuer": self.account.card_issuer
             },
+            "skills": [skill.to_data() for skill in self.skills]
         }
 
     def to_data(self):
