@@ -2,6 +2,8 @@ import asyncio
 import websockets
 import json
 import os
+import sys
+import glob
 import traceback
 from uuid import uuid4
 
@@ -51,14 +53,8 @@ class Server:
         return websockets.serve(self.handle, host, port)
 
 
-def create_server(store):
-    node_manager = NodeManager.from_paths([
-        "data/defaults.yaml",
-        "data/polacks.yaml",
-        "data/barkeep.yaml",
-        "data/uppsala.yaml",
-        "data/stockholm.yaml"
-    ])
+def create_server(store, files):
+    node_manager = NodeManager.from_paths(files)
 
     runners = {}
     server = Server()
@@ -145,7 +141,23 @@ def server_handler(server):
 
 if __name__ == "__main__":
     store = Store("./__store__")
-    server = create_server(store)
+    files = [
+        "data/defaults.yaml",
+        "data/polacks.yaml",
+        "data/barkeep.yaml",
+        "data/uppsala.yaml",
+        "data/stockholm.yaml"
+    ]
+    if len(sys.argv) > 1:
+        files = []
+        for matches in sys.argv[1:]:
+            files = [
+                *files,
+                *glob.glob(matches),
+            ]
+
+    print(files)
+    server = create_server(store, files)
 
     asyncio.get_event_loop().run_until_complete(server.serve())
     asyncio.get_event_loop().run_forever()
